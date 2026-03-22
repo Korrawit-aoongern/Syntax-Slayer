@@ -1,12 +1,171 @@
 [
   {
-    "id": "it001",
-    "term": "Algorithm",
-    "meaning": "ลำดับขั้นตอนในการแก้ปัญหา"
+    "id": "se001",
+    "term": "Requirement",
+    "meaning": "เงื่อนไขหรือความสามารถที่ซอฟต์แวร์ต้องมี",
+    "description":
+      "A condition or capability needed by a user to solve a problem or achieve an objective.",
+    "difficulty": "easy",
+    "category": "SE"
   },
   {
-    "id": "it002",
-    "term": "API",
-    "meaning": "ตัวกลางในการสื่อสารระหว่างซอฟต์แวร์"
+    "id": "se002",
+    "term": "Stakeholder",
+    "meaning": "ผู้มีส่วนได้ส่วนเสียในโครงการซอฟต์แวร์",
+    "description":
+      "An individual, group, or organization that is involved in or may be affected by a software project.",
+    "difficulty": "easy",
+    "category": "SE"
+  },
+  {
+    "id": "se003",
+    "term": "Scalability",
+    "meaning": "ความสามารถในการรองรับการขยายตัว",
+    "description":
+      "The ability of a system to handle a growing amount of work or its potential to be enlarged.",
+    "difficulty": "medium",
+    "category": "SE"
+  },
+  {
+    "id": "se004",
+    "term": "Maintainability",
+    "meaning": "ความสามารถในการบำรุงรักษาซอฟต์แวร์",
+    "description":
+      "The ease with which a software system can be modified to correct faults or improve performance.",
+    "difficulty": "medium",
+    "category": "SE"
+  },
+  {
+    "id": "se005",
+    "term": "Reliability",
+    "meaning": "ความน่าเชื่อถือและเสถียรภาพของระบบ",
+    "description":
+      "The ability of a system to perform its required functions under stated conditions for a specified period.",
+    "difficulty": "medium",
+    "category": "SE"
+  },
+  {
+    "id": "se006",
+    "term": "Validation",
+    "meaning": "การตรวจสอบว่าซอฟต์แวร์ตรงตามความต้องการผู้ใช้ไหม",
+    "description":
+      "Are we building the right product? Checking if the software meets user needs.",
+    "difficulty": "hard",
+    "category": "SE"
+  },
+  {
+    "id": "se007",
+    "term": "Verification",
+    "meaning": "การตรวจสอบว่าซอฟต์แวร์สร้างถูกต้องตามแบบแผนไหม",
+    "description":
+      "Are we building the product right? Checking if the software conforms to specifications.",
+    "difficulty": "hard",
+    "category": "SE"
+  },
+  {
+    "id": "se008",
+    "term": "Refactoring",
+    "meaning": "การปรับปรุงโครงสร้างโค้ดโดยไม่เปลี่ยนผลลัพธ์",
+    "description":
+      "The process of restructuring existing computer code without changing its external behavior.",
+    "difficulty": "medium",
+    "category": "SE"
+  },
+  {
+    "id": "se009",
+    "term": "Technical Debt",
+    "meaning": "หนี้ทางเทคนิคที่เกิดจากการเขียนโค้ดไม่ดีในอดีต",
+    "description":
+      "The implied cost of additional rework caused by choosing an easy solution now instead of a better approach.",
+    "difficulty": "hard",
+    "category": "SE"
+  },
+  {
+    "id": "se010",
+    "term": "Deployment",
+    "meaning": "การนำซอฟต์แวร์ไปติดตั้งเพื่อใช้งานจริง",
+    "description": "The process of making a software system available for use.",
+    "difficulty": "easy",
+    "category": "SE"
+  },
+    {
+    "id": "se011",
+    "term": "Agile",
+    "meaning": "แนวคิดการพัฒนาที่เน้นการปรับเปลี่ยนและรวดเร็ว",
+    "description": "A software development approach based on iterative development and frequent feedback.",
+    "difficulty": "easy",
+    "category": "SE"
+  },
+  {
+    "id": "se012",
+    "term": "Scrum",
+    "meaning": "กรอบการทำงานแบบ Agile ที่แบ่งการทำงานเป็นรอบสั้น",
+    "description": "An agile framework for managing complex projects with roles like Scrum Master and Product Owner.",
+    "difficulty": "medium",
+    "category": "SE"
+  },
+  {
+    "id": "se013",
+    "term": "Waterfall",
+    "meaning": "โมเดลการพัฒนาแบบขั้นบันไดที่ต้องทำทีละขั้นตอน",
+    "description": "A linear and sequential software development life cycle (SDLC) model.",
+    "difficulty": "easy",
+    "category": "SE"
+  },
+  {
+    "id": "se014",
+    "term": "DevOps",
+    "meaning": "การรวมกันของทีมพัฒนา (Dev) และทีมปฏิบัติการ (Ops)",
+    "description": "A set of practices that combines software development and IT operations to shorten the SDLC.",
+    "difficulty": "medium",
+    "category": "SE"
+  },
+  {
+    "id": "se015",
+    "term": "CI/CD",
+    "meaning": "การรวมโค้ดและส่งมอบซอฟต์แวร์แบบอัตโนมัติ",
+    "description": "Continuous Integration and Continuous Deployment/Delivery for rapid software release.",
+    "difficulty": "hard",
+    "category": "SE"
+  },
+  {
+    "id": "se016",
+    "term": "Sprint",
+    "meaning": "รอบเวลาการทำงานที่กำหนดไว้ชัดเจน (มักเป็น 2-4 สัปดาห์)",
+    "description": "A fixed time-box during which a specific set of work must be completed in Scrum.",
+    "difficulty": "medium",
+    "category": "SE"
+  },
+  {
+    "id": "se017",
+    "term": "Backlog",
+    "meaning": "รายการงานหรือฟีเจอร์ที่ต้องทำในอนาคต",
+    "description": "An ordered list of everything that is known to be needed in the product.",
+    "difficulty": "medium",
+    "category": "SE"
+  },
+  {
+    "id": "se018",
+    "term": "Kanban",
+    "meaning": "ระบบการจัดการงานโดยใช้บอร์ดเพื่อดูสถานะงาน",
+    "description": "A visual system for managing work as it moves through a process.",
+    "difficulty": "medium",
+    "category": "SE"
+  },
+  {
+    "id": "se019",
+    "term": "Iteration",
+    "meaning": "การทำงานซ้ำในรอบระยะเวลาสั้นๆ เพื่อปรับปรุงผลงาน",
+    "description": "The repetition of a process in order to generate a sequence of outcomes.",
+    "difficulty": "medium",
+    "category": "SE"
+  },
+  {
+    "id": "se020",
+    "term": "Milestone",
+    "meaning": "เหตุการณ์หรือจุดสำคัญในการดำเนินโครงการ",
+    "description": "A significant event or point in time within a project schedule.",
+    "difficulty": "easy",
+    "category": "SE"
   }
 ]
