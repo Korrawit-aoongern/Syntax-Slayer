@@ -38,7 +38,7 @@ export default function Card({
       aria-pressed={isRevealed}
       aria-label={isRevealed ? `${face}: ${text}` : "Hidden card"}
       className={cx(
-        "group relative h-28 w-24 select-none rounded-2xl border transition",
+        "group relative h-32 w-full select-none rounded-2xl border transition",
         "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-400/70",
         isRevealed
           ? "border-amber-400/60 shadow-[0_10px_24px_-12px_rgba(251,191,36,0.6)]"
