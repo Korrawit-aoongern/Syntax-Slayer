@@ -36,6 +36,20 @@ type EnemyState = {
   apThreshold: number;
 };
 
+type GameView = "mainmenu" | "game" | "victory";
+
+type SessionState = {
+  view: GameView;
+  level: number;
+  player: PlayerState;
+  enemy: EnemyState;
+  cards: GameCard[];
+  unlockedTerms: string[];
+  selectedUpgrade: number | null;
+};
+
+const STORAGE_KEY = "syntax-slayer-session-v1";
+
 const vocab = vocabData as VocabItem[];
 
 const LEVEL_CONFIG = [
@@ -103,7 +117,11 @@ export default function GamePage() {
   const initialDeck = useMemo(() => buildDeck(vocab, pairs), [pairs]);
   const [cards, setCards] = useState<GameCard[]>(initialDeck);
   const [busy, setBusy] = useState(false);
+  const [view, setView] = useState<GameView>("mainmenu");
+  const [resumeView, setResumeView] = useState<GameView>("game");
   const [selectedUpgrade, setSelectedUpgrade] = useState<number | null>(null);
+  const [unlockedTerms, setUnlockedTerms] = useState<string[]>([]);
+  const [hasSave, setHasSave] = useState(false);
   const [player, setPlayer] = useState<PlayerState>({
     hp: 1000,
     attack: 2,
@@ -116,37 +134,112 @@ export default function GamePage() {
     ap: 0,
     apThreshold: enemyStats.apThreshold,
   });
+  const [hydrated, setHydrated] = useState(false);
+
   const resolveKeyRef = useRef<string | null>(null);
   const resolveTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const playerRef = useRef<PlayerState>(player);
-  const isVictory = enemy.hp <= 0;
-  const upgradeOptions = [
-    "Placeholder Card A",
-    "Placeholder Card B",
-    "Placeholder Card C",
-  ];
 
   const flippedUnmatched = cards.filter(
     (card) => card.isFlipped && !card.isMatched,
   );
+  const unlockedSet = useMemo(() => new Set(unlockedTerms), [unlockedTerms]);
 
   useEffect(() => {
     playerRef.current = player;
   }, [player]);
 
   useEffect(() => {
-    setEnemy({
-      hp: enemyStats.hp,
-      attack: enemyStats.attack,
-      ap: 0,
-      apThreshold: enemyStats.apThreshold,
-    });
-    setCards(buildDeck(vocab, pairs));
-    setBusy(false);
-    setSelectedUpgrade(null);
-  }, [enemyStats.attack, enemyStats.apThreshold, enemyStats.hp, pairs]);
+    try {
+      const raw = localStorage.getItem(STORAGE_KEY);
+      if (!raw) {
+        setView("mainmenu");
+        setHydrated(true);
+        return;
+      }
+      const data = JSON.parse(raw) as Partial<SessionState>;
+      const loadedLevel =
+        typeof data.level === "number" && data.level >= 1 ? data.level : 1;
+      const { pairs: loadedPairs } = getLevelConfig(loadedLevel);
+
+      setLevel(loadedLevel);
+      const restoredView =
+        data.view === "victory" || data.view === "mainmenu" ? data.view : "game";
+      setResumeView(restoredView);
+      setView("mainmenu");
+      setPlayer(
+        data.player ?? {
+          hp: 1000,
+          attack: 2,
+          focus: 0,
+          consumables: [null, null, null],
+        },
+      );
+      setEnemy(
+        data.enemy ?? {
+          hp: ENEMY_STATS[loadedLevel]?.hp ?? 8,
+          attack: ENEMY_STATS[loadedLevel]?.attack ?? 2,
+          ap: 0,
+          apThreshold: ENEMY_STATS[loadedLevel]?.apThreshold ?? 5,
+        },
+      );
+      setCards(
+        Array.isArray(data.cards) && data.cards.length > 0
+          ? data.cards
+          : buildDeck(vocab, loadedPairs),
+      );
+      setUnlockedTerms(
+        Array.isArray(data.unlockedTerms) ? data.unlockedTerms : [],
+      );
+      setSelectedUpgrade(
+        typeof data.selectedUpgrade === "number" ? data.selectedUpgrade : null,
+      );
+
+      setHasSave(true);
+      setHydrated(true);
+    } catch {
+      setHydrated(true);
+    }
+  }, []);
 
   useEffect(() => {
+    if (!hydrated) return;
+    if (!hasSave && view === "mainmenu") return;
+    const persistedView = view === "mainmenu" ? resumeView : view;
+    const payload: SessionState = {
+      view: persistedView,
+      level,
+      player,
+      enemy,
+      cards,
+      unlockedTerms,
+      selectedUpgrade,
+    };
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(payload));
+  }, [
+    hydrated,
+    hasSave,
+    view,
+    resumeView,
+    level,
+    player,
+    enemy,
+    cards,
+    unlockedTerms,
+    selectedUpgrade,
+  ]);
+
+  useEffect(() => {
+    if (view !== "mainmenu") {
+      setResumeView(view);
+    }
+  }, [view]);
+
+  useEffect(() => {
+    if (view !== "game") {
+      resolveKeyRef.current = null;
+      return;
+    }
     if (flippedUnmatched.length !== 2) {
       resolveKeyRef.current = null;
       return;
@@ -185,11 +278,7 @@ export default function GamePage() {
 
       if (isMatch) {
         const currentPlayer = playerRef.current;
-        const critChance = clamp(
-          Math.floor(currentPlayer.focus / 10) * 0.1,
-          0,
-          1,
-        );
+        const critChance = clamp(currentPlayer.focus, 0, 100) / 100;
         const isCrit = Math.random() < critChance;
         const damage = currentPlayer.attack * (isCrit ? 2 : 1);
         const focusGain = currentPlayer.focus + 5;
@@ -206,6 +295,10 @@ export default function GamePage() {
             : clamp(prevEnemy.hp - damage, 0, prevEnemy.hp);
           return { ...prevEnemy, hp: nextHp };
         });
+
+        setUnlockedTerms((prev) =>
+          prev.includes(first.pairId) ? prev : [...prev, first.pairId],
+        );
       } else {
         setPlayer((prevPlayer) => ({ ...prevPlayer, focus: 0 }));
         setEnemy((prevEnemy) => ({
@@ -226,9 +319,12 @@ export default function GamePage() {
         resolveKeyRef.current = null;
       }
     };
-  }, [flippedUnmatched]);
+  }, [flippedUnmatched, view]);
 
   useEffect(() => {
+    if (view !== "game") return;
+    if (enemy.hp <= 0) return;
+
     const timer = setInterval(() => {
       setEnemy((prev) => {
         if (prev.hp <= 0) return prev;
@@ -240,9 +336,10 @@ export default function GamePage() {
     }, 3000);
 
     return () => clearInterval(timer);
-  }, []);
+  }, [view, enemy.hp]);
 
   useEffect(() => {
+    if (view !== "game") return;
     if (enemy.hp <= 0) return;
     if (enemy.ap < enemy.apThreshold) return;
 
@@ -252,11 +349,13 @@ export default function GamePage() {
     setPlayer((prev) => ({
       ...prev,
       hp: clamp(prev.hp - enemy.attack, 0, prev.hp),
-      focus: clamp(prev.focus - 5, 0, 100),
+      focus: clamp(prev.focus - 2, 0, 100),
     }));
-  }, [enemy.ap, enemy.apThreshold, enemy.attack, enemy.hp]);
+  }, [enemy.ap, enemy.apThreshold, enemy.attack, enemy.hp, view]);
 
   useEffect(() => {
+    if (view !== "game") return;
+    if (enemy.hp <= 0) return;
     if (cards.length === 0) return;
     if (!cards.every((card) => card.isMatched)) return;
 
@@ -267,9 +366,16 @@ export default function GamePage() {
     }, 500);
 
     return () => clearTimeout(timer);
-  }, [cards, pairs]);
+  }, [cards, pairs, view, enemy.hp]);
+
+  useEffect(() => {
+    if (view !== "game") return;
+    if (enemy.hp > 0) return;
+    setView("victory");
+  }, [enemy.hp, view]);
 
   const handleFlip = (id: string) => {
+    if (view !== "game") return;
     if (busy) return;
     if (flippedUnmatched.length >= 2) return;
 
@@ -284,14 +390,65 @@ export default function GamePage() {
 
   const apPercent =
     enemy.apThreshold === 0 ? 0 : (enemy.ap / enemy.apThreshold) * 100;
-  const critChance = clamp(Math.floor(player.focus / 10) * 10, 0, 100);
+  const critChance = clamp(player.focus, 0, 100);
+
+  const handleNewGame = () => {
+    localStorage.removeItem(STORAGE_KEY);
+    const nextConfig = getLevelConfig(1);
+    const nextEnemyStats = ENEMY_STATS[1];
+
+    setHasSave(true);
+    setLevel(1);
+    setView("game");
+    setResumeView("game");
+    setSelectedUpgrade(null);
+    setUnlockedTerms([]);
+    setBusy(false);
+    setPlayer({
+      hp: 1000,
+      attack: 2,
+      focus: 0,
+      consumables: [null, null, null],
+    });
+    setEnemy({
+      hp: nextEnemyStats.hp,
+      attack: nextEnemyStats.attack,
+      ap: 0,
+      apThreshold: nextEnemyStats.apThreshold,
+    });
+    setCards(buildDeck(vocab, nextConfig.pairs));
+  };
+
+  const handleResume = () => {
+    setView(resumeView);
+  };
 
   const handleNextLevel = () => {
     if (level >= 10) return;
-    setLevel((prev) => Math.min(prev + 1, 10));
+    const nextLevel = Math.min(level + 1, 10);
+    const nextConfig = getLevelConfig(nextLevel);
+    const nextEnemyStats = ENEMY_STATS[nextLevel] ?? ENEMY_STATS[1];
+
+    setLevel(nextLevel);
+    setEnemy({
+      hp: nextEnemyStats.hp,
+      attack: nextEnemyStats.attack,
+      ap: 0,
+      apThreshold: nextEnemyStats.apThreshold,
+    });
+    setCards(buildDeck(vocab, nextConfig.pairs));
+    setSelectedUpgrade(null);
+    setBusy(false);
+    setView("game");
   };
 
-  if (isVictory) {
+  const upgradeOptions = [
+    "Placeholder Card A",
+    "Placeholder Card B",
+    "Placeholder Card C",
+  ];
+
+  if (view === "victory") {
     return (
       <div className="p-6">
         <div className="mx-auto flex max-w-4xl flex-col gap-6">
@@ -350,6 +507,42 @@ export default function GamePage() {
               }`}
             >
               {level >= 10 ? "Campaign Complete" : "Next Level"}
+            </button>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  if (view === "mainmenu") {
+    return (
+      <div className="p-6">
+        <div className="mx-auto flex max-w-3xl flex-col gap-6">
+          <div className="rounded-3xl border border-slate-200/70 bg-white/80 p-6 shadow-[0_12px_30px_-24px_rgba(15,23,42,0.6)]">
+            <div className="text-xs uppercase tracking-[0.3em] text-slate-400">
+              Main Menu
+            </div>
+            <h1 className="mt-2 text-3xl font-semibold">Syntax Slayer</h1>
+            <p className="mt-2 text-sm text-slate-600">
+              Menu placeholder. Continue to return to battle.
+            </p>
+          </div>
+          <div className="flex flex-wrap gap-3">
+            {hasSave ? (
+              <button
+                type="button"
+                onClick={handleResume}
+                className="rounded-full bg-slate-900 px-6 py-2 text-sm font-semibold text-white hover:bg-slate-800"
+              >
+                Resume
+              </button>
+            ) : null}
+            <button
+              type="button"
+              onClick={handleNewGame}
+              className="rounded-full border border-slate-200 bg-white px-6 py-2 text-sm font-semibold text-slate-700 hover:border-slate-300"
+            >
+              {hasSave ? "New Game" : "Start Game"}
             </button>
           </div>
         </div>
@@ -449,18 +642,23 @@ export default function GamePage() {
           cols === 3 ? "grid-cols-3" : cols === 4 ? "grid-cols-4" : "grid-cols-6"
         }`}
       >
-        {cards.map((card) => (
-          <Card
-            key={card.id}
-            id={card.id}
-            text={card.text}
-            face={card.face}
-            isFlipped={card.isFlipped}
-            isMatched={card.isMatched}
-            isLocked={busy}
-            onFlip={handleFlip}
-          />
-        ))}
+        {cards.map((card) => {
+          const isUnlockedTerm =
+            card.face === "term" && unlockedSet.has(card.pairId);
+          return (
+            <Card
+              key={card.id}
+              id={card.id}
+              text={card.text}
+              face={card.face}
+              isFlipped={card.isFlipped}
+              isMatched={card.isMatched}
+              isLocked={busy}
+              onFlip={handleFlip}
+              className={isUnlockedTerm ? "ring-2 ring-emerald-400/70" : undefined}
+            />
+          );
+        })}
       </div>
     </div>
   );
