@@ -8,7 +8,7 @@ type EnemyPanelProps = {
 
 export default function EnemyPanel({ enemy }: EnemyPanelProps) {
   return (
-    <div className="rounded-3xl border border-slate-200/70 bg-white/80 p-4 text-right shadow-[0_12px_30px_-24px_rgba(15,23,42,0.6)] md:p-6 flex flex-col">
+    <div className="rounded-3xl border border-slate-200/70 bg-white/80 dark:bg-gray-700 p-4 text-right shadow-[0_12px_30px_-24px_rgba(15,23,42,0.6)] md:p-6 flex flex-col">
       <div className="text-xs uppercase tracking-[0.35em] text-slate-400">
         Enemy
       </div>

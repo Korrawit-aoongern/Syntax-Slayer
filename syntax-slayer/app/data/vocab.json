@@ -167,5 +167,3863 @@
     "description": "A significant event or point in time within a project schedule.",
     "difficulty": "easy",
     "category": "SE"
+  },
+  {
+    "id": "se021",
+    "term": "Singleton",
+    "meaning": "การสร้างคลาสที่มีได้เพียงออบเจกต์เดียวเท่านั้น",
+    "description": "A design pattern that restricts the instantiation of a class to one object.",
+    "difficulty": "hard",
+    "category": "SE"
+  },
+  {
+    "id": "se022",
+    "term": "Factory Pattern",
+    "meaning": "การสร้างอ็อบเจ็กต์ผ่าน Method หรือ Interface",
+    "description": "A creational pattern that uses factory methods to deal with the problem of creating objects.",
+    "difficulty": "hard",
+    "category": "SE"
+  },
+  {
+    "id": "se023",
+    "term": "Microservices",
+    "meaning": "การสร้างระบบจากบริการขนาดเล็กที่แยกกันทำงาน",
+    "description": "An architectural style that structures an application as a collection of services.",
+    "difficulty": "medium",
+    "category": "SE"
+  },
+  {
+    "id": "se024",
+    "term": "Monolith",
+    "meaning": "ระบบที่รวมทุกอย่างไว้ในก้อนเดียวไม่แยกส่วน",
+    "description": "A software architecture where the entire application is built as a single, unified unit.",
+    "difficulty": "easy",
+    "category": "SE"
+  },
+  {
+    "id": "se025",
+    "term": "MVC",
+    "meaning": "การแยกส่วนข้อมูล หน้าจอ และการควบคุม",
+    "description": "An architectural pattern separating Model (data), View (UI), and Controller (logic).",
+    "difficulty": "medium",
+    "category": "SE"
+  },
+  {
+    "id": "se026",
+    "term": "Coupling",
+    "meaning": "ระดับความสัมพันธ์หรือการพึ่งพากันระหว่างโมดูล",
+    "description": "The degree of direct knowledge that one element has of another.",
+    "difficulty": "hard",
+    "category": "SE"
+  },
+  {
+    "id": "se027",
+    "term": "Cohesion",
+    "meaning": "ความสัมพันธ์ของหน้าที่การทำงานภายในโมดูลเดียวกัน",
+    "description": "How closely the functional units of a single module are related to each other.",
+    "difficulty": "hard",
+    "category": "SE"
+  },
+  {
+    "id": "se028",
+    "term": "Encapsulation",
+    "meaning": "การห่อหุ้มข้อมูลและเมธอดไว้ภายในคลาส",
+    "description": "Bundling the data and the methods that operate on that data within a single unit.",
+    "difficulty": "medium",
+    "category": "SE"
+  },
+  {
+    "id": "se029",
+    "term": "Polymorphism",
+    "meaning": "ความสามารถของออบเจกต์ที่แสดงได้หลายรูปแบบ",
+    "description": "The ability of different objects to respond to the same message in unique ways.",
+    "difficulty": "hard",
+    "category": "SE"
+  },
+  {
+    "id": "se030",
+    "term": "Inheritance",
+    "meaning": "การสืบทอดคุณสมบัติจากคลาสแม่สู่คลาสลูก",
+    "description": "The mechanism of basing an object or class upon another object or class.",
+    "difficulty": "medium",
+    "category": "SE"
+  },
+  {
+    "id": "se031",
+    "term": "Unit Testing",
+    "meaning": "การทดสอบส่วนเล็กๆ ของโค้ด เช่น ฟังก์ชัน",
+    "description": "Testing the smallest testable parts of an application individually.",
+    "difficulty": "easy",
+    "category": "SE"
+  },
+  {
+    "id": "se032",
+    "term": "Integration Testing",
+    "meaning": "การทดสอบการทำงานร่วมกันของแต่ละโมดูล",
+    "description": "Testing combined units of software as a group to find bugs in interactions.",
+    "difficulty": "medium",
+    "category": "SE"
+  },
+  {
+    "id": "se033",
+    "term": "Regression Testing",
+    "meaning": "การทดสอบซ้ำเพื่อให้แน่ใจว่าโค้ดใหม่ไม่ทำลายโค้ดเก่า",
+    "description": "Re-running tests to ensure that changes have not adversely affected existing features.",
+    "difficulty": "medium",
+    "category": "SE"
+  },
+  {
+    "id": "se034",
+    "term": "Black-box Testing",
+    "meaning": "การทดสอบโดยดูแค่ Input และ Output โดยไม่สนโค้ด",
+    "description": "Testing software without knowledge of the internal code structure.",
+    "difficulty": "medium",
+    "category": "SE"
+  },
+  {
+    "id": "se035",
+    "term": "White-box Testing",
+    "meaning": "การทดสอบโดยการตรวจสอบโครงสร้างโค้ดภายใน",
+    "description": "Testing that focuses on the internal structure and logic of the software.",
+    "difficulty": "hard",
+    "category": "SE"
+  },
+  {
+    "id": "se036",
+    "term": "UAT",
+    "meaning": "การทดสอบโดยผู้ใช้จริงเพื่อให้แน่ใจว่าตรงตามต้องการ",
+    "description": "User Acceptance Testing: Final phase of testing performed by the end user.",
+    "difficulty": "easy",
+    "category": "SE"
+  },
+  {
+    "id": "se037",
+    "term": "Beta Testing",
+    "meaning": "การให้ผู้ใช้กลุ่มตัวอย่างทดสอบก่อนปล่อยจริง",
+    "description": "Giving a pre-release version to a sample of intended users for real-world testing.",
+    "difficulty": "easy",
+    "category": "SE"
+  },
+  {
+    "id": "se038",
+    "term": "Code Review",
+    "meaning": "การให้โปรแกรมเมอร์คนอื่นช่วยตรวจทานโค้ด",
+    "description": "Systematic examination of software source code by peers to find defects.",
+    "difficulty": "medium",
+    "category": "SE"
+  },
+  {
+    "id": "se039",
+    "term": "Static Analysis",
+    "meaning": "การตรวจหาข้อผิดพลาดในโค้ดโดยไม่ต้องรันโปรแกรม",
+    "description": "The analysis of computer software that is performed without actually executing programs.",
+    "difficulty": "hard",
+    "category": "SE"
+  },
+  {
+    "id": "se040",
+    "term": "Quality Assurance",
+    "meaning": "กระบวนการประกันคุณภาพเพื่อป้องกันข้อผิดพลาด",
+    "description": "The systematic process of checking whether a product or service meets requirements.",
+    "difficulty": "medium",
+    "category": "SE"
+  },
+  {
+    "id": "se041",
+    "term": "Version Control",
+    "meaning": "ระบบที่ใช้บันทึกและจัดการการเปลี่ยนแปลงของไฟล์",
+    "description": "Systems that help software teams manage changes to source code over time.",
+    "difficulty": "easy",
+    "category": "SE"
+  },
+  {
+    "id": "se042",
+    "term": "Repository",
+    "meaning": "แหล่งเก็บข้อมูลหรือโปรเจกต์ (เรียกสั้นๆ ว่า Repo)",
+    "description": "A central location where data is stored and managed (e.g., GitHub repo).",
+    "difficulty": "easy",
+    "category": "SE"
+  },
+  {
+    "id": "se043",
+    "term": "Branching",
+    "meaning": "การแยกกิ่งไม้ของโค้ดออกมาทำฟีเจอร์ใหม่โดยไม่รบกวนสายหลัก",
+    "description": "Creating a separate line of development from the main trunk of code.",
+    "difficulty": "medium",
+    "category": "SE"
+  },
+  {
+    "id": "se044",
+    "term": "Merging",
+    "meaning": "การรวมโค้ดจากกิ่งที่แยกไปกลับเข้าสู่สายหลัก",
+    "description": "The process of combining independent branches of code into a single one.",
+    "difficulty": "medium",
+    "category": "SE"
+  },
+  {
+    "id": "se045",
+    "term": "Conflict",
+    "meaning": "ความขัดแย้งของโค้ดเมื่อรวมไฟล์ที่แก้ในจุดเดียวกัน",
+    "description": "An issue that occurs when merging two branches that modified the same lines.",
+    "difficulty": "medium",
+    "category": "SE"
+  },
+  {
+    "id": "se046",
+    "term": "Commit",
+    "meaning": "การบันทึกการเปลี่ยนแปลงโค้ดลงในระบบเก็บประวัติ",
+    "description": "Saving a snapshot of the current changes to the version control system.",
+    "difficulty": "easy",
+    "category": "SE"
+  },
+  {
+    "id": "se047",
+    "term": "Build",
+    "meaning": "การแปลงซอร์สโค้ดให้กลายเป็นโปรแกรมที่รันได้",
+    "description": "The process of converting source code files into a standalone software artifact.",
+    "difficulty": "medium",
+    "category": "SE"
+  },
+  {
+    "id": "se048",
+    "term": "Environment",
+    "meaning": "สภาพแวดล้อมที่โปรแกรมรันอยู่ (เช่น Dev, Staging, Prod)",
+    "description": "The hardware and software setup where an application is executed.",
+    "difficulty": "easy",
+    "category": "SE"
+  },
+  {
+    "id": "se049",
+    "term": "Documentation",
+    "meaning": "เอกสารอธิบายการทำงานหรือการติดตั้งซอฟต์แวร์",
+    "description": "Written material that explains how software is built or used.",
+    "difficulty": "easy",
+    "category": "SE"
+  },
+  {
+    "id": "se050",
+    "term": "API Documentation",
+    "meaning": "เอกสารที่อธิบายวิธีการเชื่อมต่อกับแอปพลิเคชัน",
+    "description": "Technical content about how to use an API properly.",
+    "difficulty": "medium",
+    "category": "SE"
+  },
+  {
+    "id": "se051",
+    "term": "Concurrency",
+    "meaning": "การสลับจัดการหลายงานให้คืบหน้าไปพร้อมกัน",
+    "description": "The ability of a system to manage multiple tasks so that they make progress over overlapping periods of time.",
+    "difficulty": "hard",
+    "category": "SE"
+  },
+  {
+    "id": "se052",
+    "term": "Deadlock",
+    "meaning": "สภาวะที่โปรแกรมต่างรอคอยทรัพยากรกันจนค้าง",
+    "description": "A situation where two or more processes are unable to proceed because each is waiting for the other.",
+    "difficulty": "hard",
+    "category": "SE"
+  },
+  {
+    "id": "se053",
+    "term": "Middleware",
+    "meaning": "ซอฟต์แวร์ที่ทำหน้าที่เป็นตัวกลางเชื่อมต่อแอปพลิเคชัน",
+    "description": "Software that acts as a bridge between an operating system or database and applications.",
+    "difficulty": "medium",
+    "category": "SE"
+  },
+  {
+    "id": "se054",
+    "term": "Latency",
+    "meaning": "ความล่าช้าในการตอบสนองของระบบ",
+    "description": "The time delay between a cause and the effect of some physical change in the system being observed.",
+    "difficulty": "medium",
+    "category": "SE"
+  },
+  {
+    "id": "se055",
+    "term": "Throughput",
+    "meaning": "ปริมาณงานที่ระบบสามารถประมวลผลได้ในหนึ่งหน่วยเวลา",
+    "description": "The rate at which a system processes data or transactions.",
+    "difficulty": "medium",
+    "category": "SE"
+  },
+  {
+    "id": "se056",
+    "term": "Abstraction",
+    "meaning": "การซ่อนรายละเอียดที่ซับซ้อนและแสดงเฉพาะส่วนที่จำเป็น",
+    "description": "The process of removing physical, spatial, or temporal details or attributes in the study of objects.",
+    "difficulty": "hard",
+    "category": "SE"
+  },
+  {
+    "id": "se057",
+    "term": "Dependency Injection",
+    "meaning": "การส่งออบเจกต์ที่จำเป็นเข้าไปในคลาสจากภายนอก",
+    "description": "A design pattern where an object receives other objects that it depends on.",
+    "difficulty": "hard",
+    "category": "SE"
+  },
+  {
+    "id": "se058",
+    "term": "Interface",
+    "meaning": "ข้อกำหนดหรือสัญญาการทำงานที่คลาสต้องปฏิบัติตาม",
+    "description": "A contract that defines a set of methods that a class must implement.",
+    "difficulty": "medium",
+    "category": "SE"
+  },
+  {
+    "id": "se059",
+    "term": "Event-Driven",
+    "meaning": "สถาปัตยกรรมที่ทำงานตามเหตุการณ์ที่เกิดขึ้น",
+    "description": "A software architecture paradigm promoting the production and consumption of events.",
+    "difficulty": "medium",
+    "category": "SE"
+  },
+  {
+    "id": "se060",
+    "term": "Caching",
+    "meaning": "การเก็บข้อมูลที่ใช้บ่อยไว้ในหน่วยความจำความเร็วสูง",
+    "description": "Storing copies of data in a temporary storage location for faster access.",
+    "difficulty": "easy",
+    "category": "SE"
+  },
+  {
+    "id": "se061",
+    "term": "Legacy System",
+    "meaning": "ระบบเก่าที่ยังคงใช้งานอยู่แต่เทคโนโลยีล้าสมัยแล้ว",
+    "description": "An old method, technology, computer system, or application program.",
+    "difficulty": "easy",
+    "category": "SE"
+  },
+  {
+    "id": "se062",
+    "term": "Load Balancing",
+    "meaning": "การกระจายภาระงานไปยังเซิร์ฟเวอร์หลายเครื่อง",
+    "description": "Distributing network or application traffic across a number of servers.",
+    "difficulty": "medium",
+    "category": "SE"
+  },
+  {
+    "id": "se063",
+    "term": "Serverless",
+    "meaning": "การรันแอปพลิเคชันโดยไม่ต้องจัดการเซิร์ฟเวอร์เอง",
+    "description": "A cloud computing model where the cloud provider dynamically manages the allocation of machine resources.",
+    "difficulty": "medium",
+    "category": "SE"
+  },
+  {
+    "id": "se064",
+    "term": "Data Integrity",
+    "meaning": "ความถูกต้องและสมบูรณ์ของข้อมูล",
+    "description": "The maintenance of, and the assurance of the accuracy and consistency of data.",
+    "difficulty": "medium",
+    "category": "SE"
+  },
+  {
+    "id": "se065",
+    "term": "Normalization",
+    "meaning": "การจัดโครงสร้างฐานข้อมูลเพื่อลดความซ้ำซ้อน",
+    "description": "The process of organizing data in a database to reduce redundancy.",
+    "difficulty": "medium",
+    "category": "SE"
+  },
+
+  {
+    "id": "se066",
+    "term": "Authentication",
+    "meaning": "การยืนยันตัวตนว่าผู้ใช้คือใคร",
+    "description": "The process of verifying the identity of a user or system.",
+    "difficulty": "easy",
+    "category": "SE"
+  },
+  {
+    "id": "se067",
+    "term": "Authorization",
+    "meaning": "การตรวจสอบสิทธิ์ว่าผู้ใช้ทำอะไรได้บ้าง",
+    "description": "The process of giving someone permission to do or have something.",
+    "difficulty": "easy",
+    "category": "SE"
+  },
+  {
+    "id": "se068",
+    "term": "Encryption",
+    "meaning": "การแปลงข้อมูลให้อยู่ในรูปที่อ่านไม่ออกเพื่อความปลอดภัย",
+    "description": "The process of converting information or data into a code.",
+    "difficulty": "medium",
+    "category": "SE"
+  },
+  {
+    "id": "se069",
+    "term": "Vulnerability",
+    "meaning": "ช่องโหว่หรือจุดอ่อนของระบบที่อาจถูกโจมตี",
+    "description": "A weakness which can be exploited by a threat actor to perform unauthorized actions.",
+    "difficulty": "medium",
+    "category": "SE"
+  },
+  {
+    "id": "se070",
+    "term": "Firewall",
+    "meaning": "ระบบป้องกันเครือข่ายจากการเข้าถึงที่ไม่ได้รับอนุญาต",
+    "description": "A network security system that monitors and controls incoming and outgoing network traffic.",
+    "difficulty": "easy",
+    "category": "SE"
+  },
+  {
+    "id": "se071",
+    "term": "SQL Injection",
+    "meaning": "การโจมตีโดยการแทรกคำสั่ง SQL เข้าไปในระบบ",
+    "description": "A code injection technique used to attack data-driven applications.",
+    "difficulty": "hard",
+    "category": "SE"
+  },
+  {
+    "id": "se072",
+    "term": "Cross-Site Scripting",
+    "meaning": "การฝังโค้ดอันตรายลงในหน้าเว็บ (เรียกสั้นๆ ว่า XSS)",
+    "description": "A type of security vulnerability typically found in web applications.",
+    "difficulty": "hard",
+    "category": "SE"
+  },
+  {
+    "id": "se073",
+    "term": "Sanitization",
+    "meaning": "การทำความสะอาดข้อมูล Input เพื่อป้องกันการโจมตี",
+    "description": "The process of cleaning data to prevent malicious code from executing.",
+    "difficulty": "medium",
+    "category": "SE"
+  },
+  {
+    "id": "se074",
+    "term": "Salt",
+    "meaning": "ข้อมูลสุ่มที่เติมลงในรหัสผ่านก่อนนำไปแฮชเพื่อความปลอดภัย",
+    "description": "Random data that is used as an additional input to a one-way function that hashes data.",
+    "difficulty": "hard",
+    "category": "SE"
+  },
+  {
+    "id": "se075",
+    "term": "Audit Trail",
+    "meaning": "การบันทึกประวัติการใช้งานเพื่อตรวจสอบย้อนหลัง",
+    "description": "A security-relevant chronological record providing evidence of the sequence of activities.",
+    "difficulty": "medium",
+    "category": "SE"
+  },
+  {
+    "id": "se076",
+    "term": "Idempotency",
+    "meaning": "การที่รันคำสั่งเดิมกี่ครั้งก็ได้ผลลัพธ์เหมือนเดิมเสมอ",
+    "description": "The property of certain operations that they can be applied multiple times without changing the result.",
+    "difficulty": "hard",
+    "category": "SE"
+  },
+  {
+    "id": "se077",
+    "term": "Failover",
+    "meaning": "การสลับไปใช้ระบบสำรองทันทีเมื่อระบบหลักล่ม",
+    "description": "A backup operational mode in which the functions of a system component are assumed by secondary system.",
+    "difficulty": "medium",
+    "category": "SE"
+  },
+  {
+    "id": "se078",
+    "term": "Redundancy",
+    "meaning": "การมีส่วนประกอบสำรองไว้เพื่อป้องกันระบบล้มเหลว",
+    "description": "The inclusion of extra components which are not strictly necessary to functioning, in case of failure.",
+    "difficulty": "medium",
+    "category": "SE"
+  },
+  {
+    "id": "se079",
+    "term": "Disaster Recovery",
+    "meaning": "แผนการกู้คืนระบบหลังเกิดเหตุการณ์ร้ายแรง",
+    "description": "A set of policies and procedures to enable the recovery or continuation of vital technology infrastructure.",
+    "difficulty": "medium",
+    "category": "SE"
+  },
+  {
+    "id": "se080",
+    "term": "Compliance",
+    "meaning": "การปฏิบัติตามกฎระเบียบหรือมาตรฐานที่กำหนด",
+    "description": "Meeting the requirements of accepted laws, regulations, and standards.",
+    "difficulty": "easy",
+    "category": "SE"
+  },
+
+  {
+    "id": "se081",
+    "term": "Scope Creep",
+    "meaning": "การที่ขอบเขตงานขยายออกไปเรื่อยๆ จนเกินควบคุม",
+    "description": "Changes, continuous or uncontrolled growth in a project’s scope.",
+    "difficulty": "medium",
+    "category": "SE"
+  },
+  {
+    "id": "se082",
+    "term": "Bottleneck",
+    "meaning": "คอขวด หรือจุดที่ทำให้งานหยุดชะงัก",
+    "description": "A point of congestion in a production system that stops or slows down progress.",
+    "difficulty": "easy",
+    "category": "SE"
+  },
+  {
+    "id": "se083",
+    "term": "Prototype",
+    "meaning": "ซอฟต์แวร์ต้นแบบเพื่อทดสอบแนวคิด",
+    "description": "An early sample, model, or release of a product built to test a concept.",
+    "difficulty": "easy",
+    "category": "SE"
+  },
+  {
+    "id": "se084",
+    "term": "Minimum Viable Product",
+    "meaning": "สินค้าที่ฟีเจอร์น้อยสุดแต่ใช้งานได้จริง (MVP)",
+    "description": "A product with just enough features to satisfy early customers and provide feedback.",
+    "difficulty": "medium",
+    "category": "SE"
+  },
+  {
+    "id": "se085",
+    "term": "Feasibility Study",
+    "meaning": "การศึกษาความเป็นไปได้ของโครงการ",
+    "description": "An assessment of the practicality of a proposed project or system.",
+    "difficulty": "medium",
+    "category": "SE"
+  },
+  {
+    "id": "se086",
+    "term": "Risk Management",
+    "meaning": "การประเมินและจัดการความเสี่ยงในโครงการ",
+    "description": "The identification, evaluation, and prioritization of risks.",
+    "difficulty": "medium",
+    "category": "SE"
+  },
+  {
+    "id": "se087",
+    "term": "Estimation",
+    "meaning": "การประมาณการทรัพยากรหรือเวลาที่ต้องใช้",
+    "description": "The process of finding an estimate, or approximation, which is a value that is usable for some purpose.",
+    "difficulty": "easy",
+    "category": "SE"
+  },
+  {
+    "id": "se088",
+    "term": "Velocity",
+    "meaning": "ความเร็วในการทำงานของทีมในหนึ่งรอบการทำงาน (Sprint)",
+    "description": "A measure of the amount of work a Team can tackle during a single Sprint.",
+    "difficulty": "medium",
+    "category": "SE"
+  },
+  {
+    "id": "se089",
+    "term": "Burn-down Chart",
+    "meaning": "กราฟแสดงปริมาณงานที่เหลืออยู่เทียบกับเวลา",
+    "description": "A graphical representation of work left to do versus time.",
+    "difficulty": "hard",
+    "category": "SE"
+  },
+  {
+    "id": "se090",
+    "term": "Retrospective",
+    "meaning": "การประชุมสรุปบทเรียนหลังจบงานเพื่อปรับปรุงทีม",
+    "description": "A meeting held by a project team at the end of a project or period of time.",
+    "difficulty": "medium",
+    "category": "SE"
+  },
+  {
+    "id": "se091",
+    "term": "Pair Programming",
+    "meaning": "การให้โปรแกรมเมอร์สองคนช่วยกันเขียนโค้ดหน้าจอเดียว",
+    "description": "An agile software development technique in which two programmers work together at one workstation.",
+    "difficulty": "easy",
+    "category": "SE"
+  },
+  {
+    "id": "se092",
+    "term": "Requirement Elicitation",
+    "meaning": "กระบวนการรวบรวมและค้นหาความต้องการของผู้ใช้และผู้มีส่วนได้ส่วนเสีย",
+    "description": "The practice of collecting, discovering, and refining requirements from stakeholders and other sources.",
+    "difficulty": "medium",
+    "category": "SE"
+  },
+  {
+    "id": "se093",
+    "term": "Code Smell",
+    "meaning": "สัญญาณเตือนในโค้ดที่บ่งบอกว่าอาจมีปัญหาในอนาคต",
+    "description": "Any symptom in the source code of a program that possibly indicates a deeper problem.",
+    "difficulty": "hard",
+    "category": "SE"
+  },
+  {
+    "id": "se094",
+    "term": "Design Document",
+    "meaning": "เอกสารรายละเอียดการออกแบบระบบ",
+    "description": "A written description of a software product, that a software designer writes.",
+    "difficulty": "easy",
+    "category": "SE"
+  },
+  {
+    "id": "se095",
+    "term": "Functional Requirement",
+    "meaning": "สิ่งที่ระบบต้องทำได้จริง",
+    "description": "What the system should do.",
+    "difficulty": "medium",
+    "category": "SE"
+  },
+  {
+    "id": "se096",
+    "term": "Non-functional Requirement",
+    "meaning": "คุณสมบัติอื่นของระบบ เช่น ความเร็ว ความปลอดภัย",
+    "description": "Constraints on the services or functions offered by the system.",
+    "difficulty": "medium",
+    "category": "SE"
+  },
+  {
+    "id": "se097",
+    "term": "Version Management",
+    "meaning": "การจัดการรุ่นต่างๆ ของซอฟต์แวร์",
+    "description": "The management of multiple revisions of the same unit of information.",
+    "difficulty": "easy",
+    "category": "SE"
+  },
+  {
+    "id": "se098",
+    "term": "Hotfix",
+    "meaning": "การแก้ไขบั๊กอย่างเร่งด่วนในระบบที่ใช้งานอยู่",
+    "description": "A single, cumulative package that includes information that is used to address a problem.",
+    "difficulty": "easy",
+    "category": "SE"
+  },
+  {
+    "id": "se099",
+    "term": "Open Source",
+    "meaning": "ซอฟต์แวร์ที่เปิดเผยซอร์สโค้ดให้ทุกคนนำไปใช้หรือแก้ไข",
+    "description": "Software for which the original source code is made freely available.",
+    "difficulty": "easy",
+    "category": "SE"
+  },
+  {
+    "id": "se100",
+    "term": "End-of-Life",
+    "meaning": "สถานะของซอฟต์แวร์ที่ผู้พัฒนาหยุดสนับสนุนแล้ว",
+    "description": "A term used with respect to a product supplied to customers, indicating that the product is at the end of its useful life.",
+    "difficulty": "easy",
+    "category": "SE"
+  },
+  {
+    "id": "cpe001",
+    "term": "Logic Gate",
+    "meaning": "อุปกรณ์พื้นฐานที่ใช้ดำเนินการทางตรรกะ (AND, OR, NOT)",
+    "description": "An idealized model of computation or a physical electronic device implementing a Boolean function.",
+    "difficulty": "easy",
+    "category": "CPE"
+  },
+  {
+    "id": "cpe002",
+    "term": "Flip-Flop",
+    "meaning": "วงจรลอจิกที่สามารถเก็บสถานะข้อมูลได้ 1 บิต",
+    "description": "A circuit that has two stable states and can be used to store state information.",
+    "difficulty": "medium",
+    "category": "CPE"
+  },
+  {
+    "id": "cpe003",
+    "term": "Multiplexer",
+    "meaning": "อุปกรณ์เลือกสัญญาณข้อมูลจากหลายทางให้เหลือทางเดียว (MUX)",
+    "description": "A device that selects between several analog or digital input signals and forwards the selected input to a single output line.",
+    "difficulty": "medium",
+    "category": "CPE"
+  },
+  {
+    "id": "cpe004",
+    "term": "Register",
+    "meaning": "หน่วยความจำขนาดเล็กที่มีความเร็วสูงมากภายใน CPU",
+    "description": "A quickly accessible location available to a computer's processor.",
+    "difficulty": "easy",
+    "category": "CPE"
+  },
+  {
+    "id": "cpe005",
+    "term": "ALU",
+    "meaning": "หน่วยคำนวณและตรรกะภายในโปรเซสเซอร์",
+    "description": "Arithmetic Logic Unit: A combinational digital circuit that performs arithmetic and bitwise operations.",
+    "difficulty": "easy",
+    "category": "CPE"
+  },
+  {
+    "id": "cpe006",
+    "term": "Clock Speed",
+    "meaning": "ความเร็วในการประมวลผลของ CPU ต่อวินาที (Hz)",
+    "description": "The operating speed of a computer or its processor, expressed in cycles per second.",
+    "difficulty": "easy",
+    "category": "CPE"
+  },
+  {
+    "id": "cpe007",
+    "term": "Bus",
+    "meaning": "เส้นทางสื่อสารข้อมูลระหว่างส่วนประกอบในคอมพิวเตอร์",
+    "description": "A communication system that transfers data between components inside a computer.",
+    "difficulty": "easy",
+    "category": "CPE"
+  },
+  {
+    "id": "cpe008",
+    "term": "Binary",
+    "meaning": "ระบบเลขฐานสองที่ประกอบด้วย 0 และ 1",
+    "description": "A numeric system that only uses two digits — 0 and 1.",
+    "difficulty": "easy",
+    "category": "CPE"
+  },
+  {
+    "id": "cpe009",
+    "term": "Hexadecimal",
+    "meaning": "ระบบเลขฐานสิบหกที่มักใช้แทนค่าในหน่วยความจำ",
+    "description": "A positional numeral system with a radix, or base, of 16.",
+    "difficulty": "medium",
+    "category": "CPE"
+  },
+  {
+    "id": "cpe010",
+    "term": "Instruction Set",
+    "meaning": "ชุดคำสั่งพื้นฐานที่ CPU เข้าใจและทำงานได้",
+    "description": "The part of the computer architecture related to programming, including data types and instructions.",
+    "difficulty": "hard",
+    "category": "CPE"
+  },
+  {
+    "id": "cpe011",
+    "term": "Assembly Language",
+    "meaning": "ภาษาระดับต่ำที่ใช้ตัวอักษรแทนรหัสคำสั่งเครื่อง",
+    "description": "A low-level programming language intended to communicate directly with a computer's hardware.",
+    "difficulty": "medium",
+    "category": "CPE"
+  },
+  {
+    "id": "cpe012",
+    "term": "Machine Code",
+    "meaning": "ภาษาที่ CPU เข้าใจโดยตรงซึ่งเป็นเลขฐานสอง",
+    "description": "A computer program written in machine language instructions that can be executed directly by a CPU.",
+    "difficulty": "hard",
+    "category": "CPE"
+  },
+  {
+    "id": "cpe013",
+    "term": "Microarchitecture",
+    "meaning": "การออกแบบโครงสร้างภายในของไมโครโปรเซสเซอร์",
+    "description": "The way a given instruction set architecture (ISA) is implemented in a particular processor.",
+    "difficulty": "hard",
+    "category": "CPE"
+  },
+  {
+    "id": "cpe014",
+    "term": "VHDL",
+    "meaning": "ภาษาที่ใช้ในการออกแบบและจำลองวงจรดิจิทัล",
+    "description": "VHSIC Hardware Description Language: A hardware description language used in electronic design automation.",
+    "difficulty": "hard",
+    "category": "CPE"
+  },
+  {
+    "id": "cpe015",
+    "term": "FPGA",
+    "meaning": "แผงวงจรที่สามารถโปรแกรมโครงสร้างลอจิกภายในได้",
+    "description": "Field-Programmable Gate Array: An integrated circuit designed to be configured by a designer after manufacturing.",
+    "difficulty": "hard",
+    "category": "CPE"
+  },
+
+  {
+    "id": "cpe016",
+    "term": "Pipelining",
+    "meaning": "เทคนิคการประมวลผลคำสั่งแบบขนานในแต่ละขั้นตอน",
+    "description": "A technique used in the design of computers to increase their instruction throughput.",
+    "difficulty": "hard",
+    "category": "CPE"
+  },
+  {
+    "id": "cpe017",
+    "term": "Cache Memory",
+    "meaning": "หน่วยความจำความเร็วสูงที่อยู่ใกล้กับ CPU มากที่สุด",
+    "description": "A small amount of high-speed memory used to store frequently used data.",
+    "difficulty": "medium",
+    "category": "CPE"
+  },
+  {
+    "id": "cpe018",
+    "term": "Virtual Memory",
+    "meaning": "หน่วยความจำจำลองที่ใช้พื้นที่จากฮาร์ดดิสก์ช่วย RAM",
+    "description": "A memory management capability of an OS that uses hardware and software to allow a computer to compensate for physical memory shortages.",
+    "difficulty": "hard",
+    "category": "CPE"
+  },
+  {
+    "id": "cpe019",
+    "term": "Interrupt",
+    "meaning": "สัญญาณขัดจังหวะการทำงานของ CPU เพื่อให้ทำสิ่งที่สำคัญกว่า",
+    "description": "A signal to the processor emitted by hardware or software indicating an event that needs immediate attention.",
+    "difficulty": "medium",
+    "category": "CPE"
+  },
+  {
+    "id": "cpe020",
+    "term": "DMA",
+    "meaning": "การเข้าถึงหน่วยความจำโดยตรงโดยไม่ผ่าน CPU",
+    "description": "Direct Memory Access: A feature of computer systems that allows certain hardware subsystems to access main system memory independently of the CPU.",
+    "difficulty": "hard",
+    "category": "CPE"
+  },
+  {
+    "id": "cpe021",
+    "term": "RISC",
+    "meaning": "สถาปัตยกรรมคอมพิวเตอร์ที่มีชุดคำสั่งขนาดเล็กและทำงานเร็ว",
+    "description": "Reduced Instruction Set Computer: A type of microprocessor architecture that utilizes a small, highly-optimized set of instructions.",
+    "difficulty": "medium",
+    "category": "CPE"
+  },
+  {
+    "id": "cpe022",
+    "term": "CISC",
+    "meaning": "สถาปัตยกรรมคอมพิวเตอร์ที่มีชุดคำสั่งซับซ้อนและหลากหลาย",
+    "description": "Complex Instruction Set Computer: A computer in which single instructions can execute several low-level operations.",
+    "difficulty": "medium",
+    "category": "CPE"
+  },
+  {
+    "id": "cpe023",
+    "term": "Non-Volatile Memory",
+    "meaning": "หน่วยความจำที่ข้อมูลไม่หายแม้ไม่มีกระแสไฟฟ้า (เช่น ROM)",
+    "description": "Computer memory that can retain stored information even after power is removed.",
+    "difficulty": "medium",
+    "category": "CPE"
+  },
+  {
+    "id": "cpe024",
+    "term": "EEPROM",
+    "meaning": "หน่วยความจำที่สามารถลบและเขียนซ้ำได้ด้วยไฟฟ้า",
+    "description": "Electrically Erasable Programmable Read-Only Memory.",
+    "difficulty": "hard",
+    "category": "CPE"
+  },
+  {
+    "id": "cpe025",
+    "term": "Memory Mapping",
+    "meaning": "การกำหนดที่อยู่หน่วยความจำให้กับอุปกรณ์ต่างๆ",
+    "description": "A method of assigning a range of memory addresses to a specific device or file.",
+    "difficulty": "hard",
+    "category": "CPE"
+  },
+  {
+    "id": "cpe026",
+    "term": "BIOS",
+    "meaning": "ระบบพื้นฐานที่ใช้ในการเริ่มทำงานของคอมพิวเตอร์",
+    "description": "Basic Input/Output System: Firmware used to perform hardware initialization during the booting process.",
+    "difficulty": "easy",
+    "category": "CPE"
+  },
+  {
+    "id": "cpe027",
+    "term": "Motherboard",
+    "meaning": "แผงวงจรหลักที่เชื่อมต่ออุปกรณ์คอมพิวเตอร์ทั้งหมด",
+    "description": "The main printed circuit board (PCB) found in general-purpose computers and other expandable systems.",
+    "difficulty": "easy",
+    "category": "CPE"
+  },
+  {
+    "id": "cpe028",
+    "term": "Chipset",
+    "meaning": "กลุ่มของชิปที่จัดการการสื่อสารระหว่าง CPU และอุปกรณ์อื่น",
+    "description": "A set of electronic components in an integrated circuit that manages the data flow between the processor, memory and peripherals.",
+    "difficulty": "medium",
+    "category": "CPE"
+  },
+  {
+    "id": "cpe029",
+    "term": "Clock Cycle",
+    "meaning": "ระยะเวลาระหว่างหนึ่งสัญญาณนาฬิกา",
+    "description": "The time between two pulses of an oscillator.",
+    "difficulty": "medium",
+    "category": "CPE"
+  },
+  {
+    "id": "cpe030",
+    "term": "Parallel Processing",
+    "meaning": "การประมวลผลงานหลายอย่างพร้อมกันโดยใช้หลาย CPU",
+    "description": "The simultaneous use of more than one CPU or processor core to execute a program.",
+    "difficulty": "medium",
+    "category": "CPE"
+  },
+
+  {
+    "id": "cpe031",
+    "term": "Microcontroller",
+    "meaning": "คอมพิวเตอร์ขนาดจิ๋วในชิปเดียวที่มี CPU, RAM และ I/O",
+    "description": "A small computer on a single integrated circuit.",
+    "difficulty": "medium",
+    "category": "CPE"
+  },
+  {
+    "id": "cpe032",
+    "term": "Embedded System",
+    "meaning": "ระบบคอมพิวเตอร์ที่ฝังตัวอยู่ในอุปกรณ์อื่นเพื่อหน้าที่เฉพาะ",
+    "description": "A computer system with a dedicated function within a larger mechanical or electrical system.",
+    "difficulty": "medium",
+    "category": "CPE"
+  },
+  {
+    "id": "cpe033",
+    "term": "Real-Time OS",
+    "meaning": "ระบบปฏิบัติการที่ตอบสนองต่อเหตุการณ์ภายในเวลาที่กำหนด (RTOS)",
+    "description": "An operating system intended to serve real-time applications that process data as it comes in, typically without buffer delays.",
+    "difficulty": "hard",
+    "category": "CPE"
+  },
+  {
+    "id": "cpe034",
+    "term": "GPIO",
+    "meaning": "พินบนไมโครคอนโทรลเลอร์ที่ตั้งค่าให้เป็นได้ทั้ง Input และ Output",
+    "description": "General-Purpose Input/Output: An uncommitted digital signal pin on an integrated circuit or electronic circuit board.",
+    "difficulty": "medium",
+    "category": "CPE"
+  },
+  {
+    "id": "cpe035",
+    "term": "ADC",
+    "meaning": "ตัวแปลงสัญญาณอนาล็อกเป็นสัญญาณดิจิทัล",
+    "description": "Analog-to-Digital Converter: A system that converts an analog signal into a digital signal.",
+    "difficulty": "medium",
+    "category": "CPE"
+  },
+  {
+    "id": "cpe036",
+    "term": "DAC",
+    "meaning": "ตัวแปลงสัญญาณดิจิทัลเป็นสัญญาณอนาล็อก",
+    "description": "Digital-to-Analog Converter: A system that converts a digital signal into an analog signal.",
+    "difficulty": "medium",
+    "category": "CPE"
+  },
+  {
+    "id": "cpe037",
+    "term": "Firmware",
+    "meaning": "ซอฟต์แวร์ระดับต่ำที่เขียนลงในฮาร์ดแวร์เพื่อควบคุมการทำงาน",
+    "description": "A specific class of computer software that provides the low-level control for a device's specific hardware.",
+    "difficulty": "medium",
+    "category": "CPE"
+  },
+  {
+    "id": "cpe038",
+    "term": "UART",
+    "meaning": "มาตรฐานการสื่อสารข้อมูลแบบอนุกรม",
+    "description": "Universal Asynchronous Receiver-Transmitter: A device for asynchronous serial communication.",
+    "difficulty": "hard",
+    "category": "CPE"
+  },
+  {
+    "id": "cpe039",
+    "term": "I2C",
+    "meaning": "มาตรฐานการสื่อสารแบบอนุกรมที่ใช้สายสัญญาณ 2 เส้น",
+    "description": "Inter-Integrated Circuit: A synchronous, multi-master, multi-slave, packet switched, single-ended, serial communication bus.",
+    "difficulty": "hard",
+    "category": "CPE"
+  },
+  {
+    "id": "cpe040",
+    "term": "SPI",
+    "meaning": "มาตรฐานการสื่อสารแบบอนุกรมความเร็วสูงระหว่างชิป",
+    "description": "Serial Peripheral Interface: A synchronous serial communication interface specification used for short-distance communication.",
+    "difficulty": "hard",
+    "category": "CPE"
+  },
+  {
+    "id": "cpe041",
+    "term": "Sensor",
+    "meaning": "อุปกรณ์ตรวจจับการเปลี่ยนแปลงทางกายภาพรอบตัว",
+    "description": "A device, module, machine, or subsystem whose purpose is to detect events or changes in its environment.",
+    "difficulty": "easy",
+    "category": "CPE"
+  },
+  {
+    "id": "cpe042",
+    "term": "Actuator",
+    "meaning": "อุปกรณ์ที่เปลี่ยนสัญญาณไฟฟ้าเป็นการเคลื่อนไหวทางกล",
+    "description": "A component of a machine that is responsible for moving and controlling a mechanism or system.",
+    "difficulty": "medium",
+    "category": "CPE"
+  },
+  {
+    "id": "cpe043",
+    "term": "Driver",
+    "meaning": "ซอฟต์แวร์ที่ช่วยให้ระบบปฏิบัติการสื่อสารกับฮาร์ดแวร์ได้",
+    "description": "A computer program that operates or controls a particular type of device that is attached to a computer.",
+    "difficulty": "easy",
+    "category": "CPE"
+  },
+  {
+    "id": "cpe044",
+    "term": "Bootloader",
+    "meaning": "โปรแกรมขนาดเล็กที่ทำหน้าที่โหลดระบบปฏิบัติการเข้าสู่ RAM",
+    "description": "A computer program that loads the main operating system or runtime environment for the computer after completion of self-tests.",
+    "difficulty": "medium",
+    "category": "CPE"
+  },
+  {
+    "id": "cpe045",
+    "term": "Kernel",
+    "meaning": "ส่วนกลางของระบบปฏิบัติการที่จัดการทรัพยากรฮาร์ดแวร์",
+    "description": "A computer program at the core of a computer's operating system and has complete control over everything in the system.",
+    "difficulty": "hard",
+    "category": "CPE"
+  },
+  {
+    "id": "cpe046",
+    "term": "SoC",
+    "meaning": "การรวมทุกส่วนของระบบคอมพิวเตอร์ไว้ในชิปตัวเดียว",
+    "description": "System on a Chip: An integrated circuit that integrates all components of a computer or other electronic system.",
+    "difficulty": "hard",
+    "category": "CPE"
+  },
+  {
+    "id": "cpe047",
+    "term": "Bitwise Operation",
+    "meaning": "การดำเนินการทางตรรกะในระดับบิต",
+    "description": "Operations that act on one or more bit patterns or binary numerals at the level of their individual bits.",
+    "difficulty": "medium",
+    "category": "CPE"
+  },
+  {
+    "id": "cpe048",
+    "term": "Endianness",
+    "meaning": "ลำดับการเก็บข้อมูลในหน่วยความจำ (Big หรือ Little Endian)",
+    "description": "The order or sequence of bytes of a digital data in computer memory storage or at the time of transmission.",
+    "difficulty": "hard",
+    "category": "CPE"
+  },
+  {
+    "id": "cpe049",
+    "term": "Peripherals",
+    "meaning": "อุปกรณ์ต่อพ่วงภายนอกคอมพิวเตอร์ (เช่น เมาส์, คีย์บอร์ด)",
+    "description": "Any auxiliary device that connects to and works with the computer in some way.",
+    "difficulty": "easy",
+    "category": "CPE"
+  },
+  {
+    "id": "cpe050",
+    "term": "Watchdog Timer",
+    "meaning": "ตัวจับเวลาที่ช่วยรีเซ็ตระบบเมื่อเครื่องค้างหรือทำงานผิดปกติ",
+    "description": "An electronic timer that is used to detect and recover from computer malfunctions.",
+    "difficulty": "hard",
+    "category": "CPE"
+  },
+  {
+    "id": "cpe051",
+    "term": "Multithreading",
+    "meaning": "การประมวลผลหลายเธรดพร้อมกันในคอร์เดียว",
+    "description": "The ability of a central processing unit (CPU) to provide multiple threads of execution concurrently.",
+    "difficulty": "hard",
+    "category": "CPE"
+  },
+  {
+    "id": "cpe052",
+    "term": "Overclocking",
+    "meaning": "การปรับเพิ่มความเร็วสัญญาณนาฬิกาให้สูงกว่าค่าโรงงาน",
+    "description": "Increasing a component's clock rate to make it run at a higher speed than it was designed to run.",
+    "difficulty": "medium",
+    "category": "CPE"
+  },
+  {
+    "id": "cpe053",
+    "term": "Hyper-Threading",
+    "meaning": "เทคโนโลยีที่ทำให้ 1 คอร์ประมวลผลได้ 2 งานพร้อมกัน",
+    "description": "Intel's proprietary simultaneous multithreading (SMT) implementation used to improve parallelization.",
+    "difficulty": "hard",
+    "category": "CPE"
+  },
+  {
+    "id": "cpe054",
+    "term": "Branch Prediction",
+    "meaning": "เทคนิคการเดาล่วงหน้าว่าโปรแกรมจะตัดสินใจไปทางไหน",
+    "description": "A digital circuit that tries to guess which way a branch will go before this is known definitely.",
+    "difficulty": "hard",
+    "category": "CPE"
+  },
+  {
+    "id": "cpe055",
+    "term": "Level 1 Cache",
+    "meaning": "หน่วยความจำแคชที่เร็วที่สุดและอยู่ใกล้คอร์ CPU ที่สุด",
+    "description": "The smallest and fastest cache memory that is built directly into the CPU chip.",
+    "difficulty": "medium",
+    "category": "CPE"
+  },
+  {
+    "id": "cpe056",
+    "term": "Direct mapped Cache",
+    "meaning": "การเก็บข้อมูลในแคชแบบตำแหน่งคงที่",
+    "description": "A cache where each location in main memory can only go in one specific slot in the cache.",
+    "difficulty": "hard",
+    "category": "CPE"
+  },
+  {
+    "id": "cpe057",
+    "term": "Translation Lookaside Buffer",
+    "meaning": "แคชที่ใช้เก็บตารางแปลงที่อยู่หน่วยความจำ (TLB)",
+    "description": "A memory cache that is used to reduce the time taken to access a user memory location.",
+    "difficulty": "hard",
+    "category": "CPE"
+  },
+  {
+    "id": "cpe058",
+    "term": "Page Fault",
+    "meaning": "สภาวะที่ข้อมูลที่ต้องการไม่มีอยู่ในหน่วยความจำหลัก",
+    "description": "An exception raised by hardware when a program accesses a page that is not in the main memory.",
+    "difficulty": "medium",
+    "category": "CPE"
+  },
+  {
+    "id": "cpe059",
+    "term": "Instruction Cycle",
+    "meaning": "วงจรการทำงานของ CPU (Fetch, Decode, Execute)",
+    "description": "The process by which a computer retrieves a program instruction from its memory and carries it out.",
+    "difficulty": "easy",
+    "category": "CPE"
+  },
+  {
+    "id": "cpe060",
+    "term": "Pipeline Hazard",
+    "meaning": "ปัญหาที่ทำให้การประมวลผลแบบท่อส่งต้องหยุดชะงัก",
+    "description": "Situations that prevent the next instruction in the instruction stream from executing during its designated clock cycle.",
+    "difficulty": "hard",
+    "category": "CPE"
+  },
+  {
+    "id": "cpe061",
+    "term": "Superscalar",
+    "meaning": "สถาปัตยกรรมที่รันได้มากกว่า 1 คำสั่งต่อสัญญาณนาฬิกา",
+    "description": "A processor that can execute more than one instruction during a clock cycle.",
+    "difficulty": "hard",
+    "category": "CPE"
+  },
+  {
+    "id": "cpe062",
+    "term": "Throughput",
+    "meaning": "อัตราการประมวลผลข้อมูลสำเร็จต่อหน่วยเวลา",
+    "description": "The rate at which a system processes data or transactions in hardware level.",
+    "difficulty": "medium",
+    "category": "CPE"
+  },
+  {
+    "id": "cpe063",
+    "term": "Von Neumann Architecture",
+    "meaning": "สถาปัตยกรรมคอมพิวเตอร์ที่เก็บโปรแกรมและข้อมูลในที่เดียว",
+    "description": "A design model for a stored-program digital computer that uses a single storage structure.",
+    "difficulty": "medium",
+    "category": "CPE"
+  },
+  {
+    "id": "cpe064",
+    "term": "Harvard Architecture",
+    "meaning": "สถาปัตยกรรมที่แยกทางเดินข้อมูลและคำสั่งออกจากกัน",
+    "description": "A computer architecture with physically separate storage and signal pathways for instructions and data.",
+    "difficulty": "medium",
+    "category": "CPE"
+  },
+  {
+    "id": "cpe065",
+    "term": "Memory Hierarchy",
+    "meaning": "ลำดับชั้นของหน่วยความจำตามความเร็วและความจุ",
+    "description": "The organization of storage in levels of differing costs, speeds, and capacities.",
+    "difficulty": "easy",
+    "category": "CPE"
+  },
+  {
+    "id": "cpe066",
+    "term": "DRAM",
+    "meaning": "หน่วยความจำที่ต้องมีการประจุไฟฟ้าใหม่ตลอดเวลา",
+    "description": "Dynamic Random Access Memory: A type of RAM that must be refreshed thousands of times per second.",
+    "difficulty": "medium",
+    "category": "CPE"
+  },
+  {
+    "id": "cpe067",
+    "term": "SRAM",
+    "meaning": "หน่วยความจำความเร็วสูงที่ไม่ต้องประจุไฟฟ้าซ้ำ",
+    "description": "Static Random Access Memory: A type of RAM that is faster and more reliable than DRAM but more expensive.",
+    "difficulty": "medium",
+    "category": "CPE"
+  },
+  {
+    "id": "cpe068",
+    "term": "Memory Bus",
+    "meaning": "สายสัญญาณที่เชื่อมต่อ CPU กับหน่วยความจำหลัก",
+    "description": "The bus that connects the main memory to the memory controller in computer systems.",
+    "difficulty": "easy",
+    "category": "CPE"
+  },
+  {
+    "id": "cpe069",
+    "term": "Burst Mode",
+    "meaning": "โหมดการส่งข้อมูลปริมาณมากอย่างต่อเนื่องในครั้งเดียว",
+    "description": "A temporary high-speed data-transfer mode that can transmit data at significantly higher rates.",
+    "difficulty": "medium",
+    "category": "CPE"
+  },
+  {
+    "id": "cpe070",
+    "term": "Write-Back Cache",
+    "meaning": "การเขียนข้อมูลลงแคชก่อนแล้วค่อยเขียนลง RAM ภายหลัง",
+    "description": "A caching method in which data is written into the cache every time a change occurs, but is only written into main memory at intervals.",
+    "difficulty": "hard",
+    "category": "CPE"
+  },
+
+  {
+    "id": "cpe071",
+    "term": "Modulation",
+    "meaning": "กระบวนการผสมสัญญาณข้อมูลเข้ากับคลื่นพาหะ",
+    "description": "The process of varying one or more properties of a periodic waveform, called the carrier signal.",
+    "difficulty": "hard",
+    "category": "CPE"
+  },
+  {
+    "id": "cpe072",
+    "term": "DSP",
+    "meaning": "การประมวลผลสัญญาณดิจิทัล (Digital Signal Processing)",
+    "description": "The use of digital processing, such as by computers or specialized processors, to perform signal processing.",
+    "difficulty": "hard",
+    "category": "CPE"
+  },
+  {
+    "id": "cpe073",
+    "term": "Sample Rate",
+    "meaning": "ความถี่ในการเก็บค่าตัวอย่างจากสัญญาณอนาล็อก",
+    "description": "The number of samples of audio carried per second.",
+    "difficulty": "medium",
+    "category": "CPE"
+  },
+  {
+    "id": "cpe074",
+    "term": "Quantization",
+    "meaning": "การแปลงค่าสัญญาณต่อเนื่องให้เป็นเลขดิจิทัล",
+    "description": "The process of mapping continuous infinite values to a smaller set of discrete finite values.",
+    "difficulty": "hard",
+    "category": "CPE"
+  },
+  {
+    "id": "cpe075",
+    "term": "Bitrate",
+    "meaning": "ปริมาณบิตที่ส่งไปได้ในหนึ่งหน่วยเวลา",
+    "description": "The number of bits that are conveyed or processed per unit of time.",
+    "difficulty": "easy",
+    "category": "CPE"
+  },
+  {
+    "id": "cpe076",
+    "term": "Packet Switching",
+    "meaning": "การแบ่งข้อมูลเป็นชิ้นเล็กๆ ส่งไปในเครือข่าย",
+    "description": "A method of grouping data into packets that are transmitted over a digital network.",
+    "difficulty": "medium",
+    "category": "CPE"
+  },
+  {
+    "id": "cpe077",
+    "term": "Router",
+    "meaning": "อุปกรณ์เครือข่ายที่หาเส้นทางส่งข้อมูลระหว่างเครือข่าย",
+    "description": "A networking device that forwards data packets between computer networks.",
+    "difficulty": "easy",
+    "category": "CPE"
+  },
+  {
+    "id": "cpe078",
+    "term": "Gateway",
+    "meaning": "อุปกรณ์ทางผ่านที่เชื่อมต่อเครือข่ายต่างประเภทกัน",
+    "description": "A network device that connects different networks or systems, often translating between different protocols.",
+    "difficulty": "easy",
+    "category": "CPE"
+  },
+  {
+    "id": "cpe079",
+    "term": "Network Interface Card",
+    "meaning": "การ์ดแลน (NIC) ที่เชื่อมต่อคอมกับเครือข่าย",
+    "description": "A hardware component that connects a computer to a computer network.",
+    "difficulty": "easy",
+    "category": "CPE"
+  },
+  {
+    "id": "cpe080",
+    "term": "Ethernet",
+    "meaning": "มาตรฐานการสื่อสารแบบมีสายในระบบแลน",
+    "description": "A family of wired computer networking technologies commonly used in LANs.",
+    "difficulty": "easy",
+    "category": "CPE"
+  },
+  {
+    "id": "cpe081",
+    "term": "Full Duplex",
+    "meaning": "การสื่อสารที่รับและส่งข้อมูลพร้อมกันได้สองทาง",
+    "description": "A system that allows communication in both directions simultaneously.",
+    "difficulty": "medium",
+    "category": "CPE"
+  },
+  {
+    "id": "cpe082",
+    "term": "Baud Rate",
+    "meaning": "ความเร็วในการเปลี่ยนสถานะของสัญญาณสื่อสาร",
+    "description": "The rate at which information is transferred in a communication channel.",
+    "difficulty": "hard",
+    "category": "CPE"
+  },
+  {
+    "id": "cpe083",
+    "term": "Jitter",
+    "meaning": "ความคลาดเคลื่อนของเวลาในการรับส่งสัญญาณ",
+    "description": "The deviation from true periodicity of a presumably periodic signal.",
+    "difficulty": "hard",
+    "category": "CPE"
+  },
+  {
+    "id": "cpe084",
+    "term": "Bandwidth",
+    "meaning": "ความกว้างของแถบความถี่ในการรับส่งข้อมูล",
+    "description": "The maximum rate of data transfer across a given path.",
+    "difficulty": "easy",
+    "category": "CPE"
+  },
+  {
+    "id": "cpe085",
+    "term": "Noise Floor",
+    "meaning": "ระดับสัญญาณรบกวนพื้นฐานในระบบสื่อสาร",
+    "description": "The measure of the signal created from the sum of all the noise sources and unwanted signals within a system.",
+    "difficulty": "medium",
+    "category": "CPE"
+  },
+
+  {
+    "id": "cpe086",
+    "term": "Side-Channel Attack",
+    "meaning": "การโจมตีที่วัดจากการใช้พลังงานหรือเวลาของฮาร์ดแวร์",
+    "description": "An attack based on information gained from the implementation of a computer system, rather than weaknesses in the software.",
+    "difficulty": "hard",
+    "category": "CPE"
+  },
+  {
+    "id": "cpe087",
+    "term": "TPM",
+    "meaning": "ชิปความปลอดภัยที่ใช้เก็บกุญแจเข้ารหัสลับ (Trusted Platform Module)",
+    "description": "A dedicated microcontroller designed to secure hardware through integrated cryptographic keys.",
+    "difficulty": "medium",
+    "category": "CPE"
+  },
+  {
+    "id": "cpe088",
+    "term": "Checksum",
+    "meaning": "ค่าที่ใช้ตรวจสอบความถูกต้องของข้อมูล",
+    "description": "A small-sized datum derived from a block of digital data for the purpose of detecting errors.",
+    "difficulty": "medium",
+    "category": "CPE"
+  },
+  {
+    "id": "cpe089",
+    "term": "Parity Bit",
+    "meaning": "บิตที่เพิ่มเข้าไปเพื่อใช้เช็คข้อผิดพลาดพื้นฐาน",
+    "description": "A bit added to a string of binary code to ensure that the total number of 1-bits is even or odd.",
+    "difficulty": "easy",
+    "category": "CPE"
+  },
+  {
+    "id": "cpe090",
+    "term": "Error Correcting Code",
+    "meaning": "รหัสที่ใช้ทั้งตรวจจับและแก้ไขข้อผิดพลาด (ECC)",
+    "description": "A process of adding redundant data to a message so that it can be recovered by a receiver.",
+    "difficulty": "hard",
+    "category": "CPE"
+  },
+  {
+    "id": "cpe091",
+    "term": "Overheating",
+    "meaning": "สภาวะที่ความร้อนสูงเกินจนฮาร์ดแวร์ลดความเร็วลง",
+    "description": "A condition where a computer component generates more heat than it can dissipate.",
+    "difficulty": "easy",
+    "category": "CPE"
+  },
+  {
+    "id": "cpe092",
+    "term": "Thermal Throttling",
+    "meaning": "การลดความเร็ว CPU อัตโนมัติเพื่อลดความร้อน",
+    "description": "A technique used to reduce the clock speed of a processor to prevent damage from heat.",
+    "difficulty": "medium",
+    "category": "CPE"
+  },
+  {
+    "id": "cpe093",
+    "term": "Heat Sink",
+    "meaning": "อุปกรณ์ระบายความร้อนที่ทำจากโลหะ",
+    "description": "A passive heat exchanger that transfers the heat generated by an electronic or a mechanical device to a fluid medium.",
+    "difficulty": "easy",
+    "category": "CPE"
+  },
+  {
+    "id": "cpe094",
+    "term": "Integrated Circuit",
+    "meaning": "แผงวงจรรวม (IC) ที่บรรจุวงจรลงในชิป",
+    "description": "A set of electronic circuits on one small flat piece of semiconductor material.",
+    "difficulty": "easy",
+    "category": "CPE"
+  },
+  {
+    "id": "cpe095",
+    "term": "Wafer",
+    "meaning": "แผ่นซิลิคอนที่ใช้เป็นฐานในการผลิตชิป",
+    "description": "A thin slice of semiconductor, such as a crystalline silicon, used for the fabrication of integrated circuits.",
+    "difficulty": "hard",
+    "category": "CPE"
+  },
+  {
+    "id": "cpe096",
+    "term": "PCB",
+    "meaning": "แผงวงจรพิมพ์ (Printed Circuit Board)",
+    "description": "A board that mechanically supports and electrically connects electronic components using conductive tracks.",
+    "difficulty": "easy",
+    "category": "CPE"
+  },
+  {
+    "id": "cpe097",
+    "term": "Bus Width",
+    "meaning": "จำนวนบิตที่บัสสามารถส่งข้อมูลได้พร้อมกัน",
+    "description": "The number of bits that can be sent to a CPU simultaneously.",
+    "difficulty": "medium",
+    "category": "CPE"
+  },
+  {
+    "id": "cpe098",
+    "term": "Power Supply Unit",
+    "meaning": "แหล่งจ่ายพลังงานไฟฟ้าให้กับคอมพิวเตอร์ (PSU)",
+    "description": "A component that converts mains AC to low-voltage regulated DC power for the internal components of a computer.",
+    "difficulty": "easy",
+    "category": "CPE"
+  },
+  {
+    "id": "cpe099",
+    "term": "Cold Boot",
+    "meaning": "การเปิดเครื่องคอมพิวเตอร์จากสถานะปิดสนิท",
+    "description": "The process of starting a computer that is turned off.",
+    "difficulty": "easy",
+    "category": "CPE"
+  },
+  {
+    "id": "cpe100",
+    "term": "Warm Boot",
+    "meaning": "การเริ่มระบบใหม่โดยที่เครื่องยังไม่ได้ปิด (Restart)",
+    "description": "The process of restarting a computer without turning off the power.",
+    "difficulty": "easy",
+    "category": "CPE"
+  },
+  {
+    "id": "cs001",
+    "term": "Linked List",
+    "meaning": "โครงสร้างข้อมูลที่เก็บในโนดและเชื่อมต่อกันด้วยพอยเตอร์",
+    "description": "A linear collection of data elements whose order is not given by their physical placement in memory.",
+    "difficulty": "medium",
+    "category": "CS"
+  },
+  {
+    "id": "cs002",
+    "term": "Stack",
+    "meaning": "โครงสร้างข้อมูลแบบเข้าทีหลังออกก่อน (LIFO)",
+    "description": "A linear data structure which follows a particular order in which the operations are performed (Last In First Out).",
+    "difficulty": "easy",
+    "category": "CS"
+  },
+  {
+    "id": "cs003",
+    "term": "Queue",
+    "meaning": "โครงสร้างข้อมูลแบบเข้าก่อนออกก่อน (FIFO)",
+    "description": "A linear data structure which follows a particular order in which the operations are performed (First In First Out).",
+    "difficulty": "easy",
+    "category": "CS"
+  },
+  {
+    "id": "cs004",
+    "term": "Binary Tree",
+    "meaning": "โครงสร้างข้อมูลแบบต้นไม้ที่แต่ละโนดมีลูกได้ไม่เกิน 2",
+    "description": "A tree data structure in which each node has at most two children.",
+    "difficulty": "medium",
+    "category": "CS"
+  },
+  {
+    "id": "cs005",
+    "term": "Hash Table",
+    "meaning": "โครงสร้างข้อมูลที่ใช้ฟังก์ชันแฮชเพื่อเข้าถึงข้อมูลอย่างรวดเร็ว",
+    "description": "A data structure that implements an associative array abstract data type, a structure that can map keys to values.",
+    "difficulty": "hard",
+    "category": "CS"
+  },
+  {
+    "id": "cs006",
+    "term": "Pointer",
+    "meaning": "ตัวแปรที่ใช้เก็บที่อยู่ (Address) ในหน่วยความจำ",
+    "description": "An object in many programming languages that stores a memory address.",
+    "difficulty": "medium",
+    "category": "CS"
+  },
+  {
+    "id": "cs007",
+    "term": "Array",
+    "meaning": "โครงสร้างข้อมูลที่เก็บข้อมูลชนิดเดียวกันเรียงต่อกัน",
+    "description": "A collection of items stored at contiguous memory locations.",
+    "difficulty": "easy",
+    "category": "CS"
+  },
+  {
+    "id": "cs008",
+    "term": "Graph",
+    "meaning": "โครงสร้างข้อมูลที่ประกอบด้วยจุด (Vertex) และเส้นเชื่อม (Edge)",
+    "description": "A non-linear data structure consisting of nodes and edges.",
+    "difficulty": "hard",
+    "category": "CS"
+  },
+  {
+    "id": "cs009",
+    "term": "Heap",
+    "meaning": "โครงสร้างข้อมูลแบบต้นไม้พิเศษที่ใช้จัดการลำดับความสำคัญ",
+    "description": "A specialized tree-based data structure which is essentially an almost complete tree.",
+    "difficulty": "hard",
+    "category": "CS"
+  },
+  {
+    "id": "cs010",
+    "term": "Recursion",
+    "meaning": "การที่ฟังก์ชันเรียกใช้งานตัวเองเพื่อแก้ปัญหา",
+    "description": "A method of solving a problem where the solution depends on solutions to smaller instances of the same problem.",
+    "difficulty": "hard",
+    "category": "CS"
+  },
+
+  {
+    "id": "cs011",
+    "term": "Big O Notation",
+    "meaning": "สัญลักษณ์ที่ใช้บอกความซับซ้อนของอัลกอริทึม",
+    "description": "A mathematical notation that describes the limiting behavior of a function when the argument tends towards a particular value or infinity.",
+    "difficulty": "hard",
+    "category": "CS"
+  },
+  {
+    "id": "cs012",
+    "term": "Time Complexity",
+    "meaning": "ปริมาณเวลาที่อัลกอริทึมใช้ในการประมวลผล",
+    "description": "The amount of time taken by an algorithm to run as a function of the length of the input.",
+    "difficulty": "medium",
+    "category": "CS"
+  },
+  {
+    "id": "cs013",
+    "term": "Space Complexity",
+    "meaning": "ปริมาณหน่วยความจำที่อัลกอริทึมใช้",
+    "description": "The amount of memory space required by an algorithm over the course of its execution.",
+    "difficulty": "medium",
+    "category": "CS"
+  },
+  {
+    "id": "cs014",
+    "term": "Sorting",
+    "meaning": "กระบวนการจัดเรียงข้อมูลตามลำดับที่ต้องการ",
+    "description": "Any process of arranging items systematically, in which items are sorted based on their values.",
+    "difficulty": "easy",
+    "category": "CS"
+  },
+  {
+    "id": "cs015",
+    "term": "Binary Search",
+    "meaning": "การค้นหาข้อมูลแบบแบ่งครึ่งในชุดข้อมูลที่เรียงลำดับแล้ว",
+    "description": "A search algorithm that finds the position of a target value within a sorted array.",
+    "difficulty": "medium",
+    "category": "CS"
+  },
+  {
+    "id": "cs016",
+    "term": "Divide and Conquer",
+    "meaning": "กลยุทธ์การแก้ปัญหาโดยแบ่งเป็นปัญหาย่อยๆ แล้วนำมารวมกัน",
+    "description": "An algorithm design paradigm based on multi-branched recursion.",
+    "difficulty": "hard",
+    "category": "CS"
+  },
+  {
+    "id": "cs017",
+    "term": "Dynamic Programming",
+    "meaning": "เทคนิคการแก้ปัญหาโดยบันทึกคำตอบของปัญหาย่อยไว้เพื่อลดการคำนวณ",
+    "description": "A method for solving a complex problem by breaking it down into a collection of simpler subproblems.",
+    "difficulty": "hard",
+    "category": "CS"
+  },
+  {
+    "id": "cs018",
+    "term": "Greedy Algorithm",
+    "meaning": "อัลกอริทึมที่เลือกทางเลือกที่ดีที่สุด ณ ขณะนั้น",
+    "description": "An algorithmic paradigm that follows the problem-solving heuristic of making the locally optimal choice at each stage.",
+    "difficulty": "medium",
+    "category": "CS"
+  },
+  {
+    "id": "cs019",
+    "term": "Brute Force",
+    "meaning": "วิธีการแก้ปัญหาโดยการลองทุกความเป็นไปได้ทั้งหมด",
+    "description": "A straightforward approach to solving a problem, usually directly based on the problem's statement and definitions.",
+    "difficulty": "easy",
+    "category": "CS"
+  },
+  {
+    "id": "cs020",
+    "term": "Heuristic",
+    "meaning": "วิธีการแก้ปัญหาที่เน้นความเร็วมากกว่าความถูกต้องที่สุด",
+    "description": "A technique designed for solving a problem more quickly when classic methods are too slow.",
+    "difficulty": "hard",
+    "category": "CS"
+  },
+
+  {
+    "id": "cs021",
+    "term": "Finite Automata",
+    "meaning": "โมเดลทางคณิตศาสตร์ที่ใช้แทนสถานะและการทำงานของเครื่องจักร",
+    "description": "An abstract machine that can be in exactly one of a finite number of states at any given time.",
+    "difficulty": "hard",
+    "category": "CS"
+  },
+  {
+    "id": "cs022",
+    "term": "Turing Machine",
+    "meaning": "โมเดลทางคณิตศาสตร์ที่เป็นพื้นฐานของคอมพิวเตอร์สมัยใหม่",
+    "description": "A mathematical model of computation that defines an abstract machine that manipulates symbols on a strip of tape according to a table of rules.",
+    "difficulty": "hard",
+    "category": "CS"
+  },
+  {
+    "id": "cs023",
+    "term": "Compiler",
+    "meaning": "ตัวแปลภาษาที่แปลงซอร์สโค้ดทั้งโปรแกรมเป็นภาษาเครื่อง",
+    "description": "A computer program that translates computer code written in one programming language into another language.",
+    "difficulty": "medium",
+    "category": "CS"
+  },
+  {
+    "id": "cs024",
+    "term": "Interpreter",
+    "meaning": "ตัวแปลภาษาที่อ่านและรันโค้ดทีละบรรทัด",
+    "description": "A computer program that directly executes instructions written in a programming or scripting language.",
+    "difficulty": "medium",
+    "category": "CS"
+  },
+  {
+    "id": "cs025",
+    "term": "Object-Oriented",
+    "meaning": "แนวคิดการเขียนโปรแกรมที่มองทุกอย่างเป็นวัตถุ (Object)",
+    "description": "A programming paradigm based on the concept of 'objects', which can contain data and code.",
+    "difficulty": "easy",
+    "category": "CS"
+  },
+  {
+    "id": "cs026",
+    "term": "Functional Programming",
+    "meaning": "แนวคิดการเขียนโปรแกรมที่เน้นการใช้ฟังก์ชันทางคณิตศาสตร์",
+    "description": "A programming paradigm where programs are constructed by applying and composing functions.",
+    "difficulty": "hard",
+    "category": "CS"
+  },
+  {
+    "id": "cs027",
+    "term": "Imperative Programming",
+    "meaning": "การเขียนโปรแกรมที่บอกขั้นตอนการทำงานแบบทีละก้าว",
+    "description": "A programming paradigm that uses statements that change a program's state.",
+    "difficulty": "medium",
+    "category": "CS"
+  },
+  {
+    "id": "cs028",
+    "term": "Garbage Collection",
+    "meaning": "ระบบจัดการหน่วยความจำโดยการคืนพื้นที่ที่ไม่ได้ใช้โดยอัตโนมัติ",
+    "description": "A form of automatic memory management that reclaims memory occupied by objects that are no longer in use.",
+    "difficulty": "medium",
+    "category": "CS"
+  },
+  {
+    "id": "cs029",
+    "term": "Cryptography",
+    "meaning": "วิทยาการรหัสลับที่ใช้ป้องกันข้อมูล",
+    "description": "The practice and study of techniques for secure communication in the presence of adversarial behavior.",
+    "difficulty": "hard",
+    "category": "CS"
+  },
+  {
+    "id": "cs030",
+    "term": "Distributed Systems",
+    "meaning": "ระบบที่ประกอบด้วยคอมพิวเตอร์หลายเครื่องทำงานร่วมกัน",
+    "description": "A system whose components are located on different networked computers, which communicate and coordinate their actions by passing messages.",
+    "difficulty": "hard",
+    "category": "CS"
+  },
+
+  {
+    "id": "cs031",
+    "term": "Artificial Intelligence",
+    "meaning": "ปัญญาประดิษฐ์ที่จำลองการคิดของมนุษย์ในคอมพิวเตอร์",
+    "description": "Intelligence demonstrated by machines, as opposed to the natural intelligence displayed by animals including humans.",
+    "difficulty": "easy",
+    "category": "CS"
+  },
+  {
+    "id": "cs032",
+    "term": "Machine Learning",
+    "meaning": "การทำให้คอมพิวเตอร์เรียนรู้จากข้อมูลได้ด้วยตัวเอง",
+    "description": "A field of study in artificial intelligence concerned with the development and study of statistical algorithms that can learn from data.",
+    "difficulty": "medium",
+    "category": "CS"
+  },
+  {
+    "id": "cs033",
+    "term": "Neural Network",
+    "meaning": "โครงข่ายประสาทเทียมที่จำลองการทำงานของสมองมนุษย์",
+    "description": "A computing system inspired by the biological neural networks that constitute animal brains.",
+    "difficulty": "hard",
+    "category": "CS"
+  },
+  {
+    "id": "cs034",
+    "term": "Supervised Learning",
+    "meaning": "การเรียนรู้ข้อมูลที่มีการติดป้ายกำกับเฉลยไว้ให้",
+    "description": "A machine learning paradigm where the model is trained on labeled data.",
+    "difficulty": "medium",
+    "category": "CS"
+  },
+  {
+    "id": "cs035",
+    "term": "Unsupervised Learning",
+    "meaning": "การเรียนรู้จากข้อมูลที่ไม่มีการติดป้ายกำกับเฉลย",
+    "description": "A machine learning paradigm where the model finds patterns in unlabeled data.",
+    "difficulty": "medium",
+    "category": "CS"
+  },
+  {
+    "id": "cs036",
+    "term": "Deep Learning",
+    "meaning": "การเรียนรู้เชิงลึกโดยใช้โครงข่ายประสาทที่มีหลายชั้น",
+    "description": "A subfield of machine learning based on artificial neural networks with representation learning.",
+    "difficulty": "hard",
+    "category": "CS"
+  },
+  {
+    "id": "cs037",
+    "term": "Natural Language Processing",
+    "meaning": "การประมวลผลภาษาธรรมชาติเพื่อให้คอมเข้าใจภาษาคน",
+    "description": "A subfield of linguistics, computer science, and artificial intelligence concerned with the interactions between computers and human language.",
+    "difficulty": "hard",
+    "category": "CS"
+  },
+  {
+    "id": "cs038",
+    "term": "Computer Vision",
+    "meaning": "การทำให้คอมพิวเตอร์สามารถมองเห็นและเข้าใจรูปภาพหรือวิดีโอ",
+    "description": "A field of artificial intelligence that trains computers to interpret and understand the visual world.",
+    "difficulty": "hard",
+    "category": "CS"
+  },
+  {
+    "id": "cs039",
+    "term": "Big Data",
+    "meaning": "ข้อมูลจำนวนมหาศาลที่มีความเร็วและความหลากหลายสูง",
+    "description": "Extremely large data sets that may be analyzed computationally to reveal patterns, trends, and associations.",
+    "difficulty": "easy",
+    "category": "CS"
+  },
+  {
+    "id": "cs040",
+    "term": "Data Mining",
+    "meaning": "การขุดค้นหาความลับหรือรูปแบบที่ซ่อนอยู่ในข้อมูล",
+    "description": "The process of discovering patterns in large data sets involving methods at the intersection of machine learning, statistics, and database systems.",
+    "difficulty": "medium",
+    "category": "CS"
+  },
+  {
+    "id": "cs041",
+    "term": "Database",
+    "meaning": "แหล่งเก็บข้อมูลที่เป็นระบบและเข้าถึงง่าย",
+    "description": "An organized collection of structured information, or data, typically stored electronically in a computer system.",
+    "difficulty": "easy",
+    "category": "CS"
+  },
+  {
+    "id": "cs042",
+    "term": "Query",
+    "meaning": "คำสั่งที่ใช้ในการเรียกดูข้อมูลจากฐานข้อมูล",
+    "description": "A request for data or information from a database table or combination of tables.",
+    "difficulty": "easy",
+    "category": "CS"
+  },
+  {
+    "id": "cs043",
+    "term": "SQL",
+    "meaning": "ภาษามาตรฐานที่ใช้จัดการฐานข้อมูลเชิงสัมพันธ์",
+    "description": "Structured Query Language: A domain-specific language used in programming and designed for managing data held in a RDBMS.",
+    "difficulty": "easy",
+    "category": "CS"
+  },
+  {
+    "id": "cs044",
+    "term": "NoSQL",
+    "meaning": "ฐานข้อมูลที่ไม่ได้ใช้โครงสร้างตารางแบบดั้งเดิม",
+    "description": "A non-relational database that provides a mechanism for storage and retrieval of data that is modeled in means other than the tabular relations used in relational databases.",
+    "difficulty": "medium",
+    "category": "CS"
+  },
+  {
+    "id": "cs045",
+    "term": "Primary Key",
+    "meaning": "คีย์หลักที่ใช้ระบุข้อมูลแต่ละแถวในตารางไม่ให้ซ้ำกัน",
+    "description": "A specific choice of a minimal set of attributes that uniquely specify a tuple in a relation.",
+    "difficulty": "medium",
+    "category": "CS"
+  },
+  {
+    "id": "cs046",
+    "term": "Normalization",
+    "meaning": "กระบวนการปรับโครงสร้างฐานข้อมูลเพื่อลดความซ้ำซ้อน",
+    "description": "The process of organizing data in a database to avoid data redundancy.",
+    "difficulty": "hard",
+    "category": "CS"
+  },
+  {
+    "id": "cs047",
+    "term": "Transaction",
+    "meaning": "ชุดของการทำงานในฐานข้อมูลที่ต้องทำให้สำเร็จทั้งหมดหรือล้มเหลวทั้งหมด",
+    "description": "A unit of work performed within a database management system against a database.",
+    "difficulty": "hard",
+    "category": "CS"
+  },
+  {
+    "id": "cs048",
+    "term": "Index",
+    "meaning": "สารบัญในฐานข้อมูลที่ช่วยให้ค้นหาข้อมูลได้เร็วขึ้น",
+    "description": "A data structure that improves the speed of data retrieval operations on a database table.",
+    "difficulty": "medium",
+    "category": "CS"
+  },
+  {
+    "id": "cs049",
+    "term": "ACID Properties",
+    "meaning": "คุณสมบัติที่รับประกันความถูกต้องของการทำธุรกรรมฐานข้อมูล",
+    "description": "Atomicity, Consistency, Isolation, Durability: A set of properties that guarantee database transactions are processed reliably.",
+    "difficulty": "hard",
+    "category": "CS"
+  },
+  {
+    "id": "cs050",
+    "term": "Data Warehouse",
+    "meaning": "แหล่งรวบรวมข้อมูลขนาดใหญ่จากหลายแหล่งเพื่อการวิเคราะห์",
+    "description": "A system used for reporting and data analysis, and is considered a core component of business intelligence.",
+    "difficulty": "medium",
+    "category": "CS"
+  },
+  {
+    "id": "cs051",
+    "term": "P vs NP Problem",
+    "meaning": "ปัญหาทางคอมพิวเตอร์ที่ถามว่าการหาคำตอบกับการตรวจคำตอบยากเท่ากันไหม",
+    "description": "A major unsolved problem in theoretical computer science regarding polynomial time complexity.",
+    "difficulty": "hard",
+    "category": "CS"
+  },
+  {
+    "id": "cs052",
+    "term": "NP-Complete",
+    "meaning": "กลุ่มปัญหาที่ยากที่สุดในการหาคำตอบในเวลาอันสั้น",
+    "description": "A subset of NP problems to which any other NP problem can be reduced in polynomial time.",
+    "difficulty": "hard",
+    "category": "CS"
+  },
+  {
+    "id": "cs053",
+    "term": "Turing Complete",
+    "meaning": "ระบบที่สามารถคำนวณทุกอย่างที่เครื่องจักรทัวริงทำได้",
+    "description": "A system that can perform any computation that a universal Turing machine can.",
+    "difficulty": "hard",
+    "category": "CS"
+  },
+  {
+    "id": "cs054",
+    "term": "State Machine",
+    "meaning": "แบบจำลองพฤติกรรมที่เปลี่ยนสถานะตามเงื่อนไขที่กำหนด",
+    "description": "A mathematical model used to design both computer programs and sequential logic circuits.",
+    "difficulty": "medium",
+    "category": "CS"
+  },
+  {
+    "id": "cs055",
+    "term": "Boolean Algebra",
+    "meaning": "พีชคณิตที่ใช้ค่าความจริง True และ False",
+    "description": "The branch of algebra in which the values of the variables are the truth values true and false.",
+    "difficulty": "easy",
+    "category": "CS"
+  },
+  {
+    "id": "cs056",
+    "term": "Predicate Logic",
+    "meaning": "ตรรกศาสตร์ที่ใช้ตัวบ่งปริมาณ (For all, For some)",
+    "description": "A formal system used in mathematics, philosophy, linguistics, and computer science.",
+    "difficulty": "hard",
+    "category": "CS"
+  },
+  {
+    "id": "cs057",
+    "term": "Combinatorics",
+    "meaning": "คณิตศาสตร์การจัดหมู่ที่ใช้คำนวณความเป็นไปได้",
+    "description": "An area of mathematics primarily concerned with counting and finite structures.",
+    "difficulty": "medium",
+    "category": "CS"
+  },
+  {
+    "id": "cs058",
+    "term": "Graph Coloring",
+    "meaning": "การระบายสีจุดในกราฟโดยไม่ให้จุดข้างเคียงมีสีซ้ำกัน",
+    "description": "An assignment of labels traditionally called 'colors' to elements of a graph subject to constraints.",
+    "difficulty": "hard",
+    "category": "CS"
+  },
+  {
+    "id": "cs059",
+    "term": "Dijkstra's Algorithm",
+    "meaning": "อัลกอริทึมสำหรับหาเส้นทางที่สั้นที่สุดในกราฟ",
+    "description": "An algorithm for finding the shortest paths between nodes in a graph.",
+    "difficulty": "medium",
+    "category": "CS"
+  },
+  {
+    "id": "cs060",
+    "term": "Breadth-First Search",
+    "meaning": "การค้นหาข้อมูลในแนวกว้าง (BFS)",
+    "description": "An algorithm for searching a tree or graph data structure by exploring neighbors first.",
+    "difficulty": "medium",
+    "category": "CS"
+  },
+
+  {
+    "id": "cs061",
+    "term": "OSI Model",
+    "meaning": "แบบจำลองมาตรฐานการสื่อสารเครือข่าย 7 ชั้น",
+    "description": "Open Systems Interconnection model: A conceptual framework used to describe the functions of a networking system.",
+    "difficulty": "medium",
+    "category": "CS"
+  },
+  {
+    "id": "cs062",
+    "term": "TCP/IP",
+    "meaning": "ชุดโปรโตคอลมาตรฐานที่ใช้อินเทอร์เน็ตในการสื่อสาร",
+    "description": "Transmission Control Protocol/Internet Protocol: The conceptual model and set of communications protocols used on the Internet.",
+    "difficulty": "easy",
+    "category": "CS"
+  },
+  {
+    "id": "cs063",
+    "term": "Packet",
+    "meaning": "หน่วยข้อมูลขนาดเล็กที่ถูกส่งผ่านเครือข่าย",
+    "description": "A formatted unit of data carried by a packet-switched computer network.",
+    "difficulty": "easy",
+    "category": "CS"
+  },
+  {
+    "id": "cs064",
+    "term": "Encryption",
+    "meaning": "การเข้ารหัสข้อมูลเพื่อป้องกันการอ่านโดยไม่ได้รับอนุญาต",
+    "description": "The process of encoding information so that only authorized parties can access it.",
+    "difficulty": "easy",
+    "category": "CS"
+  },
+  {
+    "id": "cs065",
+    "term": "Public Key",
+    "meaning": "กุญแจสาธารณะที่ใช้ในการเข้ารหัสข้อมูล",
+    "description": "A cryptographic key that can be obtained and used by anyone to encrypt messages.",
+    "difficulty": "medium",
+    "category": "CS"
+  },
+  {
+    "id": "cs066",
+    "term": "Private Key",
+    "meaning": "กุญแจส่วนตัวที่ใช้ในการถอดรหัสข้อมูล",
+    "description": "A tiny bit of code used in asymmetric encryption to decrypt data.",
+    "difficulty": "medium",
+    "category": "CS"
+  },
+  {
+    "id": "cs067",
+    "term": "Hashing",
+    "meaning": "การแปลงข้อมูลเป็นค่าคงที่ที่ไม่สามารถย้อนกลับได้",
+    "description": "The process of transforming any given key or a string of characters into another value.",
+    "difficulty": "medium",
+    "category": "CS"
+  },
+  {
+    "id": "cs068",
+    "term": "Digital Signature",
+    "meaning": "ลายเซ็นดิจิทัลที่ใช้ยืนยันแหล่งที่มาของข้อมูล",
+    "description": "A mathematical scheme for verifying the authenticity of digital messages or documents.",
+    "difficulty": "hard",
+    "category": "CS"
+  },
+  {
+    "id": "cs069",
+    "term": "DDoS",
+    "meaning": "การโจมตีโดยส่งข้อมูลจำนวนมหาศาลเพื่อให้ระบบล่ม",
+    "description": "Distributed Denial of Service: A malicious attempt to disrupt the normal traffic of a targeted server.",
+    "difficulty": "medium",
+    "category": "CS"
+  },
+  {
+    "id": "cs070",
+    "term": "Zero-Day Exploit",
+    "meaning": "ช่องโหว่ที่ถูกโจมตีก่อนที่ผู้พัฒนาจะรู้ตัวและแก้ไข",
+    "description": "A cyber attack that occurs on the same day a vulnerability is discovered in software.",
+    "difficulty": "hard",
+    "category": "CS"
+  },
+  {
+    "id": "cs071",
+    "term": "Botnet",
+    "meaning": "เครือข่ายคอมพิวเตอร์ที่ถูกแฮกเพื่อใช้โจมตีระบบอื่น",
+    "description": "A number of Internet-connected devices, each of which is running one or more bots.",
+    "difficulty": "medium",
+    "category": "CS"
+  },
+  {
+    "id": "cs072",
+    "term": "Phishing",
+    "meaning": "การหลอกลวงออนไลน์เพื่อขโมยข้อมูลส่วนตัว",
+    "description": "A type of social engineering attack often used to steal user data, including login credentials.",
+    "difficulty": "easy",
+    "category": "CS"
+  },
+  {
+    "id": "cs073",
+    "term": "Virtualization",
+    "meaning": "การจำลองทรัพยากรคอมพิวเตอร์ด้วยซอฟต์แวร์",
+    "description": "The act of creating a virtual version of something, including virtual computer hardware platforms.",
+    "difficulty": "medium",
+    "category": "CS"
+  },
+  {
+    "id": "cs074",
+    "term": "Cloud Computing",
+    "meaning": "การให้บริการทรัพยากรคอมพิวเตอร์ผ่านอินเทอร์เน็ต",
+    "description": "The on-demand availability of computer system resources, especially data storage and computing power.",
+    "difficulty": "easy",
+    "category": "CS"
+  },
+  {
+    "id": "cs075",
+    "term": "Latency",
+    "meaning": "ความล่าช้าในการรับส่งข้อมูลในเครือข่าย",
+    "description": "The delay before a transfer of data begins following an instruction for its transfer.",
+    "difficulty": "easy",
+    "category": "CS"
+  },
+
+  {
+    "id": "cs076",
+    "term": "Quantum Computing",
+    "meaning": "คอมพิวเตอร์ที่ใช้หลักการทางควอนตัมฟิสิกส์ในการประมวลผล",
+    "description": "Computing based on the principles of quantum theory, which explains the behavior of energy and material.",
+    "difficulty": "hard",
+    "category": "CS"
+  },
+  {
+    "id": "cs077",
+    "term": "Blockchain",
+    "meaning": "เทคโนโลยีการเก็บข้อมูลแบบกระจายศูนย์ที่แก้ไขไม่ได้",
+    "description": "A system of recording information in a way that makes it difficult or impossible to change.",
+    "difficulty": "medium",
+    "category": "CS"
+  },
+  {
+    "id": "cs078",
+    "term": "Smart Contract",
+    "meaning": "สัญญาอัจฉริยะที่ทำงานอัตโนมัติบนบล็อกเชน",
+    "description": "A self-executing contract with the terms of the agreement between buyer and seller being directly written into lines of code.",
+    "difficulty": "hard",
+    "category": "CS"
+  },
+  {
+    "id": "cs079",
+    "term": "Edge Computing",
+    "meaning": "การประมวลผลข้อมูลใกล้กับแหล่งกำเนิดเพื่อลดความล่าช้า",
+    "description": "A distributed computing paradigm that brings computation and data storage closer to the sources of data.",
+    "difficulty": "medium",
+    "category": "CS"
+  },
+  {
+    "id": "cs080",
+    "term": "IoT",
+    "meaning": "อินเทอร์เน็ตในทุกสรรพสิ่ง (Internet of Things)",
+    "description": "The network of physical objects embedded with sensors, software, and other technologies.",
+    "difficulty": "easy",
+    "category": "CS"
+  },
+  {
+    "id": "cs081",
+    "term": "API",
+    "meaning": "ช่องทางการเชื่อมต่อสื่อสารระหว่างซอฟต์แวร์",
+    "description": "Application Programming Interface: A way for two or more computer programs to communicate with each other.",
+    "difficulty": "easy",
+    "category": "CS"
+  },
+  {
+    "id": "cs082",
+    "term": "Microservices",
+    "meaning": "การออกแบบซอฟต์แวร์ที่แบ่งเป็นบริการย่อยๆ",
+    "description": "An architectural style that structures an application as a collection of services.",
+    "difficulty": "medium",
+    "category": "CS"
+  },
+  {
+    "id": "cs083",
+    "term": "Docker",
+    "meaning": "เครื่องมือที่ใช้จำลองสภาพแวดล้อมในการรันแอปพลิเคชัน (Container)",
+    "description": "A platform designed to help developers build, share, and run modern applications.",
+    "difficulty": "medium",
+    "category": "CS"
+  },
+  {
+    "id": "cs084",
+    "term": "Kubernetes",
+    "meaning": "ระบบจัดการตู้คอนเทนเนอร์ซอฟต์แวร์อัตโนมัติ",
+    "description": "An open-source container-orchestration system for automating software deployment.",
+    "difficulty": "hard",
+    "category": "CS"
+  },
+  {
+    "id": "cs085",
+    "term": "Lambda Calculus",
+    "meaning": "ระบบคณิตศาสตร์ที่เป็นพื้นฐานของภาษาโปรแกรมเชิงฟังก์ชัน",
+    "description": "A formal system in mathematical logic for expressing computation based on function abstraction.",
+    "difficulty": "hard",
+    "category": "CS"
+  },
+  {
+    "id": "cs086",
+    "term": "Parallelism",
+    "meaning": "การทำงานหลายอย่างพร้อมกันโดยใช้ทรัพยากรหลายตัว",
+    "description": "The simultaneous execution of multiple tasks.",
+    "difficulty": "medium",
+    "category": "CS"
+  },
+  {
+    "id": "cs087",
+    "term": "Synchronization",
+    "meaning": "การทำให้การทำงานหลายอย่างที่เกี่ยวข้องกันสอดคล้องกัน",
+    "description": "The task of coordinating multiple processes to join up or handshake at a certain point.",
+    "difficulty": "medium",
+    "category": "CS"
+  },
+  {
+    "id": "cs088",
+    "term": "Deadlock",
+    "meaning": "สถานการณ์ที่กระบวนการต่างรอทรัพยากรกันจนค้าง",
+    "description": "A situation where two or more processes are unable to proceed because each is waiting for the other.",
+    "difficulty": "hard",
+    "category": "CS"
+  },
+  {
+    "id": "cs089",
+    "term": "Context Switching",
+    "meaning": "การสลับการทำงานระหว่างงานหนึ่งไปอีกงานหนึ่งของ CPU",
+    "description": "The process of storing the state of a process or thread, so that it can be restored and resume execution later.",
+    "difficulty": "hard",
+    "category": "CS"
+  },
+  {
+    "id": "cs090",
+    "term": "Asymptotic Analysis",
+    "meaning": "การวิเคราะห์ประสิทธิภาพของอัลกอริทึมเมื่อข้อมูลมีขนาดใหญ่",
+    "description": "The study of the limits of functions in the context of algorithm performance.",
+    "difficulty": "hard",
+    "category": "CS"
+  },
+  {
+    "id": "cs091",
+    "term": "Graph Theory",
+    "meaning": "ทฤษฎีกราฟที่ใช้ศึกษาความสัมพันธ์ระหว่างจุดและเส้น",
+    "description": "The study of graphs, which are mathematical structures used to model pairwise relations between objects.",
+    "difficulty": "medium",
+    "category": "CS"
+  },
+  {
+    "id": "cs092",
+    "term": "Backtracking",
+    "meaning": "เทคนิคการแก้ปัญหาโดยลองคำตอบทีละทางและย้อนกลับเมื่อไม่สำเร็จ",
+    "description": "An algorithmic technique that incrementally builds candidates to a solution and abandons a candidate when it cannot lead to a valid solution.",
+    "difficulty": "hard",
+    "category": "CS"
+  },
+  {
+    "id": "cs093",
+    "term": "Semantic Web",
+    "meaning": "เว็บที่ข้อมูลมีความหมายที่คอมพิวเตอร์สามารถเข้าใจได้",
+    "description": "An extension of the World Wide Web through standards by the World Wide Web Consortium (W3C).",
+    "difficulty": "hard",
+    "category": "CS"
+  },
+  {
+    "id": "cs094",
+    "term": "Middleware",
+    "meaning": "ซอฟต์แวร์ที่เป็นตัวกลางเชื่อมต่อแอปพลิเคชันเข้าด้วยกัน",
+    "description": "Software that acts as a bridge between an operating system or database and applications.",
+    "difficulty": "medium",
+    "category": "CS"
+  },
+  {
+    "id": "cs095",
+    "term": "Data Abstraction",
+    "meaning": "การลดรายละเอียดข้อมูลเพื่อให้เห็นภาพรวมที่สำคัญ",
+    "description": "The reduction of a particular body of data to a simplified representation of the whole.",
+    "difficulty": "medium",
+    "category": "CS"
+  },
+  {
+    "id": "cs096",
+    "term": "Recursion",
+    "meaning": "การที่ฟังก์ชันเรียกตัวเองซ้ำๆ เพื่อแก้ปัญหา",
+    "description": "A method of solving a problem where the solution depends on solutions to smaller instances of the same problem.",
+    "difficulty": "medium",
+    "category": "CS"
+  },
+  {
+    "id": "cs097",
+    "term": "Instruction Set",
+    "meaning": "ชุดคำสั่งพื้นฐานที่โปรเซสเซอร์สามารถทำงานได้",
+    "description": "The part of the computer architecture related to programming.",
+    "difficulty": "hard",
+    "category": "CS"
+  },
+  {
+    "id": "cs098",
+    "term": "Bitmask",
+    "meaning": "การใช้บิตเพื่อเลือกหรือซ่อนข้อมูลที่ต้องการ",
+    "description": "Data used for bitwise operations, particularly in a bit field.",
+    "difficulty": "hard",
+    "category": "CS"
+  },
+  {
+    "id": "cs099",
+    "term": "Cold Storage",
+    "meaning": "การเก็บข้อมูลที่ไม่ได้ใช้บ่อยไว้ในแหล่งเก็บราคาถูก",
+    "description": "A storage option for data that is infrequently accessed.",
+    "difficulty": "easy",
+    "category": "CS"
+  },
+  {
+    "id": "cs100",
+    "term": "Scalability",
+    "meaning": "ความสามารถของระบบในการรองรับการขยายตัว",
+    "description": "The property of a system to handle a growing amount of work by adding resources.",
+    "difficulty": "easy",
+    "category": "CS"
+  },
+  {
+    "id": "it001",
+    "term": "Local Area Network",
+    "meaning": "เครือข่ายคอมพิวเตอร์ระยะใกล้ในอาคารเดียวกัน (LAN)",
+    "description": "A computer network that interconnects computers within a limited area such as a residence, school, or office building.",
+    "difficulty": "easy",
+    "category": "IT"
+  },
+  {
+    "id": "it002",
+    "term": "Wide Area Network",
+    "meaning": "เครือข่ายคอมพิวเตอร์ระยะไกลเชื่อมต่อระหว่างเมือง (WAN)",
+    "description": "A telecommunications network that extends over a large geographic area.",
+    "difficulty": "easy",
+    "category": "IT"
+  },
+  {
+    "id": "it003",
+    "term": "Bandwidth",
+    "meaning": "ปริมาณการรับส่งข้อมูลสูงสุดของเครือข่ายในหนึ่งหน่วยเวลา",
+    "description": "The maximum rate of data transfer across a given path.",
+    "difficulty": "easy",
+    "category": "IT"
+  },
+  {
+    "id": "it004",
+    "term": "IP Address",
+    "meaning": "หมายเลขประจำเครื่องคอมพิวเตอร์ในเครือข่าย",
+    "description": "A numerical label assigned to each device connected to a computer network that uses the Internet Protocol for communication.",
+    "difficulty": "easy",
+    "category": "IT"
+  },
+  {
+    "id": "it005",
+    "term": "Subnet Mask",
+    "meaning": "ตัวเลขที่ใช้แบ่งช่วงของเครือข่ายย่อย",
+    "description": "A 32-bit number used to differentiate the network component of an IP address from the host component.",
+    "difficulty": "medium",
+    "category": "IT"
+  },
+  {
+    "id": "it006",
+    "term": "Default Gateway",
+    "meaning": "ทางผ่านเริ่มต้นที่ใช้เชื่อมต่อกับเครือข่ายภายนอก",
+    "description": "The node in a computer network that serves as an access point to another network.",
+    "difficulty": "medium",
+    "category": "IT"
+  },
+  {
+    "id": "it007",
+    "term": "DNS",
+    "meaning": "ระบบแปลงชื่อเว็บไซต์ให้เป็นหมายเลข IP",
+    "description": "Domain Name System: The phonebook of the Internet, translating domain names to IP addresses.",
+    "difficulty": "medium",
+    "category": "IT"
+  },
+  {
+    "id": "it008",
+    "term": "DHCP",
+    "meaning": "โปรโตคอลที่แจกจ่ายหมายเลข IP ให้เครื่องในเครือข่ายอัตโนมัติ",
+    "description": "Dynamic Host Configuration Protocol: Automatically assigns IP addresses to devices on a network.",
+    "difficulty": "medium",
+    "category": "IT"
+  },
+  {
+    "id": "it009",
+    "term": "VPN",
+    "meaning": "เครือข่ายเสมือนส่วนตัวเพื่อความปลอดภัยในการรับส่งข้อมูล",
+    "description": "Virtual Private Network: Extends a private network across a public network.",
+    "difficulty": "easy",
+    "category": "IT"
+  },
+  {
+    "id": "it010",
+    "term": "Firewall",
+    "meaning": "ระบบป้องกันเครือข่ายจากการเข้าถึงที่ไม่พึงประสงค์",
+    "description": "A network security system that monitors and controls incoming and outgoing network traffic.",
+    "difficulty": "easy",
+    "category": "IT"
+  },
+  {
+    "id": "it011",
+    "term": "Active Directory",
+    "meaning": "บริการจัดการข้อมูลผู้ใช้และทรัพยากรในเครือข่าย Windows",
+    "description": "A directory service developed by Microsoft for Windows domain networks.",
+    "difficulty": "hard",
+    "category": "IT"
+  },
+  {
+    "id": "it012",
+    "term": "Domain Controller",
+    "meaning": "เซิร์ฟเวอร์ที่ทำหน้าที่ตรวจสอบและอนุญาตการเข้าใช้งานในระบบ",
+    "description": "A server that responds to security authentication requests within a Windows domain.",
+    "difficulty": "hard",
+    "category": "IT"
+  },
+  {
+    "id": "it013",
+    "term": "Latency",
+    "meaning": "ความล่าช้าในการตอบสนองของเครือข่าย",
+    "description": "The delay before a transfer of data begins following an instruction for its transfer.",
+    "difficulty": "easy",
+    "category": "IT"
+  },
+  {
+    "id": "it014",
+    "term": "Packet Loss",
+    "meaning": "สภาวะที่ข้อมูลสูญหายระหว่างการรับส่งในเครือข่าย",
+    "description": "Occurs when one or more packets of data travelling across a computer network fail to reach their destination.",
+    "difficulty": "medium",
+    "category": "IT"
+  },
+  {
+    "id": "it015",
+    "term": "Ping",
+    "meaning": "คำสั่งตรวจสอบการเชื่อมต่อและความเร็วระหว่างเครื่องคอมพิวเตอร์",
+    "description": "A computer network administration software utility used to test the reachability of a host on an IP network.",
+    "difficulty": "easy",
+    "category": "IT"
+  },
+
+  {
+    "id": "it016",
+    "term": "Virtualization",
+    "meaning": "การจำลองทรัพยากรคอมพิวเตอร์ด้วยซอฟต์แวร์",
+    "description": "The act of creating a virtual version of something, including computer hardware.",
+    "difficulty": "medium",
+    "category": "IT"
+  },
+  {
+    "id": "it017",
+    "term": "Hypervisor",
+    "meaning": "ซอฟต์แวร์ที่ใช้สร้างและจัดการเครื่องเสมือน (VM)",
+    "description": "Software that creates and runs virtual machines.",
+    "difficulty": "hard",
+    "category": "IT"
+  },
+  {
+    "id": "it018",
+    "term": "Cloud Storage",
+    "meaning": "การเก็บข้อมูลบนเซิร์ฟเวอร์ผ่านอินเทอร์เน็ต",
+    "description": "A model of computer data storage in which the digital data is stored in logical pools.",
+    "difficulty": "easy",
+    "category": "IT"
+  },
+  {
+    "id": "it019",
+    "term": "SaaS",
+    "meaning": "การให้บริการซอฟต์แวร์ผ่านคลาวด์",
+    "description": "Software as a Service: A software licensing and delivery model.",
+    "difficulty": "medium",
+    "category": "IT"
+  },
+  {
+    "id": "it020",
+    "term": "IaaS",
+    "meaning": "การให้บริการโครงสร้างพื้นฐานคอมพิวเตอร์ผ่านคลาวด์",
+    "description": "Infrastructure as a Service: Online services that provide high-level APIs used to dereference various low-level details.",
+    "difficulty": "hard",
+    "category": "IT"
+  },
+  {
+    "id": "it021",
+    "term": "PaaS",
+    "meaning": "การให้บริการแพลตฟอร์มสำหรับนักพัฒนาซอฟต์แวร์",
+    "description": "Platform as a Service: A category of cloud computing services that provides a platform allowing customers to develop, run, and manage applications.",
+    "difficulty": "hard",
+    "category": "IT"
+  },
+  {
+    "id": "it022",
+    "term": "On-Premises",
+    "meaning": "การติดตั้งและจัดการระบบไอทีภายในอาคารของตนเอง",
+    "description": "Software and technology that is located within the physical confines of an organization.",
+    "difficulty": "medium",
+    "category": "IT"
+  },
+  {
+    "id": "it023",
+    "term": "High Availability",
+    "meaning": "ความสามารถของระบบที่จะทำงานได้อย่างต่อเนื่องโดยไม่หยุดชะงัก",
+    "description": "A quality of a system or component that assures a high level of operational performance.",
+    "difficulty": "medium",
+    "category": "IT"
+  },
+  {
+    "id": "it024",
+    "term": "Backup",
+    "meaning": "การสำรองข้อมูลเพื่อป้องกันการสูญหาย",
+    "description": "A copy of computer data taken and stored elsewhere so that it may be used to restore the original.",
+    "difficulty": "easy",
+    "category": "IT"
+  },
+  {
+    "id": "it025",
+    "term": "Disaster Recovery",
+    "meaning": "แผนการกู้คืนระบบหลังเกิดเหตุภัยพิบัติ",
+    "description": "A set of policies and procedures to enable the recovery or continuation of vital technology infrastructure.",
+    "difficulty": "medium",
+    "category": "IT"
+  },
+  {
+    "id": "it026",
+    "term": "Snapshot",
+    "meaning": "การบันทึกสถานะของระบบหรือข้อมูล ณ เวลาใดเวลาหนึ่ง",
+    "description": "The state of a system at a particular point in time.",
+    "difficulty": "medium",
+    "category": "IT"
+  },
+  {
+    "id": "it027",
+    "term": "Load Balancer",
+    "meaning": "อุปกรณ์กระจายภาระงานไปยังเซิร์ฟเวอร์หลายเครื่อง",
+    "description": "Distributes network or application traffic across a number of servers.",
+    "difficulty": "medium",
+    "category": "IT"
+  },
+  {
+    "id": "it028",
+    "term": "Redundancy",
+    "meaning": "การมีส่วนประกอบสำรองเพื่อให้ระบบทำงานต่อได้เมื่อบางส่วนเสีย",
+    "description": "The inclusion of extra components which are not strictly necessary to functioning, in case of failure.",
+    "difficulty": "medium",
+    "category": "IT"
+  },
+  {
+    "id": "it029",
+    "term": "Migration",
+    "meaning": "การย้ายข้อมูลหรือระบบจากที่หนึ่งไปยังอีกที่หนึ่ง",
+    "description": "The process of moving data or applications from one location to another.",
+    "difficulty": "easy",
+    "category": "IT"
+  },
+  {
+    "id": "it030",
+    "term": "Uptime",
+    "meaning": "ระยะเวลาที่ระบบทำงานได้ปกติโดยไม่ล่ม",
+    "description": "A measure of the time a machine, typically a computer, has been working and available.",
+    "difficulty": "easy",
+    "category": "IT"
+  },
+
+  {
+    "id": "it031",
+    "term": "Help Desk",
+    "meaning": "หน่วยงานที่ให้ความช่วยเหลือและแก้ปัญหาทางเทคนิคให้ผู้ใช้",
+    "description": "A resource intended to provide the customer or end user with information and support.",
+    "difficulty": "easy",
+    "category": "IT"
+  },
+  {
+    "id": "it032",
+    "term": "Troubleshooting",
+    "meaning": "กระบวนการค้นหาและแก้ไขต้นเหตุของปัญหา",
+    "description": "A form of problem solving, often applied to repair failed products or processes.",
+    "difficulty": "easy",
+    "category": "IT"
+  },
+  {
+    "id": "it033",
+    "term": "SLA",
+    "meaning": "ข้อตกลงระดับการให้บริการระหว่างผู้ให้บริการและผู้ใช้",
+    "description": "Service Level Agreement: A commitment between a service provider and a client.",
+    "difficulty": "medium",
+    "category": "IT"
+  },
+  {
+    "id": "it034",
+    "term": "Patch Management",
+    "meaning": "การจัดการและติดตั้งโปรแกรมแก้ไขเพื่ออัปเดตระบบ",
+    "description": "The process of distributing and applying updates to software.",
+    "difficulty": "medium",
+    "category": "IT"
+  },
+  {
+    "id": "it035",
+    "term": "Ticketing System",
+    "meaning": "ระบบบันทึกและติดตามสถานะการแจ้งปัญหาไอที",
+    "description": "A software that manages and maintains lists of customer problems.",
+    "difficulty": "easy",
+    "category": "IT"
+  },
+  {
+    "id": "it036",
+    "term": "Provisioning",
+    "meaning": "การจัดเตรียมทรัพยากรไอทีให้พร้อมใช้งาน",
+    "description": "The process of providing or making something available of IT resources.",
+    "difficulty": "hard",
+    "category": "IT"
+  },
+  {
+    "id": "it037",
+    "term": "Inventory Management",
+    "meaning": "การจัดการและบันทึกรายการอุปกรณ์ไอทีทั้งหมด",
+    "description": "The process of tracking an organization's IT assets throughout their lifecycle.",
+    "difficulty": "easy",
+    "category": "IT"
+  },
+  {
+    "id": "it038",
+    "term": "Malware",
+    "meaning": "ซอฟต์แวร์ที่สร้างขึ้นเพื่อมุ่งร้ายต่อระบบคอมพิวเตอร์",
+    "description": "Software intentionally designed to cause damage to a computer, server, client, or computer network.",
+    "difficulty": "easy",
+    "category": "IT"
+  },
+  {
+    "id": "it039",
+    "term": "Phishing",
+    "meaning": "การหลอกลวงเพื่อขโมยข้อมูลสำคัญผ่านอีเมลหรือหน้าเว็บปลอม",
+    "description": "A fraudulent attempt to obtain sensitive information by disguising oneself as a trustworthy entity.",
+    "difficulty": "easy",
+    "category": "IT"
+  },
+  {
+    "id": "it040",
+    "term": "Encryption",
+    "meaning": "การเข้ารหัสข้อมูลเพื่อความลับ",
+    "description": "The process of converting information or data into a code, especially to prevent unauthorized access.",
+    "difficulty": "medium",
+    "category": "IT"
+  },
+  {
+    "id": "it041",
+    "term": "Endpoint Security",
+    "meaning": "การรักษาความปลอดภัยที่อุปกรณ์ปลายทาง (เช่น คอม, มือถือ)",
+    "description": "An approach to network protection that requires business network devices to bridge security standards.",
+    "difficulty": "medium",
+    "category": "IT"
+  },
+  {
+    "id": "it042",
+    "term": "Multi-Factor Authentication",
+    "meaning": "การยืนยันตัวตนหลายขั้นตอน (MFA)",
+    "description": "An authentication method that requires the user to provide two or more verification factors.",
+    "difficulty": "easy",
+    "category": "IT"
+  },
+  {
+    "id": "it043",
+    "term": "Ransomware",
+    "meaning": "มัลแวร์ที่เข้ารหัสไฟล์เพื่อเรียกค่าไถ่",
+    "description": "A type of malware that threatens to publish the victim's personal data or perpetually block access to it unless a ransom is paid.",
+    "difficulty": "easy",
+    "category": "IT"
+  },
+  {
+    "id": "it044",
+    "term": "Remote Desktop",
+    "meaning": "การเชื่อมต่อและควบคุมหน้าจอคอมพิวเตอร์จากระยะไกล",
+    "description": "A software or OS feature that allows a personal computer's desktop environment to be run remotely.",
+    "difficulty": "easy",
+    "category": "IT"
+  },
+  {
+    "id": "it045",
+    "term": "Server Rack",
+    "meaning": "ตู้สำหรับติดตั้งเครื่องเซิร์ฟเวอร์และอุปกรณ์เครือข่าย",
+    "description": "A metal frame structure used to house and organize various types of computer and networking equipment.",
+    "difficulty": "easy",
+    "category": "IT"
+  },
+  {
+    "id": "it046",
+    "term": "Data Center",
+    "meaning": "สถานที่สำหรับติดตั้งเครื่องคอมพิวเตอร์และระบบจัดเก็บข้อมูลจำนวนมาก",
+    "description": "A physical facility that organizations use to house their critical applications and data.",
+    "difficulty": "easy",
+    "category": "IT"
+  },
+  {
+    "id": "it047",
+    "term": "Hot Swap",
+    "meaning": "การเปลี่ยนชิ้นส่วนฮาร์ดแวร์โดยไม่ต้องปิดเครื่อง",
+    "description": "Replacing computer components without shutting down the system.",
+    "difficulty": "medium",
+    "category": "IT"
+  },
+  {
+    "id": "it048",
+    "term": "Workstation",
+    "meaning": "เครื่องคอมพิวเตอร์ที่มีประสิทธิภาพสูงสำหรับงานเฉพาะทาง",
+    "description": "A special computer designed for technical or scientific applications.",
+    "difficulty": "easy",
+    "category": "IT"
+  },
+  {
+    "id": "it049",
+    "term": "Peripheral",
+    "meaning": "อุปกรณ์ต่อพ่วงภายนอกคอมพิวเตอร์",
+    "description": "An auxiliary device used to put information into and get information out of a computer.",
+    "difficulty": "easy",
+    "category": "IT"
+  },
+  {
+    "id": "it050",
+    "term": "Form Factor",
+    "meaning": "ขนาดและรูปร่างมาตรฐานของอุปกรณ์ฮาร์ดแวร์",
+    "description": "The specification of a physical size and shape of computer hardware components.",
+    "difficulty": "medium",
+    "category": "IT"
+  },
+  {
+    "id": "it051",
+    "term": "IPv6",
+    "meaning": "ระบบหมายเลข IP รุ่นใหม่ขนาด 128 บิต",
+    "description": "The most recent version of the Internet Protocol (IP), providing an identification and location system for computers on networks.",
+    "difficulty": "medium",
+    "category": "IT"
+  },
+  {
+    "id": "it052",
+    "term": "Static IP",
+    "meaning": "หมายเลข IP แบบคงที่ไม่เปลี่ยนแปลง",
+    "description": "An IP address that is manually assigned to a device and remains constant over time.",
+    "difficulty": "easy",
+    "category": "IT"
+  },
+  {
+    "id": "it053",
+    "term": "Dynamic IP",
+    "meaning": "หมายเลข IP ที่เปลี่ยนไปทุกครั้งที่เชื่อมต่อเครือข่าย",
+    "description": "An IP address that is automatically assigned by a DHCP server and can change.",
+    "difficulty": "easy",
+    "category": "IT"
+  },
+  {
+    "id": "it054",
+    "term": "Port Forwarding",
+    "meaning": "การกำหนดทิศทางการเชื่อมต่อจากภายนอกเข้าสู่เครื่องภายใน",
+    "description": "An application of network address translation (NAT) that redirects a communication request from one address and port number combination to another.",
+    "difficulty": "hard",
+    "category": "IT"
+  },
+  {
+    "id": "it055",
+    "term": "MAC Address",
+    "meaning": "หมายเลขประจำตัวถาวรของอุปกรณ์เครือข่ายที่มาจากโรงงาน",
+    "description": "Media Access Control address: A unique identifier assigned to a network interface controller (NIC).",
+    "difficulty": "medium",
+    "category": "IT"
+  },
+  {
+    "id": "it056",
+    "term": "Packet Sniffing",
+    "meaning": "การดักจับข้อมูลที่ส่งผ่านเครือข่ายเพื่อตรวจสอบ",
+    "description": "The practice of gathering, collecting, and logging some or all packets that pass through a computer network.",
+    "difficulty": "hard",
+    "category": "IT"
+  },
+  {
+    "id": "it057",
+    "term": "Load Shedding",
+    "meaning": "การลดภาระงานของระบบเพื่อป้องกันการล่ม",
+    "description": "The process of intentionally dropping some incoming traffic to prevent a system from becoming overloaded.",
+    "difficulty": "hard",
+    "category": "IT"
+  },
+  {
+    "id": "it058",
+    "term": "SSL/TLS",
+    "meaning": "โปรโตคอลความปลอดภัยที่ใช้เข้ารหัสการรับส่งข้อมูลบนเว็บ",
+    "description": "Cryptographic protocols designed to provide communications security over a computer network.",
+    "difficulty": "medium",
+    "category": "IT"
+  },
+  {
+    "id": "it059",
+    "term": "FTP",
+    "meaning": "โปรโตคอลมาตรฐานที่ใช้ในการรับส่งไฟล์",
+    "description": "File Transfer Protocol: A standard network protocol used for the transfer of computer files between a client and server.",
+    "difficulty": "easy",
+    "category": "IT"
+  },
+  {
+    "id": "it060",
+    "term": "SSH",
+    "meaning": "ช่องทางการเชื่อมต่อเพื่อควบคุมเครื่องระยะไกลแบบเข้ารหัส",
+    "description": "Secure Shell: A cryptographic network protocol for operating network services securely over an unsecured network.",
+    "difficulty": "medium",
+    "category": "IT"
+  },
+  {
+    "id": "it061",
+    "term": "Proxy Server",
+    "meaning": "เซิร์ฟเวอร์ตัวกลางที่รับและส่งข้อมูลแทนเครื่องผู้ใช้",
+    "description": "A server that acts as an intermediary for requests from clients seeking resources from other servers.",
+    "difficulty": "medium",
+    "category": "IT"
+  },
+  {
+    "id": "it062",
+    "term": "Zero Trust",
+    "meaning": "แนวคิดความปลอดภัยที่ 'ไม่ไว้วางใจใครเลย' แม้อยู่ในเครือข่ายเดียวกัน",
+    "description": "A security framework requiring all users, inside or outside the organization's network, to be authenticated and authorized.",
+    "difficulty": "hard",
+    "category": "IT"
+  },
+  {
+    "id": "it063",
+    "term": "VLAN",
+    "meaning": "การแบ่งเครือข่ายแลนจริงออกเป็นเครือข่ายเสมือนย่อยๆ",
+    "description": "Virtual Local Area Network: A logical subnetwork that can group together a collection of devices from different physical LANs.",
+    "difficulty": "hard",
+    "category": "IT"
+  },
+  {
+    "id": "it064",
+    "term": "Topology",
+    "meaning": "ลักษณะการเชื่อมต่อทางกายภาพของอุปกรณ์ในเครือข่าย",
+    "description": "The arrangement of the elements (links, nodes, etc.) of a communication network.",
+    "difficulty": "easy",
+    "category": "IT"
+  },
+  {
+    "id": "it065",
+    "term": "Latency Spikes",
+    "meaning": "สภาวะที่ความล่าช้าในเครือข่ายพุ่งสูงขึ้นอย่างกะทันหัน",
+    "description": "Sudden increases in the time it takes for data to travel from one point to another.",
+    "difficulty": "medium",
+    "category": "IT"
+  },
+
+  {
+    "id": "it066",
+    "term": "Brute Force Attack",
+    "meaning": "การพยายามสุ่มรหัสผ่านทุกความเป็นไปได้เพื่อเข้าสู่ระบบ",
+    "description": "An attack that consists of an attacker submitting many passwords or passphrases with the hope of eventually guessing correctly.",
+    "difficulty": "easy",
+    "category": "IT"
+  },
+  {
+    "id": "it067",
+    "term": "Social Engineering",
+    "meaning": "การหลอกล่อทางจิตวิทยาเพื่อให้เหยื่อเผยข้อมูลความลับ",
+    "description": "The psychological manipulation of people into performing actions or divulging confidential information.",
+    "difficulty": "medium",
+    "category": "IT"
+  },
+  {
+    "id": "it068",
+    "term": "Antivirus",
+    "meaning": "โปรแกรมตรวจจับและกำจัดไวรัสหรือซอฟต์แวร์อันตราย",
+    "description": "Computer software used to prevent, detect, and remove malware.",
+    "difficulty": "easy",
+    "category": "IT"
+  },
+  {
+    "id": "it069",
+    "term": "Intrusion Detection System",
+    "meaning": "ระบบตรวจจับการบุกรุกในเครือข่าย (IDS)",
+    "description": "A device or software application that monitors a network or systems for malicious activity or policy violations.",
+    "difficulty": "hard",
+    "category": "IT"
+  },
+  {
+    "id": "it070",
+    "term": "Biometrics",
+    "meaning": "การยืนยันตัวตนด้วยลักษณะทางกายภาพ (เช่น ลายนิ้วมือ)",
+    "description": "The measurement and statistical analysis of people's unique physical and behavioral characteristics.",
+    "difficulty": "easy",
+    "category": "IT"
+  },
+  {
+    "id": "it071",
+    "term": "Data Breach",
+    "meaning": "เหตุการณ์ที่ข้อมูลความลับถูกขโมยหรือเปิดเผยโดยไม่ได้รับอนุญาต",
+    "description": "A security incident in which sensitive, protected, or confidential data is copied, transmitted, viewed, or stolen.",
+    "difficulty": "medium",
+    "category": "IT"
+  },
+  {
+    "id": "it072",
+    "term": "Password Policy",
+    "meaning": "กฎเกณฑ์ในการตั้งรหัสผ่านเพื่อให้ปลอดภัย",
+    "description": "A set of rules designed to enhance computer security by encouraging users to employ strong passwords.",
+    "difficulty": "easy",
+    "category": "IT"
+  },
+  {
+    "id": "it073",
+    "term": "Access Control List",
+    "meaning": "รายการสิทธิ์ที่กำหนดว่าใครเข้าถึงทรัพยากรใดได้บ้าง (ACL)",
+    "description": "A list of permissions attached to an object specifying which users or system processes are granted access.",
+    "difficulty": "hard",
+    "category": "IT"
+  },
+  {
+    "id": "it074",
+    "term": "Encryption Key",
+    "meaning": "ชุดข้อมูลที่ใช้ร่วมกับอัลกอริทึมเพื่อเข้ารหัสข้อมูล",
+    "description": "A random string of bits used in a cryptographic algorithm to transform plain text into cipher text or vice-versa.",
+    "difficulty": "medium",
+    "category": "IT"
+  },
+  {
+    "id": "it075",
+    "term": "Penetration Testing",
+    "meaning": "การจำลองการโจมตีเพื่อหาช่องโหว่ของระบบ",
+    "description": "The practice of testing a computer system, network or web application to find security vulnerabilities.",
+    "difficulty": "medium",
+    "category": "IT"
+  },
+  {
+    "id": "it076",
+    "term": "Red Teaming",
+    "meaning": "การจำลองเป็นฝ่ายโจมตีเพื่อทดสอบความแข็งแกร่งของระบบ",
+    "description": "A multi-layered full-scope analytical process which is designed to identify network vulnerabilities from the perspective of an adversary.",
+    "difficulty": "hard",
+    "category": "IT"
+  },
+  {
+    "id": "it077",
+    "term": "Incident Response",
+    "meaning": "การตอบสนองและจัดการเมื่อเกิดเหตุการณ์คุกคามทางไซเบอร์",
+    "description": "An organized approach to addressing and managing the aftermath of a security breach or cyberattack.",
+    "difficulty": "medium",
+    "category": "IT"
+  },
+  {
+    "id": "it078",
+    "term": "Hardening",
+    "meaning": "การปิดช่องโหว่และเสริมความแข็งแกร่งให้ระบบคอมพิวเตอร์",
+    "description": "The process of securing a system by reducing its surface of vulnerability.",
+    "difficulty": "hard",
+    "category": "IT"
+  },
+  {
+    "id": "it079",
+    "term": "GDPR",
+    "meaning": "กฎหมายคุ้มครองข้อมูลส่วนบุคคลของสหภาพยุโรป",
+    "description": "General Data Protection Regulation: A regulation in EU law on data protection and privacy.",
+    "difficulty": "medium",
+    "category": "IT"
+  },
+  {
+    "id": "it080",
+    "term": "Data Sovereignty",
+    "meaning": "แนวคิดที่ว่าข้อมูลต้องอยู่ภายใต้กฎหมายของประเทศที่ข้อมูลนั้นตั้งอยู่",
+    "description": "The idea that data are subject to the laws and governance structures within the nation it is collected.",
+    "difficulty": "hard",
+    "category": "IT"
+  },
+
+  {
+    "id": "it081",
+    "term": "Asset Tracking",
+    "meaning": "การติดตามและบันทึกข้อมูลอุปกรณ์ไอทีในองค์กร",
+    "description": "The method of tracking physical assets, either by scanning barcode labels or by using GPS or RFID tags.",
+    "difficulty": "easy",
+    "category": "IT"
+  },
+  {
+    "id": "it082",
+    "term": "BYOD",
+    "meaning": "นโยบายที่ให้พนักงานนำอุปกรณ์ส่วนตัวมาใช้ทำงานได้",
+    "description": "Bring Your Own Device: A policy of allowing employees to bring personally owned devices to their workplace.",
+    "difficulty": "easy",
+    "category": "IT"
+  },
+  {
+    "id": "it083",
+    "term": "Change Management",
+    "meaning": "กระบวนการควบคุมการเปลี่ยนแปลงในระบบไอทีเพื่อลดความเสี่ยง",
+    "description": "A collective term for all approaches to prepare, support, and help individuals, teams, and organizations in making organizational change.",
+    "difficulty": "medium",
+    "category": "IT"
+  },
+  {
+    "id": "it084",
+    "term": "Root Cause Analysis",
+    "meaning": "การวิเคราะห์เพื่อหาต้นตอที่แท้จริงของปัญหา",
+    "description": "A method of problem solving used for identifying the root causes of faults or problems.",
+    "difficulty": "medium",
+    "category": "IT"
+  },
+  {
+    "id": "it085",
+    "term": "Capacity Planning",
+    "meaning": "การวางแผนทรัพยากรเพื่อให้เพียงพอต่อการใช้งานในอนาคต",
+    "description": "The process of determining the production capacity needed by an organization to meet changing demands for its products.",
+    "difficulty": "medium",
+    "category": "IT"
+  },
+  {
+    "id": "it086",
+    "term": "Shadow IT",
+    "meaning": "การที่พนักงานใช้ระบบหรือซอฟต์แวร์ไอทีโดยไม่ได้รับอนุญาตจากองค์กร",
+    "description": "Information technology (IT) systems deployed by departments other than the central IT department.",
+    "difficulty": "hard",
+    "category": "IT"
+  },
+  {
+    "id": "it087",
+    "term": "Knowledge Base",
+    "meaning": "ฐานข้อมูลความรู้ที่ใช้รวบรวมวิธีแก้ปัญหาเบื้องต้น",
+    "description": "A technology used to store complex structured and unstructured information used by a computer system.",
+    "difficulty": "easy",
+    "category": "IT"
+  },
+  {
+    "id": "it088",
+    "term": "Configuration Management",
+    "meaning": "การจัดการและควบคุมการตั้งค่าของระบบและอุปกรณ์ไอที",
+    "description": "The process of systematically handling changes to a system's configuration to maintain integrity over time.",
+    "difficulty": "medium",
+    "category": "IT"
+  },
+  {
+    "id": "it089",
+    "term": "Virtual Desktop",
+    "meaning": "หน้าจอคอมพิวเตอร์จำลองที่รันอยู่บนเซิร์ฟเวอร์ส่วนกลาง",
+    "description": "The software implementation of a desktop environment which is separated from the physical device used to access it.",
+    "difficulty": "medium",
+    "category": "IT"
+  },
+  {
+    "id": "it090",
+    "term": "Cold Site",
+    "meaning": "ศูนย์สำรองข้อมูลที่มีเฉพาะโครงสร้างพื้นฐานแต่ยังไม่มีข้อมูลพร้อมใช้",
+    "description": "A backup facility that has the necessary electrical and physical components of a computer facility, but does not have the computer equipment in place.",
+    "difficulty": "hard",
+    "category": "IT"
+  },
+  {
+    "id": "it091",
+    "term": "Hot Site",
+    "meaning": "ศูนย์สำรองข้อมูลที่พร้อมทำงานแทนระบบหลักได้ทันที",
+    "description": "A commercial disaster recovery service that allows a business to continue computer operations in the event of a computer or equipment disaster.",
+    "difficulty": "hard",
+    "category": "IT"
+  },
+  {
+    "id": "it092",
+    "term": "RAID",
+    "meaning": "เทคโนโลยีการรวมฮาร์ดดิสก์หลายตัวเพื่อเพิ่มความเร็วหรือความปลอดภัย",
+    "description": "Redundant Array of Independent Disks: A data storage virtualization technology that combines multiple physical disk drive components into one or more logical units.",
+    "difficulty": "medium",
+    "category": "IT"
+  },
+  {
+    "id": "it093",
+    "term": "NAS",
+    "meaning": "อุปกรณ์เก็บข้อมูลที่เชื่อมต่อกับเครือข่ายโดยตรง (Network Attached Storage)",
+    "description": "A file-level computer data storage server connected to a computer network providing data access to a heterogeneous group of clients.",
+    "difficulty": "easy",
+    "category": "IT"
+  },
+  {
+    "id": "it094",
+    "term": "Fiber Optic",
+    "meaning": "สายเคเบิลใยแก้วนำแสงที่ส่งข้อมูลด้วยความเร็วแสง",
+    "description": "A technology that uses glass (or plastic) threads (fibers) to transmit data.",
+    "difficulty": "easy",
+    "category": "IT"
+  },
+  {
+    "id": "it095",
+    "term": "Dark Fiber",
+    "meaning": "สายใยแก้วนำแสงที่ติดตั้งไว้แล้วแต่ยังไม่ได้เปิดใช้งาน",
+    "description": "Unused optical fiber that has been laid but is not yet being used in fiber-optic communication.",
+    "difficulty": "hard",
+    "category": "IT"
+  },
+  {
+    "id": "it096",
+    "term": "Patch Panel",
+    "meaning": "แผงสำหรับจัดระเบียบและเชื่อมต่อสายสัญญาณในตู้แร็ค",
+    "description": "A device or unit featuring a number of jacks, usually of the same or similar type, for connecting and routing circuits.",
+    "difficulty": "easy",
+    "category": "IT"
+  },
+  {
+    "id": "it097",
+    "term": "Power Over Ethernet",
+    "meaning": "การส่งไฟฟ้าไปพร้อมกับสายแลน (PoE)",
+    "description": "A standard that lets Ethernet cables transmit both data and power using a single network cable.",
+    "difficulty": "medium",
+    "category": "IT"
+  },
+  {
+    "id": "it098",
+    "term": "Uninterruptible Power Supply",
+    "meaning": "เครื่องสำรองไฟเมื่อเกิดเหตุไฟฟ้าขัดข้อง (UPS)",
+    "description": "An electrical apparatus that provides emergency power to a load when the input power source or mains power fails.",
+    "difficulty": "easy",
+    "category": "IT"
+  },
+  {
+    "id": "it099",
+    "term": "Server Farm",
+    "meaning": "กลุ่มของเซิร์ฟเวอร์จำนวนมากที่ทำงานร่วมกันในที่เดียว",
+    "description": "A group of computers that are acting as servers and are housed in a single location.",
+    "difficulty": "easy",
+    "category": "IT"
+  },
+  {
+    "id": "it100",
+    "term": "Air Gap",
+    "meaning": "การแยกคอมพิวเตอร์ออกจากเครือข่ายอย่างเด็ดขาดเพื่อความปลอดภัยสูงสุด",
+    "description": "A network security measure employed on one or more computers to ensure that a secure computer network is physically isolated from unsecured networks.",
+    "difficulty": "hard",
+    "category": "IT"
+  },
+  {
+    "id": "is001",
+    "term": "ERP",
+    "meaning": "ระบบวางแผนจัดการทรัพยากรทั่วทั้งองค์กร",
+    "description": "Enterprise Resource Planning: Software that integrates all facets of an operation.",
+    "difficulty": "medium",
+    "category": "IS"
+  },
+  {
+    "id": "is002",
+    "term": "CRM",
+    "meaning": "ระบบบริหารจัดการความสัมพันธ์ลูกค้า",
+    "description": "Customer Relationship Management: Strategies and technologies for managing interactions with customers.",
+    "difficulty": "easy",
+    "category": "IS"
+  },
+  {
+    "id": "is003",
+    "term": "Supply Chain",
+    "meaning": "ห่วงโซ่อุปทานตั้งแต่การผลิตจนถึงมือลูกค้า",
+    "description": "The sequence of processes involved in the production and distribution of a commodity.",
+    "difficulty": "easy",
+    "category": "IS"
+  },
+  {
+    "id": "is004",
+    "term": "BPR",
+    "meaning": "การรื้อปรับระบบและกระบวนการทางธุรกิจใหม่",
+    "description": "Business Process Reengineering: Redesigning core business processes to achieve dramatic improvements.",
+    "difficulty": "hard",
+    "category": "IS"
+  },
+  {
+    "id": "is005",
+    "term": "Decision Support System",
+    "meaning": "ระบบสนับสนุนการตัดสินใจของผู้บริหาร (DSS)",
+    "description": "An information system that supports business or organizational decision-making activities.",
+    "difficulty": "medium",
+    "category": "IS"
+  },
+  {
+    "id": "is006",
+    "term": "Expert System",
+    "meaning": "ระบบคอมพิวเตอร์ที่เลียนแบบการตัดสินใจของผู้เชี่ยวชาญ",
+    "description": "A computer system that emulates the decision-making ability of a human expert.",
+    "difficulty": "medium",
+    "category": "IS"
+  },
+  {
+    "id": "is007",
+    "term": "E-Commerce",
+    "meaning": "การทำธุรกรรมซื้อขายผ่านสื่ออิเล็กทรอนิกส์",
+    "description": "Buying and selling of goods or services using the internet.",
+    "difficulty": "easy",
+    "category": "IS"
+  },
+  {
+    "id": "is008",
+    "term": "Business Intelligence",
+    "meaning": "เทคโนโลยีการวิเคราะห์ข้อมูลเพื่อหาโอกาสทางธุรกิจ (BI)",
+    "description": "Technologies used by enterprises for data analysis of business information.",
+    "difficulty": "medium",
+    "category": "IS"
+  },
+  {
+    "id": "is009",
+    "term": "Data Warehouse",
+    "meaning": "ระบบรวบรวมข้อมูลขนาดใหญ่จากหลายแหล่งเพื่อการวิเคราะห์",
+    "description": "A large store of data accumulated from a wide range of sources within a company.",
+    "difficulty": "medium",
+    "category": "IS"
+  },
+  {
+    "id": "is010",
+    "term": "OLAP",
+    "meaning": "การประมวลผลข้อมูลเชิงวิเคราะห์แบบออนไลน์",
+    "description": "Online Analytical Processing: Performing multi-dimensional analysis of business data.",
+    "difficulty": "hard",
+    "category": "IS"
+  },
+  {
+    "id": "is011",
+    "term": "Competitive Advantage",
+    "meaning": "ความได้เปรียบในการแข่งขันเหนือคู่แข่ง",
+    "description": "The attributes that allow an organization to outperform its competitors.",
+    "difficulty": "easy",
+    "category": "IS"
+  },
+  {
+    "id": "is012",
+    "term": "Knowledge Management",
+    "meaning": "การจัดการองค์ความรู้ภายในองค์กร",
+    "description": "The process of creating, sharing, using and managing the knowledge of an organization.",
+    "difficulty": "medium",
+    "category": "IS"
+  },
+  {
+    "id": "is013",
+    "term": "SaaS",
+    "meaning": "ซอฟต์แวร์ที่ให้บริการผ่านระบบคลาวด์",
+    "description": "Software as a Service: Software delivery model where users access apps via internet.",
+    "difficulty": "easy",
+    "category": "IS"
+  },
+  {
+    "id": "is014",
+    "term": "Legacy System",
+    "meaning": "ระบบดั้งเดิมที่ยังคงใช้งานอยู่แม้จะเก่าแล้ว",
+    "description": "An old method, technology, computer system, or application program.",
+    "difficulty": "easy",
+    "category": "IS"
+  },
+  {
+    "id": "is015",
+    "term": "Strategic Information System",
+    "meaning": "ระบบสารสนเทศเชิงกลยุทธ์ที่ช่วยสร้างความได้เปรียบ",
+    "description": "A system that helps an organization to change its goals and products to gain advantage.",
+    "difficulty": "hard",
+    "category": "IS"
+  },
+
+  {
+    "id": "is016",
+    "term": "Big Data",
+    "meaning": "ข้อมูลที่มีปริมาณมหาศาลและซับซ้อนเกินกว่าระบบปกติจะจัดการได้",
+    "description": "Data sets that are too large or complex to be dealt with by traditional software.",
+    "difficulty": "easy",
+    "category": "IS"
+  },
+  {
+    "id": "is017",
+    "term": "Data Mining",
+    "meaning": "การทำเหมืองข้อมูลเพื่อหาแพทเทิร์นที่ซ่อนอยู่",
+    "description": "The practice of examining large pre-existing databases in order to generate new information.",
+    "difficulty": "medium",
+    "category": "IS"
+  },
+  {
+    "id": "is018",
+    "term": "Metadata",
+    "meaning": "ข้อมูลที่ใช้อธิบายคุณลักษณะของข้อมูล",
+    "description": "A set of data that describes and gives information about other data.",
+    "difficulty": "hard",
+    "category": "IS"
+  },
+  {
+    "id": "is019",
+    "term": "Database Schema",
+    "meaning": "โครงสร้างหรือผังการจัดเก็บข้อมูลในฐานข้อมูล",
+    "description": "The formal structure of a database, defined by a set of rules.",
+    "difficulty": "medium",
+    "category": "IS"
+  },
+  {
+    "id": "is020",
+    "term": "Entity Relationship Diagram",
+    "meaning": "แผนผังความสัมพันธ์ระหว่างข้อมูล (ERD)",
+    "description": "A diagram that shows the relationships of entity sets stored in a database.",
+    "difficulty": "medium",
+    "category": "IS"
+  },
+  {
+    "id": "is021",
+    "term": "SQL",
+    "meaning": "ภาษาที่ใช้ในการสื่อสารและจัดการฐานข้อมูล",
+    "description": "Structured Query Language: Used to manage and manipulate relational databases.",
+    "difficulty": "easy",
+    "category": "IS"
+  },
+  {
+    "id": "is022",
+    "term": "Normalization",
+    "meaning": "กระบวนการจัดฐานข้อมูลเพื่อลดความซ้ำซ้อนของข้อมูล",
+    "description": "The process of structuring a database to reduce data redundancy.",
+    "difficulty": "hard",
+    "category": "IS"
+  },
+  {
+    "id": "is023",
+    "term": "Data Integrity",
+    "meaning": "ความถูกต้องและสมบูรณ์แม่นยำของข้อมูล",
+    "description": "The overall accuracy, completeness, and consistency of data.",
+    "difficulty": "medium",
+    "category": "IS"
+  },
+  {
+    "id": "is024",
+    "term": "Business Analytics",
+    "meaning": "การใช้ทฤษฎีทางสถิติวิเคราะห์ข้อมูลเพื่อการตัดสินใจ",
+    "description": "The practice of iterative, methodical exploration of an organization's data.",
+    "difficulty": "medium",
+    "category": "IS"
+  },
+  {
+    "id": "is025",
+    "term": "Visualization",
+    "meaning": "การนำข้อมูลมาสร้างเป็นกราฟหรือภาพให้เข้าใจง่าย",
+    "description": "The graphical representation of information and data.",
+    "difficulty": "easy",
+    "category": "IS"
+  },
+  {
+    "id": "is026",
+    "term": "Data Mart",
+    "meaning": "คลังข้อมูลย่อยที่แยกออกมาสำหรับแผนกใดแผนกหนึ่ง",
+    "description": "A subset of a data warehouse focused on a specific line of business or team.",
+    "difficulty": "medium",
+    "category": "IS"
+  },
+  {
+    "id": "is027",
+    "term": "ETL",
+    "meaning": "กระบวนการดึงข้อมูล แปลง และนำข้อมูลเข้าสู่ระบบ (Extract, Transform, Load)",
+    "description": "The process of retrieving, cleaning, and moving data into a target database.",
+    "difficulty": "hard",
+    "category": "IS"
+  },
+  {
+    "id": "is028",
+    "term": "Predictive Analytics",
+    "meaning": "การวิเคราะห์ข้อมูลเพื่อทำนายแนวโน้มในอนาคต",
+    "description": "The use of data, statistical algorithms and machine learning to identify likely future outcomes.",
+    "difficulty": "hard",
+    "category": "IS"
+  },
+  {
+    "id": "is029",
+    "term": "Cloud Computing",
+    "meaning": "การใช้ทรัพยากรไอทีผ่านเครือข่ายอินเทอร์เน็ต",
+    "description": "The on-demand availability of computer system resources over the internet.",
+    "difficulty": "easy",
+    "category": "IS"
+  },
+  {
+    "id": "is030",
+    "term": "VLOOKUP",
+    "meaning": "ฟังก์ชันค้นหาข้อมูลในตารางตามแนวตั้งที่นิยมใช้ใน IS",
+    "description": "A spreadsheet function used to search for a value in the first column of a table and return a related value.",
+    "difficulty": "easy",
+    "category": "IS"
+  },
+
+  {
+    "id": "is031",
+    "term": "Information Privacy",
+    "meaning": "สิทธิ์ในการปกป้องข้อมูลส่วนบุคคลไม่ให้ถูกเปิดเผย",
+    "description": "The relationship between the collection and dissemination of data.",
+    "difficulty": "easy",
+    "category": "IS"
+  },
+  {
+    "id": "is032",
+    "term": "Intellectual Property",
+    "meaning": "ทรัพย์สินทางปัญญาที่เกิดจากการสร้างสรรค์",
+    "description": "Intangible creations of the human intellect.",
+    "difficulty": "easy",
+    "category": "IS"
+  },
+  {
+    "id": "is033",
+    "term": "Digital Divide",
+    "meaning": "ความเหลื่อมล้ำในการเข้าถึงเทคโนโลยีสารสนเทศ",
+    "description": "The gap between demographics that have access to modern ICT and those that don't.",
+    "difficulty": "medium",
+    "category": "IS"
+  },
+  {
+    "id": "is034",
+    "term": "Ethics",
+    "meaning": "หลักเกณฑ์ทางจริยธรรมในการใช้เทคโนโลยี",
+    "description": "The principles of right and wrong that individuals use to make choices.",
+    "difficulty": "easy",
+    "category": "IS"
+  },
+  {
+    "id": "is035",
+    "term": "Outsourcing",
+    "meaning": "การจ้างบุคคลภายนอกให้ทำงานบางอย่างแทน",
+    "description": "The business practice of hiring a party outside a company to perform services.",
+    "difficulty": "easy",
+    "category": "IS"
+  },
+  {
+    "id": "is036",
+    "term": "In-house Development",
+    "meaning": "การพัฒนาซอฟต์แวร์หรือระบบภายในองค์กรเอง",
+    "description": "The process of creating a software application within the organization.",
+    "difficulty": "easy",
+    "category": "IS"
+  },
+  {
+    "id": "is037",
+    "term": "Offshoring",
+    "meaning": "การย้ายฐานการผลิตหรือบริการไปยังต่างประเทศ",
+    "description": "The practice of basing some of a company's processes or services overseas.",
+    "difficulty": "medium",
+    "category": "IS"
+  },
+  {
+    "id": "is038",
+    "term": "Cybersecurity",
+    "meaning": "การป้องกันเครือข่ายและข้อมูลจากอาชญากรรมไซเบอร์",
+    "description": "The protection of internet-connected systems from cyberattacks.",
+    "difficulty": "easy",
+    "category": "IS"
+  },
+  {
+    "id": "is039",
+    "term": "GDPR",
+    "meaning": "กฎหมายคุ้มครองข้อมูลส่วนบุคคล (มาตรฐานยุโรป)",
+    "description": "General Data Protection Regulation: A legal framework that sets guidelines for privacy.",
+    "difficulty": "medium",
+    "category": "IS"
+  },
+  {
+    "id": "is040",
+    "term": "Disaster Recovery",
+    "meaning": "การวางแผนกู้คืนระบบจากความเสียหายร้ายแรง",
+    "description": "An organization's method of regaining access and functionality to its IT infrastructure after a disaster.",
+    "difficulty": "medium",
+    "category": "IS"
+  },
+  {
+    "id": "is041",
+    "term": "Risk Management",
+    "meaning": "กระบวนการประเมินและป้องกันความเสี่ยง",
+    "description": "The process of identifying, monitoring and managing potential risks.",
+    "difficulty": "medium",
+    "category": "IS"
+  },
+  {
+    "id": "is042",
+    "term": "Compliance",
+    "meaning": "การปฏิบัติตามกฎหมายหรือข้อกำหนดมาตรฐาน",
+    "description": "Meeting the requirements of accepted laws, regulations, and standards.",
+    "difficulty": "medium",
+    "category": "IS"
+  },
+  {
+    "id": "is043",
+    "term": "SLA",
+    "meaning": "ข้อตกลงระดับการให้บริการที่สัญญาไว้กับลูกค้า",
+    "description": "Service Level Agreement: A commitment between a service provider and a client.",
+    "difficulty": "medium",
+    "category": "IS"
+  },
+  {
+    "id": "is044",
+    "term": "Audit",
+    "meaning": "การตรวจสอบความถูกต้องและโปร่งใสของระบบ",
+    "description": "An objective examination and evaluation of an organization's information systems.",
+    "difficulty": "medium",
+    "category": "IS"
+  },
+  {
+    "id": "is045",
+    "term": "Phishing",
+    "meaning": "การหลอกลวงออนไลน์เพื่อขโมยข้อมูลลับ",
+    "description": "The fraudulent practice of sending emails purporting to be from reputable companies.",
+    "difficulty": "easy",
+    "category": "IS"
+  },
+  {
+    "id": "is046",
+    "term": "Blockchain",
+    "meaning": "เทคโนโลยีการบันทึกข้อมูลแบบกระจายศูนย์ที่แก้ไขไม่ได้",
+    "description": "A system in which a record of transactions is maintained across several computers.",
+    "difficulty": "medium",
+    "category": "IS"
+  },
+  {
+    "id": "is047",
+    "term": "Digital Transformation",
+    "meaning": "การนำเทคโนโลยีดิจิทัลมาเปลี่ยนรูปแบบธุรกิจอย่างสิ้นเชิง",
+    "description": "The use of digital technology to create new — or modify existing — business processes.",
+    "difficulty": "medium",
+    "category": "IS"
+  },
+  {
+    "id": "is048",
+    "term": "Smart Contract",
+    "meaning": "สัญญาที่ทำงานอัตโนมัติเมื่อครบเงื่อนไขบนบล็อกเชน",
+    "description": "Self-executing contracts with the terms of the agreement written into code.",
+    "difficulty": "hard",
+    "category": "IS"
+  },
+  {
+    "id": "is049",
+    "term": "Social Media Marketing",
+    "meaning": "การใช้โซเชียลมีเดียเป็นช่องทางสื่อสารการตลาด",
+    "description": "The use of social media platforms to connect with your audience to build your brand.",
+    "difficulty": "easy",
+    "category": "IS"
+  },
+  {
+    "id": "is050",
+    "term": "Internet of Things",
+    "meaning": "การที่อุปกรณ์ต่างๆ เชื่อมต่อกันผ่านอินเทอร์เน็ต (IoT)",
+    "description": "The network of physical objects that are embedded with sensors.",
+    "difficulty": "easy",
+    "category": "IS"
+  },
+  {
+    "id": "is051",
+    "term": "SDLC",
+    "meaning": "วงจรชีวิตการพัฒนาระบบสารสนเทศ",
+    "description": "Systems Development Life Cycle: The process of planning, creating, testing, and deploying an IS.",
+    "difficulty": "easy",
+    "category": "IS"
+  },
+  {
+    "id": "is052",
+    "term": "Requirements Gathering",
+    "meaning": "การรวบรวมความต้องการของระบบจากผู้ใช้งาน",
+    "description": "The process of determining what a new system should do by talking to stakeholders.",
+    "difficulty": "easy",
+    "category": "IS"
+  },
+  {
+    "id": "is053",
+    "term": "Feasibility Study",
+    "meaning": "การศึกษาความเป็นไปได้ของโครงการ (คุ้มค่าไหม/ทำได้จริงไหม)",
+    "description": "An evaluation of a proposed project's potential for success.",
+    "difficulty": "medium",
+    "category": "IS"
+  },
+  {
+    "id": "is054",
+    "term": "Cost-Benefit Analysis",
+    "meaning": "การวิเคราะห์เปรียบเทียบต้นทุนกับผลประโยชน์ที่ได้รับ",
+    "description": "Comparing the estimated costs and benefits of a project to determine its viability.",
+    "difficulty": "medium",
+    "category": "IS"
+  },
+  {
+    "id": "is055",
+    "term": "Data Flow Diagram",
+    "meaning": "แผนภาพแสดงการไหลของข้อมูลในระบบ (DFD)",
+    "description": "A visual representation of the 'flow' of data through an information system.",
+    "difficulty": "medium",
+    "category": "IS"
+  },
+  {
+    "id": "is056",
+    "term": "Use Case Diagram",
+    "meaning": "แผนภาพแสดงการโต้ตอบระหว่างผู้ใช้กับระบบ",
+    "description": "A graphic depiction of the interactions among the elements of a system.",
+    "difficulty": "medium",
+    "category": "IS"
+  },
+  {
+    "id": "is057",
+    "term": "Prototype",
+    "meaning": "ระบบต้นแบบที่สร้างขึ้นเพื่อทดสอบฟังก์ชันเบื้องต้น",
+    "description": "An early sample, model, or release of a product built to test a concept.",
+    "difficulty": "easy",
+    "category": "IS"
+  },
+  {
+    "id": "is058",
+    "term": "Agile Methodology",
+    "meaning": "แนวคิดการพัฒนาระบบที่เน้นความรวดเร็วและปรับเปลี่ยนได้ง่าย",
+    "description": "A project and system development approach based on iterative work, collaboration, and continuous feedback.",
+    "difficulty": "easy",
+    "category": "IS"
+  },
+  {
+    "id": "is059",
+    "term": "Scrum",
+    "meaning": "รูปแบบการจัดการโครงการแบบ Agile ที่ทำงานเป็นรอบสั้นๆ",
+    "description": "An iterative framework for implementing agile development.",
+    "difficulty": "medium",
+    "category": "IS"
+  },
+  {
+    "id": "is060",
+    "term": "Change Request",
+    "meaning": "คำขออย่างเป็นทางการเพื่อแก้ไขหรือเพิ่มเติมระบบหลังเริ่มโครงการ",
+    "description": "A formal proposal to modify a system, project scope, feature, or process after initial planning or implementation has begun.",
+    "difficulty": "medium",
+    "category": "IS"
+  },
+  {
+    "id": "is061",
+    "term": "Implementation",
+    "meaning": "ขั้นตอนการนำระบบที่สร้างเสร็จแล้วไปติดตั้งใช้งานจริง",
+    "description": "The stage where the theoretical design is turned into a working system.",
+    "difficulty": "easy",
+    "category": "IS"
+  },
+  {
+    "id": "is062",
+    "term": "Parallel Conversion",
+    "meaning": "การรันระบบเก่าและระบบใหม่ไปพร้อมกันเพื่อตรวจสอบความถูกต้อง",
+    "description": "Running both old and new systems simultaneously for a period of time.",
+    "difficulty": "hard",
+    "category": "IS"
+  },
+  {
+    "id": "is063",
+    "term": "Phased Conversion",
+    "meaning": "การทยอยเปลี่ยนจากระบบเก่าเป็นระบบใหม่ทีละส่วน",
+    "description": "Gradually introducing the new system one module or department at a time.",
+    "difficulty": "hard",
+    "category": "IS"
+  },
+  {
+    "id": "is064",
+    "term": "Direct Cutover",
+    "meaning": "การเปลี่ยนจากระบบเก่าเป็นระบบใหม่ทันทีในเวลาเดียว",
+    "description": "Stopping the old system and starting the new one on a specific date.",
+    "difficulty": "medium",
+    "category": "IS"
+  },
+  {
+    "id": "is065",
+    "term": "Pilot Conversion",
+    "meaning": "การนำระบบใหม่ไปใช้กับกลุ่มตัวอย่างเล็กๆ ก่อนใช้ทั้งองค์กร",
+    "description": "Implementing the new system in only one part of the organization first.",
+    "difficulty": "hard",
+    "category": "IS"
+  },
+  {
+    "id": "is066",
+    "term": "Post-Implementation Review",
+    "meaning": "การประเมินผลระบบหลังจากใช้งานจริงไปแล้วระยะหนึ่ง",
+    "description": "An audit conducted after a system has been in use for a while.",
+    "difficulty": "medium",
+    "category": "IS"
+  },
+  {
+    "id": "is067",
+    "term": "Maintenance",
+    "meaning": "การดูแลและแก้ไขปรับปรุงระบบให้ทำงานได้ตามปกติ",
+    "description": "The process of keeping the system running and making small changes.",
+    "difficulty": "easy",
+    "category": "IS"
+  },
+  {
+    "id": "is068",
+    "term": "Scalability",
+    "meaning": "ความสามารถของระบบในการรองรับการขยายตัวในอนาคต",
+    "description": "The ability of a system to handle a growing amount of work.",
+    "difficulty": "medium",
+    "category": "IS"
+  },
+  {
+    "id": "is069",
+    "term": "User Manual",
+    "meaning": "คู่มือการใช้งานสำหรับผู้ใช้ทั่วไป",
+    "description": "A document intended to assist people in using a particular system.",
+    "difficulty": "easy",
+    "category": "IS"
+  },
+  {
+    "id": "is070",
+    "term": "Technical Documentation",
+    "meaning": "เอกสารรายละเอียดเชิงเทคนิคสำหรับผู้ดูแลระบบ",
+    "description": "Documents that describe the architecture and code for developers.",
+    "difficulty": "medium",
+    "category": "IS"
+  },
+  {
+    "id": "is071",
+    "term": "Gantt Chart",
+    "meaning": "แผนภูมิแท่งที่ใช้แสดงตารางเวลาการดำเนินโครงการ",
+    "description": "A type of bar chart that illustrates a project schedule.",
+    "difficulty": "easy",
+    "category": "IS"
+  },
+  {
+    "id": "is072",
+    "term": "Critical Path Method",
+    "meaning": "การหาลำดับงานที่สำคัญที่สุดซึ่งจะทำให้โครงการล่าช้าไม่ได้ (CPM)",
+    "description": "An algorithm for scheduling a set of project activities.",
+    "difficulty": "hard",
+    "category": "IS"
+  },
+  {
+    "id": "is073",
+    "term": "Work Breakdown Structure",
+    "meaning": "การย่อยงานโครงการออกเป็นส่วนเล็กๆ เพื่อให้จัดการง่าย (WBS)",
+    "description": "A deliverable-oriented decomposition of a project into smaller components.",
+    "difficulty": "medium",
+    "category": "IS"
+  },
+  {
+    "id": "is074",
+    "term": "Scope Creep",
+    "meaning": "การที่ขอบเขตโครงการขยายออกไปเรื่อยๆ จนคุมไม่อยู่",
+    "description": "Uncontrolled changes or continuous growth in a project's scope.",
+    "difficulty": "medium",
+    "category": "IS"
+  },
+  {
+    "id": "is075",
+    "term": "Stakeholder Management",
+    "meaning": "การบริหารจัดการความคาดหวังของผู้ที่มีส่วนเกี่ยวข้องกับโครงการ",
+    "description": "The process of managing the expectations of anyone impacted by the project.",
+    "difficulty": "medium",
+    "category": "IS"
+  },
+
+  {
+    "id": "is076",
+    "term": "Business-to-Consumer",
+    "meaning": "รูปแบบการค้าออนไลน์ระหว่างธุรกิจกับผู้บริโภค (B2C)",
+    "description": "Businesses selling products or services directly to individual consumers.",
+    "difficulty": "easy",
+    "category": "IS"
+  },
+  {
+    "id": "is077",
+    "term": "Business-to-Business",
+    "meaning": "รูปแบบการค้าออนไลน์ระหว่างธุรกิจกับธุรกิจด้วยกัน (B2B)",
+    "description": "Transactions of goods or services between two businesses.",
+    "difficulty": "easy",
+    "category": "IS"
+  },
+  {
+    "id": "is078",
+    "term": "Consumer-to-Consumer",
+    "meaning": "รูปแบบการค้าออนไลน์ระหว่างผู้บริโภคด้วยกันเอง (C2C)",
+    "description": "Transactions where consumers sell directly to other consumers (e.g., eBay).",
+    "difficulty": "easy",
+    "category": "IS"
+  },
+  {
+    "id": "is079",
+    "term": "Disintermediation",
+    "meaning": "การตัดคนกลางออกเพื่อสื่อสารและขายสินค้าถึงลูกค้าโดยตรง",
+    "description": "Removal of intermediaries in a supply chain, often via the internet.",
+    "difficulty": "hard",
+    "category": "IS"
+  },
+  {
+    "id": "is080",
+    "term": "Reintermediation",
+    "meaning": "การเพิ่มคนกลางรูปแบบใหม่ในโลกดิจิทัล (เช่น Grab, Agoda)",
+    "description": "The insertion of a new intermediary into a value chain.",
+    "difficulty": "hard",
+    "category": "IS"
+  },
+  {
+    "id": "is081",
+    "term": "M-Commerce",
+    "meaning": "การทำธุรกรรมพาณิชย์ผ่านอุปกรณ์เคลื่อนที่หรือมือถือ",
+    "description": "Mobile Commerce: Buying and selling via wireless handheld devices.",
+    "difficulty": "easy",
+    "category": "IS"
+  },
+  {
+    "id": "is082",
+    "term": "Omnichannel",
+    "meaning": "การเชื่อมต่อช่องทางการขายทุกทางเข้าเป็นหนึ่งเดียว (Online/Offline)",
+    "description": "Integrating different methods of shopping for a seamless experience.",
+    "difficulty": "medium",
+    "category": "IS"
+  },
+  {
+    "id": "is083",
+    "term": "Digital Wallet",
+    "meaning": "กระเป๋าเงินอิเล็กทรอนิกส์ที่ใช้เก็บเงินหรือบัตรในมือถือ",
+    "description": "A system that securely stores users' payment information for transactions.",
+    "difficulty": "easy",
+    "category": "IS"
+  },
+  {
+    "id": "is084",
+    "term": "Payment Gateway",
+    "meaning": "ระบบตัวกลางที่ใช้รับชำระเงินออนไลน์",
+    "description": "A technology used by merchants to accept debit or credit card purchases.",
+    "difficulty": "medium",
+    "category": "IS"
+  },
+  {
+    "id": "is085",
+    "term": "FinTech",
+    "meaning": "เทคโนโลยีทางการเงินเพื่อการบริการที่รวดเร็วและปลอดภัย",
+    "description": "Financial Technology: Innovation in financial services through tech.",
+    "difficulty": "easy",
+    "category": "IS"
+  },
+  {
+    "id": "is086",
+    "term": "Gamification",
+    "meaning": "การนำองค์ประกอบของเกมมาใช้ในบริบทอื่นเพื่อให้สนุกขึ้น",
+    "description": "The use of game design elements in non-game contexts.",
+    "difficulty": "medium",
+    "category": "IS"
+  },
+  {
+    "id": "is087",
+    "term": "Search Engine Optimization",
+    "meaning": "การปรับแต่งเว็บไซต์เพื่อให้ติดอันดับการค้นหา (SEO)",
+    "description": "The process of improving the quality and quantity of website traffic.",
+    "difficulty": "medium",
+    "category": "IS"
+  },
+  {
+    "id": "is088",
+    "term": "Affiliate Marketing",
+    "meaning": "การช่วยขายสินค้าแล้วได้รับค่าตอบแทนเป็นค่าคอมมิชชัน",
+    "description": "An advertising model where a company pays others to market their products.",
+    "difficulty": "easy",
+    "category": "IS"
+  },
+  {
+    "id": "is089",
+    "term": "Conversion Rate",
+    "meaning": "อัตราส่วนที่ลูกค้าทำกิจกรรมที่เป้าหมายกำหนด (เช่น กดซื้อสินค้า)",
+    "description": "The percentage of users who take a desired action on a website.",
+    "difficulty": "medium",
+    "category": "IS"
+  },
+  {
+    "id": "is090",
+    "term": "Crowdsourcing",
+    "meaning": "การระดมความคิดหรือทรัพยากรจากกลุ่มคนจำนวนมากผ่านอินเทอร์เน็ต",
+    "description": "Obtaining work or ideas from a large group of people.",
+    "difficulty": "medium",
+    "category": "IS"
+  },
+  {
+    "id": "is091",
+    "term": "Crowdfunding",
+    "meaning": "การระดมทุนจากคนจำนวนมากเพื่อเริ่มโปรเจกต์ใหม่",
+    "description": "The practice of funding a project by raising small amounts of money from many people.",
+    "difficulty": "easy",
+    "category": "IS"
+  },
+  {
+    "id": "is092",
+    "term": "Value Chain",
+    "meaning": "กิจกรรมต่างๆ ที่สร้างมูลค่าเพิ่มให้กับสินค้าและบริการ",
+    "description": "The process by which a company adds value to an article.",
+    "difficulty": "medium",
+    "category": "IS"
+  },
+  {
+    "id": "is093",
+    "term": "Business Model",
+    "meaning": "แผนการดำเนินธุรกิจเพื่อสร้างรายได้และกำไร",
+    "description": "A company's plan for making a profit.",
+    "difficulty": "easy",
+    "category": "IS"
+  },
+  {
+    "id": "is094",
+    "term": "Churn Rate",
+    "meaning": "อัตราการเลิกใช้งานบริการของลูกค้า",
+    "description": "The rate at which customers stop doing business with an entity.",
+    "difficulty": "hard",
+    "category": "IS"
+  },
+  {
+    "id": "is095",
+    "term": "Service Blueprint",
+    "meaning": "แผนผังการให้บริการที่แสดงขั้นตอนตั้งแต่เริ่มจนจบ",
+    "description": "A diagram that visualizes the relationships between different service components.",
+    "difficulty": "hard",
+    "category": "IS"
+  },
+  {
+    "id": "is096",
+    "term": "Human-Computer Interaction",
+    "meaning": "การศึกษาเรื่องการโต้ตอบระหว่างมนุษย์และคอมพิวเตอร์ (HCI)",
+    "description": "Study of how people interact with computers and to what extent computers are developed for successful interaction.",
+    "difficulty": "medium",
+    "category": "IS"
+  },
+  {
+    "id": "is097",
+    "term": "User Experience",
+    "meaning": "ประสบการณ์โดยรวมของผู้ใช้งานต่อระบบหรือผลิตภัณฑ์ (UX)",
+    "description": "The overall experience of a person using a product such as a website or computer application.",
+    "difficulty": "easy",
+    "category": "IS"
+  },
+  {
+    "id": "is098",
+    "term": "User Interface",
+    "meaning": "ส่วนติดต่อประสานงานที่ผู้ใช้มองเห็นและกดสั่งการได้ (UI)",
+    "description": "The point of human-computer interaction and communication in a device.",
+    "difficulty": "easy",
+    "category": "IS"
+  },
+  {
+    "id": "is099",
+    "term": "Usability Testing",
+    "meaning": "การทดสอบระบบว่าใช้งานง่ายและตรงความต้องการแค่ไหน",
+    "description": "Evaluating a product by testing it on users.",
+    "difficulty": "medium",
+    "category": "IS"
+  },
+  {
+    "id": "is100",
+    "term": "Accessibility",
+    "meaning": "การออกแบบระบบให้ทุกคนรวมถึงผู้พิการเข้าใช้งานได้",
+    "description": "Designing software to be usable by people with disabilities.",
+    "difficulty": "medium",
+    "category": "IS"
   }
 ]

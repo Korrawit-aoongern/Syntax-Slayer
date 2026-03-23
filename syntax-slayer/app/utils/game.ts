@@ -42,7 +42,7 @@ export const getLevelConfig = (level: number) =>
   LEVEL_CONFIG.find((entry) => level <= entry.maxLevel) ?? LEVEL_CONFIG[0];
 
 export const createDefaultPlayer = (): PlayerState => ({
-  hp: 1000,
+  hp: 20,
   attack: 2,
   focus: 0,
   consumables: [null, null, null],
