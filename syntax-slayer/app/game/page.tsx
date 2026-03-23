@@ -1,177 +1,36 @@
 "use client";
 
 import { useEffect, useMemo, useRef, useState } from "react";
-import Card, { type CardFace } from "../components/Card";
+import Card from "../components/Card";
+import ApBar from "../components/game/ApBar";
+import DebugPanel from "../components/game/DebugPanel";
+import EnemyPanel from "../components/game/EnemyPanel";
+import MainMenu from "../components/game/MainMenu";
+import PlayerPanel from "../components/game/PlayerPanel";
+import VictoryScreen from "../components/game/VictoryScreen";
 import vocabData from "../data/vocab.json";
-
-type VocabItem = {
-  id: string;
-  term: string;
-  meaning: string;
-  description: string;
-  difficulty: "easy" | "medium" | "hard";
-  category: "SE" | "CS" | "CE/CPE" | "IT" | "IS";
-};
-
-type GameCard = {
-  id: string;
-  pairId: string;
-  face: CardFace;
-  text: string;
-  isFlipped: boolean;
-  isMatched: boolean;
-};
-
-type PlayerState = {
-  hp: number;
-  attack: number;
-  focus: number;
-  consumables: Array<ConsumableId | null>;
-  shield: number;
-  attackBoost: number;
-  attackBoostUntil: number;
-};
-
-type EnemyState = {
-  hp: number;
-  attack: number;
-  ap: number;
-  apThreshold: number;
-};
-
-type GameView = "mainmenu" | "game" | "victory";
-
-type SessionState = {
-  view: GameView;
-  level: number;
-  player: PlayerState;
-  enemy: EnemyState;
-  cards: GameCard[];
-  unlockedTerms: string[];
-  selectedUpgrade: number | null;
-};
-
-type ConsumableId =
-  | "minor_reveal"
-  | "major_reveal"
-  | "cosmic_reveal"
-  | "freeze"
-  | "obsidian_shield"
-  | "holyxaliber"
-  | "bandage"
-  | "med_kit"
-  | "holy_heal";
-
-const STORAGE_KEY = "syntax-slayer-session-v1";
+import { CONSUMABLE_LABELS, CONSUMABLE_POOL } from "../data/consumables";
+import { ENEMY_STATS, STORAGE_KEY } from "../data/gameConfig";
+import type {
+  ConsumableId,
+  EnemyState,
+  GameCard,
+  GameView,
+  PlayerState,
+  SessionState,
+  VocabItem,
+} from "../types/game";
+import {
+  buildDeck,
+  clamp,
+  createDefaultPlayer,
+  getLevelConfig,
+  pickRandomConsumable,
+  shuffle,
+  withPlayerDefaults,
+} from "../utils/game";
 
 const vocab = vocabData as VocabItem[];
-
-const LEVEL_CONFIG = [
-  { maxLevel: 4, rows: 2, cols: 3, pairs: 3 },
-  { maxLevel: 8, rows: 2, cols: 4, pairs: 4 },
-  { maxLevel: 10, rows: 2, cols: 6, pairs: 6 },
-];
-
-const ENEMY_STATS: Record<number, Omit<EnemyState, "ap">> = {
-  1: { hp: 8, attack: 2, apThreshold: 5 },
-  2: { hp: 14, attack: 2, apThreshold: 5 },
-  3: { hp: 20, attack: 4, apThreshold: 4 },
-  4: { hp: 28, attack: 4, apThreshold: 4 },
-  5: { hp: 40, attack: 6, apThreshold: 5 },
-  6: { hp: 52, attack: 6, apThreshold: 4 },
-  7: { hp: 64, attack: 8, apThreshold: 4 },
-  8: { hp: 80, attack: 8, apThreshold: 3 },
-  9: { hp: 96, attack: 10, apThreshold: 4 },
-  10: { hp: 120, attack: 10, apThreshold: 3 },
-};
-
-const CONSUMABLE_POOL: ConsumableId[] = [
-  "minor_reveal",
-  "major_reveal",
-  "cosmic_reveal",
-  "freeze",
-  "obsidian_shield",
-  "holyxaliber",
-  "bandage",
-  "med_kit",
-  "holy_heal",
-];
-
-const CONSUMABLE_LABELS: Record<ConsumableId, string> = {
-  minor_reveal: "Minor Reveal",
-  major_reveal: "Major Reveal",
-  cosmic_reveal: "Cosmic Reveal",
-  freeze: "Freeze",
-  obsidian_shield: "Obsidian Shield",
-  holyxaliber: "Holyxaliber",
-  bandage: "Bandage",
-  med_kit: "Med Kit",
-  holy_heal: "Holy Heal",
-};
-
-const getLevelConfig = (level: number) =>
-  LEVEL_CONFIG.find((entry) => level <= entry.maxLevel) ?? LEVEL_CONFIG[0];
-
-const shuffle = <T,>(items: T[]) => {
-  const array = [...items];
-  for (let i = array.length - 1; i > 0; i -= 1) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [array[i], array[j]] = [array[j], array[i]];
-  }
-  return array;
-};
-
-const buildDeck = (items: VocabItem[], pairs: number): GameCard[] => {
-  const picked = shuffle(items).slice(0, pairs);
-  return shuffle(
-    picked.flatMap((item) => [
-      {
-        id: `${item.id}-term`,
-        pairId: item.id,
-        face: "term" as const,
-        text: item.term,
-        isFlipped: false,
-        isMatched: false,
-      },
-      {
-        id: `${item.id}-meaning`,
-        pairId: item.id,
-        face: "meaning" as const,
-        text: item.meaning,
-        isFlipped: false,
-        isMatched: false,
-      },
-    ]),
-  );
-};
-
-const clamp = (value: number, min: number, max: number) =>
-  Math.min(max, Math.max(min, value));
-
-const createDefaultPlayer = (): PlayerState => ({
-  hp: 1000,
-  attack: 2,
-  focus: 0,
-  consumables: [null, null, null],
-  shield: 0,
-  attackBoost: 0,
-  attackBoostUntil: 0,
-});
-
-const withPlayerDefaults = (value?: Partial<PlayerState>): PlayerState => {
-  const base = createDefaultPlayer();
-  if (!value) return base;
-  return {
-    ...base,
-    ...value,
-    consumables: Array.isArray(value.consumables)
-      ? (value.consumables as Array<ConsumableId | null>)
-      : base.consumables,
-  };
-};
-
-const pickRandomConsumable = () =>
-  CONSUMABLE_POOL[Math.floor(Math.random() * CONSUMABLE_POOL.length)];
 
 export default function GamePage() {
   const [level, setLevel] = useState(1);
@@ -527,6 +386,57 @@ export default function GamePage() {
     return Number.isFinite(parsed) ? parsed : fallback;
   };
 
+  const handleDebugLevelChange = (value: number) => {
+    applyLevel(toNumber(String(value), level));
+  };
+
+  const handleSetPlayerStat = (
+    key: "hp" | "attack" | "focus",
+    value: number,
+  ) => {
+    setPlayer((prev) => {
+      if (key === "focus") {
+        return { ...prev, focus: clamp(value, 0, 100) };
+      }
+      return { ...prev, [key]: value } as PlayerState;
+    });
+  };
+
+  const handleSetEnemyStat = (
+    key: "hp" | "attack" | "ap" | "apThreshold",
+    value: number,
+  ) => {
+    setEnemy((prev) => {
+      if (key === "apThreshold") {
+        return { ...prev, apThreshold: Math.max(1, value) };
+      }
+      return { ...prev, [key]: value } as EnemyState;
+    });
+  };
+
+  const handleSetConsumable = (
+    index: number,
+    value: ConsumableId | null,
+  ) => {
+    setPlayer((prev) => {
+      const nextConsumables = [...prev.consumables];
+      nextConsumables[index] = value;
+      return { ...prev, consumables: nextConsumables };
+    });
+  };
+
+  const handleClearConsumables = () => {
+    setPlayer((prev) => ({ ...prev, consumables: [null, null, null] }));
+  };
+
+  const handleRandomSlot3 = () => {
+    setPlayer((prev) => {
+      const nextConsumables = [...prev.consumables];
+      nextConsumables[2] = pickRandomConsumable();
+      return { ...prev, consumables: nextConsumables };
+    });
+  };
+
   const handleNewGame = () => {
     localStorage.removeItem(STORAGE_KEY);
     const nextConfig = getLevelConfig(1);
@@ -745,130 +655,30 @@ export default function GamePage() {
 
   if (view === "victory") {
     return (
-      <div className="p-6">
-        <div className="mx-auto flex max-w-4xl flex-col gap-6">
-          <div className="rounded-3xl border border-amber-200/70 bg-amber-50/70 p-6">
-            <div className="text-xs uppercase tracking-[0.3em] text-amber-600">
-              Victory
-            </div>
-            <h1 className="mt-2 text-3xl font-semibold text-slate-900">
-              Level {level} Cleared
-            </h1>
-            <p className="mt-2 text-sm text-slate-600">
-              Choose one of the three upgrade cards below. (Placeholder)
-            </p>
-          </div>
-
-          <div className="grid gap-4 md:grid-cols-3">
-            {upgradeOptions.map((label, index) => {
-              const isSelected = selectedUpgrade === index;
-              return (
-                <button
-                  key={label}
-                  type="button"
-                  onClick={() => handleSelectUpgrade(index)}
-                  className={`rounded-2xl border p-5 text-left transition ${
-                    isSelected
-                      ? "border-amber-400 bg-white shadow-[0_10px_24px_-16px_rgba(251,191,36,0.7)]"
-                      : "border-slate-200/70 bg-white/80 hover:border-amber-300"
-                  }`}
-                >
-                  <div className="text-xs uppercase tracking-[0.2em] text-slate-400">
-                    Upgrade Card
-                  </div>
-                  <div className="mt-2 text-sm font-semibold text-slate-800">
-                    {label}
-                  </div>
-                  <div className="mt-3 h-24 rounded-xl border border-dashed border-slate-200/70 bg-slate-50/70 text-center text-xs uppercase tracking-[0.2em] text-slate-400">
-                    Art slot
-                  </div>
-                </button>
-              );
-            })}
-          </div>
-
-          {lootBlocked ? (
-            <div className="rounded-3xl border border-slate-200/70 bg-white/80 p-6">
-              <div className="text-xs uppercase tracking-[0.3em] text-slate-400">
-                Inventory Full - Discard One
-              </div>
-              <div className="mt-2 text-sm text-slate-600">
-                Select a slot to replace with {pendingLoot ? CONSUMABLE_LABELS[pendingLoot] : "loot"}.
-              </div>
-              <div className="mt-4 grid gap-2 md:grid-cols-3">
-                {player.consumables.map((item, index) => (
-                  <button
-                    key={`discard-${index}`}
-                    type="button"
-                    onClick={() => handleReplaceConsumable(index)}
-                    className={`rounded-2xl border px-3 py-3 text-xs font-semibold uppercase tracking-[0.2em] transition ${
-                      lootReplaceIndex === index
-                        ? "border-amber-400 bg-amber-50 text-amber-700"
-                        : "border-slate-200/80 bg-white text-slate-600 hover:border-amber-300"
-                    }`}
-                  >
-                    {item ? CONSUMABLE_LABELS[item] : "Empty"}
-                  </button>
-                ))}
-              </div>
-            </div>
-          ) : null}
-
-          <div className="flex items-center justify-between">
-            <div className="text-xs uppercase tracking-[0.25em] text-slate-400">
-              Next level unlocks a new enemy
-            </div>
-            <button
-              type="button"
-              onClick={handleNextLevel}
-              disabled={selectedUpgrade === null || level >= 10 || lootBlocked}
-              className={`rounded-full px-6 py-2 text-sm font-semibold transition ${
-                selectedUpgrade === null || level >= 10 || lootBlocked
-                  ? "cursor-not-allowed bg-slate-200 text-slate-400"
-                  : "bg-slate-900 text-white hover:bg-slate-800"
-              }`}
-            >
-              {level >= 10 ? "Campaign Complete" : "Next Level"}
-            </button>
-          </div>
-        </div>
-      </div>
+      <VictoryScreen
+        level={level}
+        upgradeOptions={upgradeOptions}
+        selectedUpgrade={selectedUpgrade}
+        onSelectUpgrade={handleSelectUpgrade}
+        onNextLevel={handleNextLevel}
+        nextDisabled={selectedUpgrade === null || level >= 10 || lootBlocked}
+        lootBlocked={lootBlocked}
+        pendingLootLabel={pendingLoot ? CONSUMABLE_LABELS[pendingLoot] : lootLabel}
+        consumables={player.consumables}
+        consumableLabels={CONSUMABLE_LABELS}
+        onSelectDiscard={handleReplaceConsumable}
+        lootReplaceIndex={lootReplaceIndex}
+      />
     );
   }
 
   if (view === "mainmenu") {
     return (
-      <div className="p-6">
-        <div className="mx-auto flex max-w-3xl flex-col gap-6">
-          <div className="rounded-3xl border border-slate-200/70 bg-white/80 p-6 shadow-[0_12px_30px_-24px_rgba(15,23,42,0.6)]">
-            <div className="text-xs uppercase tracking-[0.3em] text-slate-400">
-              Main Menu
-            </div>
-            <h1 className="mt-2 text-3xl font-semibold">Syntax Slayer</h1>
-            <p className="mt-2 text-sm text-slate-600">
-              Menu placeholder. Continue to return to battle.
-            </p>
-          </div>
-          <div className="flex flex-wrap gap-3">
-            {hasSave ? (
-              <button
-                type="button"
-                onClick={handleResume}
-                className="rounded-full bg-slate-900 px-6 py-2 text-sm font-semibold text-white hover:bg-slate-800"
-              >
-                Resume
-              </button>
-            ) : null}
-            <button
-              type="button"
-              onClick={handleNewGame}
-              className="rounded-full border border-slate-200 bg-white px-6 py-2 text-sm font-semibold text-slate-700 hover:border-slate-300"
-            >
-              {hasSave ? "New Game" : "Start Game"}
-            </button>
-          </div>
-        </div>
-      </div>
+      <MainMenu
+        hasSave={hasSave}
+        onResume={handleResume}
+        onNewGame={handleNewGame}
+      />
     );
   }
 
@@ -883,104 +693,20 @@ export default function GamePage() {
         </div>
 
         <div className="mt-3 grid flex-1 min-h-0 gap-4 lg:grid-cols-2">
-          <div className="rounded-3xl border border-slate-200/70 bg-white/80 p-4 shadow-[0_12px_30px_-24px_rgba(15,23,42,0.6)] md:p-6 flex flex-col">
-            <div className="text-xs uppercase tracking-[0.35em] text-slate-400">
-              Player
-            </div>
-            <div className="mt-4 flex min-h-0 flex-1 items-stretch gap-4">
-              <div className="flex flex-col gap-3 text-sm">
-                <div>
-                  <div className="text-slate-500">HP</div>
-                  <div className="text-2xl font-semibold">{player.hp}</div>
-                </div>
-                <div>
-                  <div className="text-slate-500">ATK</div>
-                  <div className="text-2xl font-semibold">
-                    {effectiveAttack}
-                  </div>
-                  {attackBoostActive ? (
-                    <div className="text-xs text-emerald-500">+{player.attackBoost} boost</div>
-                  ) : null}
-                </div>
-                <div>
-                  <div className="text-slate-500">Focus</div>
-                  <div className="text-2xl font-semibold">{player.focus}</div>
-                  <div className="text-xs text-slate-400">
-                    Crit {critChance}%
-                  </div>
-                </div>
-              </div>
-              <div className="flex flex-col gap-2">
-                <div className="text-[10px] uppercase tracking-[0.3em] text-slate-400">
-                  Items
-                </div>
-                <div className="flex flex-col gap-2">
-                  {player.consumables.map((item, index) => (
-                    <button
-                      key={`slot-${index}`}
-                      type="button"
-                      onClick={() => handleUseConsumable(index)}
-                      disabled={!item || busy || revealActive}
-                      className={`flex h-10 items-center justify-center rounded-xl border border-dashed text-[10px] uppercase tracking-[0.2em] transition ${
-                        item
-                          ? "border-slate-200/80 bg-white text-slate-600 hover:border-amber-300"
-                          : "border-slate-200/80 bg-slate-50/70 text-slate-400"
-                      } ${!item || busy || revealActive ? "cursor-not-allowed opacity-70" : ""}`}
-                    >
-                      {item ? CONSUMABLE_LABELS[item] : "Empty"}
-                    </button>
-                  ))}
-                </div>
-              </div>
-              <div className="flex-1 rounded-2xl border border-dashed border-slate-200/70 bg-slate-50/70 p-4 text-center text-sm text-slate-400">
-                Player art slot
-              </div>
-            </div>
-          </div>
-
-          <div className="rounded-3xl border border-slate-200/70 bg-white/80 p-4 text-right shadow-[0_12px_30px_-24px_rgba(15,23,42,0.6)] md:p-6 flex flex-col">
-            <div className="text-xs uppercase tracking-[0.35em] text-slate-400">
-              Enemy
-            </div>
-            <div className="mt-4 flex min-h-0 flex-1 items-stretch gap-4">
-              <div className="flex-1 rounded-2xl border border-dashed border-slate-200/70 bg-slate-50/70 p-4 text-center text-sm text-slate-400">
-                Enemy art slot
-              </div>
-              <div className="flex flex-col items-end gap-3 text-sm">
-                <div>
-                  <div className="text-slate-500">HP</div>
-                  <div className="text-2xl font-semibold">{enemy.hp}</div>
-                </div>
-                <div>
-                  <div className="text-slate-500">ATK</div>
-                  <div className="text-2xl font-semibold">{enemy.attack}</div>
-                </div>
-                <div>
-                  <div className="text-slate-500">AP</div>
-                  <div className="text-2xl font-semibold">
-                    {enemy.ap}/{enemy.apThreshold}
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div className="h-[10vh] min-h-0 flex flex-col justify-center">
-        <div className="flex items-center justify-between text-xs uppercase tracking-[0.25em] text-slate-400">
-          <span>AP Meter</span>
-          <span>
-            Level {level} - Grid {rows}x{cols} - {pairs} pairs
-          </span>
-        </div>
-        <div className="mt-3 h-3 w-full overflow-hidden rounded-full bg-slate-200">
-          <div
-            className="h-full rounded-full bg-gradient-to-r from-amber-400 via-orange-400 to-rose-400 transition-all"
-            style={{ width: `${apPercent}%` }}
+          <PlayerPanel
+            player={player}
+            critChance={critChance}
+            effectiveAttack={effectiveAttack}
+            attackBoostActive={attackBoostActive}
+            onUseConsumable={handleUseConsumable}
+            consumableLabels={CONSUMABLE_LABELS}
+            disableConsumables={busy || revealActive}
           />
+          <EnemyPanel enemy={enemy} />
         </div>
       </div>
+
+      <ApBar apPercent={apPercent} level={level} rows={rows} cols={cols} pairs={pairs} />
 
       <div className="flex-1 min-h-0 flex items-center justify-center">
         <div className={`max-h-full max-w-full w-full ${gridAspectClass}`}>
@@ -1014,223 +740,21 @@ export default function GamePage() {
         </div>
       </div>
 
-      <button
-        type="button"
-        onClick={() => setShowDebug((prev) => !prev)}
-        className="fixed bottom-4 right-4 rounded-full border border-slate-200 bg-white px-4 py-1.5 text-xs font-semibold text-slate-600 shadow-sm hover:border-slate-300"
-      >
-        {showDebug ? "Hide Debug" : "Show Debug"}
-      </button>
-
-      {showDebug ? (
-        <div className="fixed bottom-16 right-4 w-[320px] rounded-3xl border border-slate-200/70 bg-white/95 p-4 shadow-[0_18px_40px_-24px_rgba(15,23,42,0.6)]">
-          <div className="text-xs uppercase tracking-[0.3em] text-slate-400">
-            Debug Tools
-          </div>
-          <div className="mt-4 grid gap-4">
-            <div className="rounded-2xl border border-slate-200/70 bg-white/80 p-4">
-              <div className="text-xs uppercase tracking-[0.2em] text-slate-400">
-                Level
-              </div>
-              <div className="mt-3 flex flex-wrap items-center gap-2">
-                <input
-                  type="number"
-                  min={1}
-                  max={10}
-                  value={level}
-                  onChange={(event) =>
-                    applyLevel(toNumber(event.target.value, level))
-                  }
-                  className="w-20 rounded-lg border border-slate-200 px-2 py-1 text-sm"
-                />
-                <span className="text-xs text-slate-500">
-                  Auto-resets enemy + deck
-                </span>
-              </div>
-            </div>
-
-            <div className="rounded-2xl border border-slate-200/70 bg-white/80 p-4">
-              <div className="text-xs uppercase tracking-[0.2em] text-slate-400">
-                Player Stats
-              </div>
-              <div className="mt-3 grid grid-cols-3 gap-2 text-sm">
-                <label className="flex flex-col gap-1">
-                  <span className="text-xs text-slate-500">HP</span>
-                  <input
-                    type="number"
-                    value={player.hp}
-                    onChange={(event) =>
-                      setPlayer((prev) => ({
-                        ...prev,
-                        hp: toNumber(event.target.value, prev.hp),
-                      }))
-                    }
-                    className="rounded-lg border border-slate-200 px-2 py-1"
-                  />
-                </label>
-                <label className="flex flex-col gap-1">
-                  <span className="text-xs text-slate-500">ATK</span>
-                  <input
-                    type="number"
-                    value={player.attack}
-                    onChange={(event) =>
-                      setPlayer((prev) => ({
-                        ...prev,
-                        attack: toNumber(event.target.value, prev.attack),
-                      }))
-                    }
-                    className="rounded-lg border border-slate-200 px-2 py-1"
-                  />
-                </label>
-                <label className="flex flex-col gap-1">
-                  <span className="text-xs text-slate-500">Focus</span>
-                  <input
-                    type="number"
-                    value={player.focus}
-                    onChange={(event) =>
-                      setPlayer((prev) => ({
-                        ...prev,
-                        focus: clamp(
-                          toNumber(event.target.value, prev.focus),
-                          0,
-                          100,
-                        ),
-                      }))
-                    }
-                    className="rounded-lg border border-slate-200 px-2 py-1"
-                  />
-                </label>
-              </div>
-            </div>
-
-            <div className="rounded-2xl border border-slate-200/70 bg-white/80 p-4">
-              <div className="text-xs uppercase tracking-[0.2em] text-slate-400">
-                Consumables
-              </div>
-              <div className="mt-3 grid gap-2 text-sm">
-                {player.consumables.map((item, index) => (
-                  <label key={`debug-slot-${index}`} className="flex flex-col gap-1">
-                    <span className="text-xs text-slate-500">Slot {index + 1}</span>
-                    <select
-                      value={item ?? ""}
-                      onChange={(event) => {
-                        const value = event.target.value as ConsumableId | "";
-                        setPlayer((prev) => {
-                          const nextConsumables = [...prev.consumables];
-                          nextConsumables[index] = value === "" ? null : value;
-                          return { ...prev, consumables: nextConsumables };
-                        });
-                      }}
-                      className="rounded-lg border border-slate-200 px-2 py-1 text-sm"
-                    >
-                      <option value="">Empty</option>
-                      {CONSUMABLE_POOL.map((consumable) => (
-                        <option key={consumable} value={consumable}>
-                          {CONSUMABLE_LABELS[consumable]}
-                        </option>
-                      ))}
-                    </select>
-                  </label>
-                ))}
-              </div>
-              <div className="mt-3 flex flex-wrap gap-2">
-                <button
-                  type="button"
-                  onClick={() =>
-                    setPlayer((prev) => ({
-                      ...prev,
-                      consumables: [null, null, null],
-                    }))
-                  }
-                  className="rounded-full border border-slate-200 bg-white px-3 py-1 text-xs font-semibold text-slate-600 hover:border-slate-300"
-                >
-                  Clear Slots
-                </button>
-                <button
-                  type="button"
-                  onClick={() =>
-                    setPlayer((prev) => {
-                      const nextConsumables = [...prev.consumables];
-                      nextConsumables[2] = pickRandomConsumable();
-                      return { ...prev, consumables: nextConsumables };
-                    })
-                  }
-                  className="rounded-full border border-slate-200 bg-white px-3 py-1 text-xs font-semibold text-slate-600 hover:border-slate-300"
-                >
-                  Random Slot 3
-                </button>
-              </div>
-            </div>
-
-            <div className="rounded-2xl border border-slate-200/70 bg-white/80 p-4">
-              <div className="text-xs uppercase tracking-[0.2em] text-slate-400">
-                Enemy Stats
-              </div>
-              <div className="mt-3 grid grid-cols-2 gap-2 text-sm">
-                <label className="flex flex-col gap-1">
-                  <span className="text-xs text-slate-500">HP</span>
-                  <input
-                    type="number"
-                    value={enemy.hp}
-                    onChange={(event) =>
-                      setEnemy((prev) => ({
-                        ...prev,
-                        hp: toNumber(event.target.value, prev.hp),
-                      }))
-                    }
-                    className="rounded-lg border border-slate-200 px-2 py-1"
-                  />
-                </label>
-                <label className="flex flex-col gap-1">
-                  <span className="text-xs text-slate-500">ATK</span>
-                  <input
-                    type="number"
-                    value={enemy.attack}
-                    onChange={(event) =>
-                      setEnemy((prev) => ({
-                        ...prev,
-                        attack: toNumber(event.target.value, prev.attack),
-                      }))
-                    }
-                    className="rounded-lg border border-slate-200 px-2 py-1"
-                  />
-                </label>
-                <label className="flex flex-col gap-1">
-                  <span className="text-xs text-slate-500">AP</span>
-                  <input
-                    type="number"
-                    value={enemy.ap}
-                    onChange={(event) =>
-                      setEnemy((prev) => ({
-                        ...prev,
-                        ap: toNumber(event.target.value, prev.ap),
-                      }))
-                    }
-                    className="rounded-lg border border-slate-200 px-2 py-1"
-                  />
-                </label>
-                <label className="flex flex-col gap-1">
-                  <span className="text-xs text-slate-500">AP Thresh</span>
-                  <input
-                    type="number"
-                    value={enemy.apThreshold}
-                    onChange={(event) =>
-                      setEnemy((prev) => ({
-                        ...prev,
-                        apThreshold: Math.max(
-                          1,
-                          toNumber(event.target.value, prev.apThreshold),
-                        ),
-                      }))
-                    }
-                    className="rounded-lg border border-slate-200 px-2 py-1"
-                  />
-                </label>
-              </div>
-            </div>
-          </div>
-        </div>
-      ) : null}
+      <DebugPanel
+        show={showDebug}
+        onToggle={() => setShowDebug((prev) => !prev)}
+        level={level}
+        onLevelChange={handleDebugLevelChange}
+        player={player}
+        enemy={enemy}
+        onSetPlayerStat={handleSetPlayerStat}
+        onSetEnemyStat={handleSetEnemyStat}
+        onSetConsumable={handleSetConsumable}
+        onClearConsumables={handleClearConsumables}
+        onRandomSlot3={handleRandomSlot3}
+        consumablePool={CONSUMABLE_POOL}
+        consumableLabels={CONSUMABLE_LABELS}
+      />
     </div>
   );
 }

@@ -1,6 +1,6 @@
 "use client";
 
-export type CardFace = "term" | "meaning";
+import type { CardFace } from "../types/game";
 
 type CardProps = {
   id: string;
