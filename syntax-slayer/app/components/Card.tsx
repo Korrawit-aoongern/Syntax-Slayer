@@ -1,11 +1,13 @@
 "use client";
 
-import type { CardFace } from "../types/game";
+import type { CardFace, Category } from "../types/game";
+import { getCategoryBorderClass } from "../utils/category";
 
 type CardProps = {
   id: string;
   text: string;
   face: CardFace;
+  category?: Category | null;
   isFlipped: boolean;
   isMatched: boolean;
   isLocked?: boolean;
@@ -21,6 +23,7 @@ export default function Card({
   id,
   text,
   face,
+  category,
   isFlipped,
   isMatched,
   isLocked = false,
@@ -29,6 +32,7 @@ export default function Card({
 }: CardProps) {
   const isRevealed = isFlipped || isMatched;
   const disabled = isMatched || isLocked;
+  const categoryBorder = getCategoryBorderClass(category);
 
   return (
     <button
@@ -41,8 +45,9 @@ export default function Card({
         "group relative h-32 w-full select-none rounded-2xl border transition",
         "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-400/70",
         isRevealed
-          ? "border-amber-400/60 shadow-[0_10px_24px_-12px_rgba(251,191,36,0.6)]"
-          : "border-slate-200/80 shadow-[0_8px_18px_-12px_rgba(15,23,42,0.35)]",
+          ? "shadow-[0_10px_24px_-12px_rgba(251,191,36,0.6)]"
+          : "shadow-[0_8px_18px_-12px_rgba(15,23,42,0.35)]",
+        categoryBorder,
         disabled ? "cursor-not-allowed opacity-80" : "cursor-pointer",
         className,
       )}

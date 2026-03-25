@@ -1,5 +1,45 @@
 [
   {
+    "id": "se000",
+    "term": "Software Engineering",
+    "meaning": "วิศวกรรมซอฟต์แวร์",
+    "description": "เน้นกระบวนการพัฒนาซอฟต์แวร์อย่างเป็นระบบ ตั้งแต่การออกแบบ การเขียนโปรแกรม ไปจนถึงการบำรุงรักษาและบริหารโครงการ",
+    "difficulty": "medium",
+    "category": "SE"
+  },
+  {
+    "id": "cpe000",
+    "term": "Computer Engineering",
+    "meaning": "วิศวกรรมคอมพิวเตอร์",
+    "description": "ศึกษาทั้งด้านฮาร์ดแวร์และซอฟต์แวร์ การออกแบบระบบฝังตัว (Embedded Systems) เครือข่าย และการเชื่อมต่อระหว่างอุปกรณ์",
+    "difficulty": "medium",
+    "category": "CPE"
+  },
+  {
+    "id": "cs000",
+    "term": "Computer Science",
+    "meaning": "วิทยาการคอมพิวเตอร์",
+    "description": "เน้นทฤษฎีการคำนวณ อัลกอริทึม การจัดการข้อมูลขนาดใหญ่ และการพัฒนาปัญญาประดิษฐ์ (AI)",
+    "difficulty": "medium",
+    "category": "CS"
+  },
+  {
+    "id": "it000",
+    "term": "Information Technology",
+    "meaning": "เทคโนโลยีสารสนเทศ",
+    "description": "เน้นการนำเทคโนโลยีมาประยุกต์ใช้ในธุรกิจ การจัดการระบบเครือข่าย ความปลอดภัย และการดูแลระบบคอมพิวเตอร์ในองค์กร",
+    "difficulty": "medium",
+    "category": "IT"
+  },
+  {
+    "id": "is000",
+    "term": "Information Systems",
+    "meaning": "ระบบสารสนเทศ",
+    "description": "เน้นจุดเชื่อมต่อระหว่างเทคโนโลยีและธุรกิจ การวิเคราะห์ข้อมูลเพื่อการตัดสินใจ และการออกแบบระบบให้ตอบโจทย์ผู้ใช้งาน",
+    "difficulty": "medium",
+    "category": "IS"
+  },
+  {
     "id": "se001",
     "term": "Requirement",
     "meaning": "เงื่อนไขหรือความสามารถที่ซอฟต์แวร์ต้องมี",

@@ -4,9 +4,15 @@ type MainMenuProps = {
   hasSave: boolean;
   onResume: () => void;
   onNewGame: () => void;
+  onOpenEncyclopedia: () => void;
 };
 
-export default function MainMenu({ hasSave, onResume, onNewGame }: MainMenuProps) {
+export default function MainMenu({
+  hasSave,
+  onResume,
+  onNewGame,
+  onOpenEncyclopedia,
+}: MainMenuProps) {
   return (
     <div className="p-6">
       <div className="mx-auto flex max-w-3xl flex-col gap-6">
@@ -37,6 +43,13 @@ export default function MainMenu({ hasSave, onResume, onNewGame }: MainMenuProps
             {hasSave ? "New Game" : "Start Game"}
           </button>
         </div>
+        <button
+          type="button"
+          onClick={onOpenEncyclopedia}
+          className="w-fit rounded-full border border-slate-200 bg-white px-6 py-2 text-sm font-semibold text-slate-700 hover:border-slate-300"
+        >
+          Encyclopedia
+        </button>
       </div>
     </div>
   );

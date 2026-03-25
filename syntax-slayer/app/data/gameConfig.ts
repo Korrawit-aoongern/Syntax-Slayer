@@ -1,6 +1,7 @@
 import type { EnemyState, LevelConfig } from "../types/game";
 
 export const STORAGE_KEY = "syntax-slayer-session-v1";
+export const ENCYCLOPEDIA_KEY = "syntax-slayer-encyclopedia-v1";
 
 export const LEVEL_CONFIG: LevelConfig[] = [
   { maxLevel: 4, rows: 2, cols: 3, pairs: 3 },

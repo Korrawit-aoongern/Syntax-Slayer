@@ -1,10 +1,12 @@
+export type Category = "SE" | "CS" | "CPE" | "IT" | "IS";
+
 export type VocabItem = {
   id: string;
   term: string;
   meaning: string;
   description: string;
   difficulty: "easy" | "medium" | "hard";
-  category: "SE" | "CS" | "CE/CPE" | "IT" | "IS";
+  category: Category;
 };
 
 export type CardFace = "term" | "meaning";
@@ -14,6 +16,7 @@ export type GameCard = {
   pairId: string;
   face: CardFace;
   text: string;
+  category: Category;
   isFlipped: boolean;
   isMatched: boolean;
 };
@@ -46,7 +49,7 @@ export type EnemyState = {
   apThreshold: number;
 };
 
-export type GameView = "mainmenu" | "game" | "victory";
+export type GameView = "mainmenu" | "game" | "victory" | "encyclopedia";
 
 export type SessionState = {
   view: GameView;

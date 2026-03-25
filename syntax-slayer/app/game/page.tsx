@@ -4,13 +4,14 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import Card from "../components/Card";
 import ApBar from "../components/game/ApBar";
 import DebugPanel from "../components/game/DebugPanel";
+import Encyclopedia from "../components/game/Encyclopedia";
 import EnemyPanel from "../components/game/EnemyPanel";
 import MainMenu from "../components/game/MainMenu";
 import PlayerPanel from "../components/game/PlayerPanel";
 import VictoryScreen from "../components/game/VictoryScreen";
 import vocabData from "../data/vocab.json";
 import { CONSUMABLE_LABELS, CONSUMABLE_POOL } from "../data/consumables";
-import { ENEMY_STATS, STORAGE_KEY } from "../data/gameConfig";
+import { ENCYCLOPEDIA_KEY, ENEMY_STATS, STORAGE_KEY } from "../data/gameConfig";
 import type {
   ConsumableId,
   EnemyState,
@@ -29,6 +30,7 @@ import {
   shuffle,
   withPlayerDefaults,
 } from "../utils/game";
+import { getCategoryRingClass } from "../utils/category";
 
 const vocab = vocabData as VocabItem[];
 
@@ -84,9 +86,17 @@ export default function GamePage() {
 
   useEffect(() => {
     try {
+      const encyclopediaRaw = localStorage.getItem(ENCYCLOPEDIA_KEY);
+      const encyclopediaTerms = (() => {
+        if (!encyclopediaRaw) return null;
+        const parsed = JSON.parse(encyclopediaRaw);
+        return Array.isArray(parsed) ? parsed : null;
+      })();
+
       const raw = localStorage.getItem(STORAGE_KEY);
       if (!raw) {
         setView("mainmenu");
+        setUnlockedTerms(encyclopediaTerms ?? []);
         setHydrated(true);
         return;
       }
@@ -115,7 +125,8 @@ export default function GamePage() {
           : buildDeck(vocab, loadedPairs),
       );
       setUnlockedTerms(
-        Array.isArray(data.unlockedTerms) ? data.unlockedTerms : [],
+        encyclopediaTerms ??
+          (Array.isArray(data.unlockedTerms) ? data.unlockedTerms : []),
       );
       setSelectedUpgrade(
         typeof data.selectedUpgrade === "number" ? data.selectedUpgrade : null,
@@ -131,7 +142,8 @@ export default function GamePage() {
   useEffect(() => {
     if (!hydrated) return;
     if (!hasSave && view === "mainmenu") return;
-    const persistedView = view === "mainmenu" ? resumeView : view;
+    const persistedView =
+      view === "mainmenu" || view === "encyclopedia" ? resumeView : view;
     const payload: SessionState = {
       view: persistedView,
       level,
@@ -156,7 +168,12 @@ export default function GamePage() {
   ]);
 
   useEffect(() => {
-    if (view !== "mainmenu") {
+    if (!hydrated) return;
+    localStorage.setItem(ENCYCLOPEDIA_KEY, JSON.stringify(unlockedTerms));
+  }, [hydrated, unlockedTerms]);
+
+  useEffect(() => {
+    if (view !== "mainmenu" && view !== "encyclopedia") {
       setResumeView(view);
     }
   }, [view]);
@@ -447,7 +464,6 @@ export default function GamePage() {
     setView("game");
     setResumeView("game");
     setSelectedUpgrade(null);
-    setUnlockedTerms([]);
     setBusy(false);
     setPlayer(createDefaultPlayer());
     setEnemy({
@@ -464,6 +480,19 @@ export default function GamePage() {
 
   const handleResume = () => {
     setView(resumeView);
+  };
+
+  const handleOpenEncyclopedia = () => {
+    setView("encyclopedia");
+  };
+
+  const handleCloseEncyclopedia = () => {
+    setView("mainmenu");
+  };
+
+  const handleResetProgression = () => {
+    localStorage.removeItem(ENCYCLOPEDIA_KEY);
+    setUnlockedTerms([]);
   };
 
   const handleNextLevel = () => {
@@ -678,6 +707,18 @@ export default function GamePage() {
         hasSave={hasSave}
         onResume={handleResume}
         onNewGame={handleNewGame}
+        onOpenEncyclopedia={handleOpenEncyclopedia}
+      />
+    );
+  }
+
+  if (view === "encyclopedia") {
+    return (
+      <Encyclopedia
+        vocab={vocab}
+        unlockedTerms={unlockedTerms}
+        onBack={handleCloseEncyclopedia}
+        onResetProgression={handleResetProgression}
       />
     );
   }
@@ -720,19 +761,21 @@ export default function GamePage() {
                 card.isFlipped ||
                 card.isMatched ||
                 revealedCards.includes(card.id);
+              const hintRing = isUnlockedTerm
+                ? getCategoryRingClass(card.category)
+                : "";
               return (
                 <Card
                   key={card.id}
                   id={card.id}
                   text={card.text}
                   face={card.face}
+                  category={card.isMatched ? card.category : null}
                   isFlipped={isRevealed}
                   isMatched={card.isMatched}
                   isLocked={busy || revealActive}
                   onFlip={handleFlip}
-                  className={`h-full w-full ${
-                    isUnlockedTerm ? "ring-2 ring-emerald-400/70" : ""
-                  }`}
+                  className={`h-full w-full ${isUnlockedTerm ? `ring-2 ${hintRing}` : ""}`}
                 />
               );
             })}
