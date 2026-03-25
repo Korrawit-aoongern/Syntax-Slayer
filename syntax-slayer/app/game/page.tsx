@@ -6,6 +6,8 @@ import ApBar from "../components/game/ApBar";
 import DebugPanel from "../components/game/DebugPanel";
 import Encyclopedia from "../components/game/Encyclopedia";
 import EnemyPanel from "../components/game/EnemyPanel";
+import FinalVictoryScreen from "../components/game/FinalVictoryScreen";
+import GameOverScreen from "../components/game/GameOverScreen";
 import MainMenu from "../components/game/MainMenu";
 import PlayerPanel from "../components/game/PlayerPanel";
 import VictoryScreen from "../components/game/VictoryScreen";
@@ -45,6 +47,7 @@ export default function GamePage() {
   const [resumeView, setResumeView] = useState<GameView>("game");
   const [selectedUpgrade, setSelectedUpgrade] = useState<number | null>(null);
   const [unlockedTerms, setUnlockedTerms] = useState<string[]>([]);
+  const [runUnlockedTerms, setRunUnlockedTerms] = useState<string[]>([]);
   const [hasSave, setHasSave] = useState(false);
   const [showDebug, setShowDebug] = useState(false);
   const [revealActive, setRevealActive] = useState(false);
@@ -75,6 +78,14 @@ export default function GamePage() {
     (card) => card.isFlipped && !card.isMatched,
   );
   const unlockedSet = useMemo(() => new Set(unlockedTerms), [unlockedTerms]);
+  const runUnlockedSet = useMemo(
+    () => new Set(runUnlockedTerms),
+    [runUnlockedTerms],
+  );
+  const runUnlockedItems = useMemo(
+    () => vocab.filter((item) => runUnlockedSet.has(item.id)),
+    [runUnlockedSet],
+  );
 
   useEffect(() => {
     playerRef.current = player;
@@ -97,6 +108,7 @@ export default function GamePage() {
       if (!raw) {
         setView("mainmenu");
         setUnlockedTerms(encyclopediaTerms ?? []);
+        setRunUnlockedTerms([]);
         setHydrated(true);
         return;
       }
@@ -128,6 +140,9 @@ export default function GamePage() {
         encyclopediaTerms ??
           (Array.isArray(data.unlockedTerms) ? data.unlockedTerms : []),
       );
+      setRunUnlockedTerms(
+        Array.isArray(data.runUnlockedTerms) ? data.runUnlockedTerms : [],
+      );
       setSelectedUpgrade(
         typeof data.selectedUpgrade === "number" ? data.selectedUpgrade : null,
       );
@@ -143,7 +158,12 @@ export default function GamePage() {
     if (!hydrated) return;
     if (!hasSave && view === "mainmenu") return;
     const persistedView =
-      view === "mainmenu" || view === "encyclopedia" ? resumeView : view;
+      view === "mainmenu" ||
+      view === "encyclopedia" ||
+      view === "gameover" ||
+      view === "finalvictory"
+        ? resumeView
+        : view;
     const payload: SessionState = {
       view: persistedView,
       level,
@@ -151,6 +171,7 @@ export default function GamePage() {
       enemy,
       cards,
       unlockedTerms,
+      runUnlockedTerms,
       selectedUpgrade,
     };
     localStorage.setItem(STORAGE_KEY, JSON.stringify(payload));
@@ -164,6 +185,7 @@ export default function GamePage() {
     enemy,
     cards,
     unlockedTerms,
+    runUnlockedTerms,
     selectedUpgrade,
   ]);
 
@@ -173,7 +195,12 @@ export default function GamePage() {
   }, [hydrated, unlockedTerms]);
 
   useEffect(() => {
-    if (view !== "mainmenu" && view !== "encyclopedia") {
+    if (
+      view !== "mainmenu" &&
+      view !== "encyclopedia" &&
+      view !== "gameover" &&
+      view !== "finalvictory"
+    ) {
       setResumeView(view);
     }
   }, [view]);
@@ -274,6 +301,9 @@ export default function GamePage() {
         setUnlockedTerms((prev) =>
           prev.includes(first.pairId) ? prev : [...prev, first.pairId],
         );
+        setRunUnlockedTerms((prev) =>
+          prev.includes(first.pairId) ? prev : [...prev, first.pairId],
+        );
       } else {
         setPlayer((prevPlayer) => ({ ...prevPlayer, focus: 0 }));
         setEnemy((prevEnemy) => ({
@@ -351,8 +381,14 @@ export default function GamePage() {
   useEffect(() => {
     if (view !== "game") return;
     if (enemy.hp > 0) return;
-    setView("victory");
-  }, [enemy.hp, view]);
+    setView(level >= 10 ? "finalvictory" : "victory");
+  }, [enemy.hp, level, view]);
+
+  useEffect(() => {
+    if (view !== "game") return;
+    if (player.hp > 0) return;
+    setView("gameover");
+  }, [player.hp, view]);
 
   const handleFlip = (id: string) => {
     if (view !== "game") return;
@@ -464,6 +500,7 @@ export default function GamePage() {
     setView("game");
     setResumeView("game");
     setSelectedUpgrade(null);
+    setRunUnlockedTerms([]);
     setBusy(false);
     setPlayer(createDefaultPlayer());
     setEnemy({
@@ -487,6 +524,10 @@ export default function GamePage() {
   };
 
   const handleCloseEncyclopedia = () => {
+    setView("mainmenu");
+  };
+
+  const handleBackToMenu = () => {
     setView("mainmenu");
   };
 
@@ -719,6 +760,24 @@ export default function GamePage() {
         unlockedTerms={unlockedTerms}
         onBack={handleCloseEncyclopedia}
         onResetProgression={handleResetProgression}
+      />
+    );
+  }
+
+  if (view === "gameover") {
+    return (
+      <GameOverScreen
+        onMainMenu={handleBackToMenu}
+        onNewGame={handleNewGame}
+      />
+    );
+  }
+
+  if (view === "finalvictory") {
+    return (
+      <FinalVictoryScreen
+        unlockedItems={runUnlockedItems}
+        onBackToMenu={handleBackToMenu}
       />
     );
   }

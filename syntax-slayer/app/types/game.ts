@@ -49,7 +49,13 @@ export type EnemyState = {
   apThreshold: number;
 };
 
-export type GameView = "mainmenu" | "game" | "victory" | "encyclopedia";
+export type GameView =
+  | "mainmenu"
+  | "game"
+  | "victory"
+  | "finalvictory"
+  | "gameover"
+  | "encyclopedia";
 
 export type SessionState = {
   view: GameView;
@@ -58,6 +64,7 @@ export type SessionState = {
   enemy: EnemyState;
   cards: GameCard[];
   unlockedTerms: string[];
+  runUnlockedTerms?: string[];
   selectedUpgrade: number | null;
 };
 
