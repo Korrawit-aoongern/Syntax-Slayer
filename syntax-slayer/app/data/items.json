@@ -23,36 +23,42 @@
   {
     "id": "freeze",
     "name": "Freeze",
+    "image": "/img/Freeze.png",
     "description": "Locks the enemy's momentum for a short window.",
     "effect": "Pause enemy AP gain for 6 seconds."
   },
   {
     "id": "obsidian_shield",
     "name": "Obsidian Shield",
+    "image": "/img/Obsidian_Shield.png",
     "description": "A hardened barrier that dulls the next strike.",
     "effect": "Negate 50% of the next enemy attack."
   },
   {
     "id": "holyxaliber",
     "name": "Holyxaliber",
+    "image": "/img/Holyxaliber.png",
     "description": "A blessed blade that heightens your offense.",
     "effect": "Double your attack for 6 seconds."
   },
   {
     "id": "bandage",
     "name": "Bandage",
+    "image": "/img/Bandage.png",
     "description": "Quick field treatment for minor wounds.",
     "effect": "Heal 10 HP."
   },
   {
     "id": "med_kit",
     "name": "Med Kit",
+    "image": "/img/Med_Kit.png",
     "description": "Standard emergency medical supplies.",
     "effect": "Heal 20 HP."
   },
   {
     "id": "holy_heal",
     "name": "Holy Heal",
+    "image": "/img/Holy_Heal.png",
     "description": "Sacred restoration that mends severe damage.",
     "effect": "Heal 50 HP."
   }
