@@ -57,6 +57,8 @@ export default function GamePage() {
   const [lootReplaceIndex, setLootReplaceIndex] = useState<number | null>(null);
   const [freezeUntil, setFreezeUntil] = useState(0);
   const [player, setPlayer] = useState<PlayerState>(() => createDefaultPlayer());
+  const [playerAttackTick, setPlayerAttackTick] = useState(0);
+  const [playerHitTick, setPlayerHitTick] = useState(0);
   const [enemy, setEnemy] = useState<EnemyState>({
     hp: enemyStats.hp,
     attack: enemyStats.attack,
@@ -228,6 +230,7 @@ export default function GamePage() {
         clearTimeout(attackBoostTimerRef.current);
         attackBoostTimerRef.current = null;
       }
+      setPlayerHitTick(0);
       setRevealedCards([]);
       setRevealActive(false);
     }
@@ -279,9 +282,9 @@ export default function GamePage() {
         const critChance = clamp(currentPlayer.focus, 0, 100) / 100;
         const isCrit = Math.random() < critChance;
         const boostActive = currentPlayer.attackBoostUntil > Date.now();
-        const attackPower =
-          currentPlayer.attack +
-          (boostActive ? currentPlayer.attackBoost : 0);
+        const attackPower = boostActive
+          ? currentPlayer.attack * currentPlayer.attackBoost
+          : currentPlayer.attack;
         const damage = attackPower * (isCrit ? 2 : 1);
         const focusGain = currentPlayer.focus + 5;
         const instantKill = focusGain >= 100;
@@ -290,12 +293,17 @@ export default function GamePage() {
           ...prevPlayer,
           focus: instantKill ? 0 : focusGain,
         }));
+        setPlayerAttackTick((prev) => prev + 1);
 
         setEnemy((prevEnemy) => {
           const nextHp = instantKill
             ? 0
             : clamp(prevEnemy.hp - damage, 0, prevEnemy.hp);
-          return { ...prevEnemy, hp: nextHp };
+          return {
+            ...prevEnemy,
+            hp: nextHp,
+            ap: clamp(prevEnemy.ap - 2, 0, prevEnemy.apThreshold),
+          };
         });
 
         setUnlockedTerms((prev) =>
@@ -349,11 +357,16 @@ export default function GamePage() {
     if (enemy.hp <= 0) return;
     if (enemy.ap < enemy.apThreshold) return;
 
+    setPlayerHitTick((prev) => prev + 1);
+
     setEnemy((prev) =>
       prev.ap >= prev.apThreshold ? { ...prev, ap: 0 } : prev,
     );
     setPlayer((prev) => {
-      const reducedDamage = Math.max(0, enemy.attack - prev.shield);
+      const reducedDamage = Math.max(
+        0,
+        Math.round(enemy.attack * (1 - prev.shield)),
+      );
       return {
         ...prev,
         hp: clamp(prev.hp - reducedDamage, 0, prev.hp),
@@ -409,8 +422,9 @@ export default function GamePage() {
     enemy.apThreshold === 0 ? 0 : (enemy.ap / enemy.apThreshold) * 100;
   const critChance = clamp(player.focus, 0, 100);
   const attackBoostActive = player.attackBoostUntil > Date.now();
-  const effectiveAttack =
-    player.attack + (attackBoostActive ? player.attackBoost : 0);
+  const effectiveAttack = attackBoostActive
+    ? player.attack * player.attackBoost
+    : player.attack;
 
   const applyLevel = (nextLevel: number) => {
     const clampedLevel = clamp(nextLevel, 1, 10);
@@ -490,6 +504,17 @@ export default function GamePage() {
     });
   };
 
+  const handleUnlockAllTerms = () => {
+    const allIds = vocab.map((item) => item.id);
+    setUnlockedTerms(allIds);
+    setRunUnlockedTerms(allIds);
+  };
+
+  const handleResetTerms = () => {
+    setUnlockedTerms([]);
+    setRunUnlockedTerms([]);
+  };
+
   const handleNewGame = () => {
     localStorage.removeItem(STORAGE_KEY);
     const nextConfig = getLevelConfig(1);
@@ -542,11 +567,17 @@ export default function GamePage() {
     const nextConfig = getLevelConfig(nextLevel);
     const nextEnemyStats = ENEMY_STATS[nextLevel] ?? ENEMY_STATS[1];
     const chosenUpgrade = selectedUpgradeRef.current;
+    const upgradeValues =
+      level <= 4
+        ? { hp: 10, atk: 2 }
+        : level <= 8
+          ? { hp: 25, atk: 4 }
+          : { hp: 50, atk: 6 };
 
     if (chosenUpgrade === 0) {
-      setPlayer((prev) => ({ ...prev, hp: prev.hp + 10 }));
+      setPlayer((prev) => ({ ...prev, hp: prev.hp + upgradeValues.hp }));
     } else if (chosenUpgrade === 1) {
-      setPlayer((prev) => ({ ...prev, attack: prev.attack + 2 }));
+      setPlayer((prev) => ({ ...prev, attack: prev.attack + upgradeValues.atk }));
     }
 
     setLevel(nextLevel);
@@ -626,7 +657,7 @@ export default function GamePage() {
 
     switch (item) {
       case "minor_reveal":
-        triggerReveal(2, 5000);
+        triggerReveal(2, 3000);
         consumeSlot();
         break;
       case "major_reveal":
@@ -634,7 +665,7 @@ export default function GamePage() {
         consumeSlot();
         break;
       case "cosmic_reveal":
-        triggerReveal(cards.length, 3000);
+        triggerReveal(cards.length, 5000);
         consumeSlot();
         break;
       case "freeze":
@@ -650,7 +681,7 @@ export default function GamePage() {
         consumeSlot();
         break;
       case "obsidian_shield":
-        consumeSlot((prev) => ({ ...prev, shield: 6 }));
+        consumeSlot((prev) => ({ ...prev, shield: 0.5 }));
         break;
       case "holyxaliber":
         if (attackBoostTimerRef.current) {
@@ -659,26 +690,26 @@ export default function GamePage() {
         }
         consumeSlot((prev) => ({
           ...prev,
-          attackBoost: 6,
+          attackBoost: 2,
           attackBoostUntil: now + 6000,
         }));
         attackBoostTimerRef.current = setTimeout(() => {
           setPlayer((prev) => ({
             ...prev,
-            attackBoost: 0,
+            attackBoost: 1,
             attackBoostUntil: 0,
           }));
           attackBoostTimerRef.current = null;
         }, 6000);
         break;
       case "bandage":
-        consumeSlot((prev) => ({ ...prev, hp: prev.hp + 5 }));
-        break;
-      case "med_kit":
         consumeSlot((prev) => ({ ...prev, hp: prev.hp + 10 }));
         break;
+      case "med_kit":
+        consumeSlot((prev) => ({ ...prev, hp: prev.hp + 20 }));
+        break;
       case "holy_heal":
-        consumeSlot((prev) => ({ ...prev, hp: prev.hp + 25 }));
+        consumeSlot((prev) => ({ ...prev, hp: prev.hp + 50 }));
         break;
       default:
         break;
@@ -699,9 +730,15 @@ export default function GamePage() {
     setLootReplaceIndex(null);
   };
 
+  const upgradeValues =
+    level <= 4
+      ? { hp: 10, atk: 2 }
+      : level <= 8
+        ? { hp: 25, atk: 4 }
+        : { hp: 50, atk: 6 };
   const upgradeOptions = [
-    "+10 HP",
-    "+2 ATK",
+    `+${upgradeValues.hp} HP`,
+    `+${upgradeValues.atk} ATK`,
     lootLabel ?? "Consumable Drop",
   ];
   const inventoryFull = player.consumables.every((slot) => slot !== null);
@@ -734,6 +771,7 @@ export default function GamePage() {
         nextDisabled={selectedUpgrade === null || level >= 10 || lootBlocked}
         lootBlocked={lootBlocked}
         pendingLootLabel={pendingLoot ? CONSUMABLE_LABELS[pendingLoot] : lootLabel}
+        pendingLootId={pendingLoot}
         consumables={player.consumables}
         consumableLabels={CONSUMABLE_LABELS}
         onSelectDiscard={handleReplaceConsumable}
@@ -783,7 +821,7 @@ export default function GamePage() {
   }
 
   return (
-    <div className="h-screen box-border flex flex-col p-4">
+    <div className="relative h-screen box-border flex flex-col p-4 overflow-hidden">
       <div className="flex flex-col flex-none">
         <div className="flex items-center justify-between">
           <h1 className="text-2xl font-bold">Battle</h1>
@@ -798,6 +836,8 @@ export default function GamePage() {
             critChance={critChance}
             effectiveAttack={effectiveAttack}
             attackBoostActive={attackBoostActive}
+            attackSignal={playerAttackTick}
+            hitSignal={playerHitTick}
             onUseConsumable={handleUseConsumable}
             consumableLabels={CONSUMABLE_LABELS}
             disableConsumables={busy || revealActive}
@@ -854,9 +894,12 @@ export default function GamePage() {
         onSetConsumable={handleSetConsumable}
         onClearConsumables={handleClearConsumables}
         onRandomSlot3={handleRandomSlot3}
+        onUnlockAllTerms={handleUnlockAllTerms}
+        onResetTerms={handleResetTerms}
         consumablePool={CONSUMABLE_POOL}
         consumableLabels={CONSUMABLE_LABELS}
       />
+
     </div>
   );
 }

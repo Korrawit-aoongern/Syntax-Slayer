@@ -2,6 +2,7 @@
 
 import { useMemo, useState } from "react";
 import type { Category, VocabItem } from "../../types/game";
+import itemsData from "../../data/items.json";
 import { getCategoryBorderClass } from "../../utils/category";
 
 type EncyclopediaProps = {
@@ -17,8 +18,16 @@ export default function Encyclopedia({
   onBack,
   onResetProgression,
 }: EncyclopediaProps) {
+  const items = itemsData as {
+    id: string;
+    name: string;
+    image?: string;
+    description: string;
+    effect: string;
+  }[];
   const unlockedSet = useMemo(() => new Set(unlockedTerms), [unlockedTerms]);
   const [openId, setOpenId] = useState<string | null>(null);
+  const [openItemId, setOpenItemId] = useState<string | null>(null);
   const [query, setQuery] = useState("");
   const [categoryFilter, setCategoryFilter] = useState<Category | "all">("all");
   const [statusFilter, setStatusFilter] = useState<"all" | "unlocked" | "locked">(
@@ -89,7 +98,7 @@ export default function Encyclopedia({
               type="text"
               value={query}
               onChange={(event) => setQuery(event.target.value)}
-              placeholder="Search term, meaning, or description"
+              aria-label="Search encyclopedia"
               className="flex-1 rounded-full border border-slate-200 px-4 py-2 text-sm"
             />
             <select
@@ -176,6 +185,51 @@ export default function Encyclopedia({
           })}
           </div>
         </div>
+
+        <div>
+          <div className="text-xs uppercase tracking-[0.3em] text-slate-400">
+            Items
+          </div>
+          <h2 className="mt-2 text-2xl font-semibold">Consumables</h2>
+          <p className="mt-2 text-sm text-slate-600">
+            Collectible battle items with special effects.
+          </p>
+        </div>
+
+        <div className="pb-4">
+          <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5">
+            {items.map((item) => {
+              const isOpen = openItemId === item.id;
+              return (
+                <button
+                  key={item.id}
+                  type="button"
+                  onClick={() =>
+                    setOpenItemId((prev) => (prev === item.id ? null : item.id))
+                  }
+                  className="rounded-2xl border border-slate-200/70 bg-gradient-to-br from-slate-900 via-slate-800 to-slate-950 p-3 text-left text-white transition hover:shadow-[0_12px_24px_-18px_rgba(15,23,42,0.6)]"
+                  aria-expanded={isOpen}
+                >
+                  <div className="flex h-full flex-col items-center justify-center gap-3 text-center">
+                    <div className="flex h-16 w-16 items-center justify-center rounded-xl bg-white/10">
+                      <img
+                        src={item.image ?? `/img/${item.id}.png`}
+                        alt={item.name}
+                        className="max-h-14 w-auto"
+                      />
+                    </div>
+                    <div className="text-xs font-semibold uppercase tracking-[0.2em] text-slate-200">
+                      {item.name}
+                    </div>
+                    <div className="text-[10px] uppercase tracking-[0.2em] text-emerald-300">
+                      Click to read
+                    </div>
+                  </div>
+                </button>
+              );
+            })}
+          </div>
+        </div>
       </div>
 
       {openId ? (
@@ -207,6 +261,49 @@ export default function Encyclopedia({
             <button
               type="button"
               onClick={() => setOpenId(null)}
+              className="absolute right-4 top-4 rounded-full border border-slate-200 bg-white px-3 py-1 text-xs font-semibold text-slate-600 hover:border-slate-300"
+            >
+              Close
+            </button>
+          </div>
+        </div>
+      ) : null}
+
+      {openItemId ? (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/60 p-6">
+          <div className="relative w-full max-w-xl rounded-3xl border border-slate-200/70 bg-white p-6 shadow-[0_20px_60px_-24px_rgba(15,23,42,0.6)]">
+            {(() => {
+              const current = items.find((entry) => entry.id === openItemId);
+              if (!current) return null;
+              return (
+                <>
+                  <div className="text-xs uppercase tracking-[0.3em] text-slate-400">
+                    Consumable
+                  </div>
+                  <h2 className="mt-2 text-2xl font-semibold text-slate-900">
+                    {current.name}
+                  </h2>
+                  <div className="mt-4 flex items-center gap-4">
+                    <div className="flex h-20 w-20 items-center justify-center rounded-2xl border border-slate-200 bg-slate-50">
+                      <img
+                        src={current.image ?? `/img/${current.id}.png`}
+                        alt={current.name}
+                        className="max-h-16 w-auto"
+                      />
+                    </div>
+                    <div className="text-sm text-slate-600">
+                      {current.description}
+                    </div>
+                  </div>
+                  <div className="mt-4 rounded-2xl border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm text-emerald-800">
+                    {current.effect}
+                  </div>
+                </>
+              );
+            })()}
+            <button
+              type="button"
+              onClick={() => setOpenItemId(null)}
               className="absolute right-4 top-4 rounded-full border border-slate-200 bg-white px-3 py-1 text-xs font-semibold text-slate-600 hover:border-slate-300"
             >
               Close

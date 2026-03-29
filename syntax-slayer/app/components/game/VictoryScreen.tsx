@@ -1,6 +1,7 @@
 "use client";
 
 import type { ConsumableId } from "../../types/game";
+import itemsData from "../../data/items.json";
 
 type VictoryScreenProps = {
   level: number;
@@ -11,6 +12,7 @@ type VictoryScreenProps = {
   nextDisabled: boolean;
   lootBlocked: boolean;
   pendingLootLabel: string | null;
+  pendingLootId: ConsumableId | null;
   consumables: Array<ConsumableId | null>;
   consumableLabels: Record<ConsumableId, string>;
   onSelectDiscard: (index: number) => void;
@@ -26,11 +28,21 @@ export default function VictoryScreen({
   nextDisabled,
   lootBlocked,
   pendingLootLabel,
+  pendingLootId,
   consumables,
   consumableLabels,
   onSelectDiscard,
   lootReplaceIndex,
 }: VictoryScreenProps) {
+  const items = itemsData as {
+    id: string;
+    name: string;
+    image?: string;
+  }[];
+  const lootItem = pendingLootId
+    ? items.find((item) => item.id === pendingLootId) ?? null
+    : null;
+  const lootImage = lootItem?.image ?? (pendingLootId ? `/img/${pendingLootId}.png` : null);
   return (
     <div className="p-6">
       <div className="mx-auto flex max-w-4xl flex-col gap-6">
@@ -42,13 +54,20 @@ export default function VictoryScreen({
             Level {level} Cleared
           </h1>
           <p className="mt-2 text-sm text-slate-600">
-            Choose one of the three upgrade cards below. (Placeholder)
+            Choose one of the three upgrade cards below.
           </p>
         </div>
 
         <div className="grid gap-4 md:grid-cols-3">
           {upgradeOptions.map((label, index) => {
             const isSelected = selectedUpgrade === index;
+            const artImage =
+              index === 0
+                ? "/img/HPUP.png"
+                : index === 1
+                  ? "/img/ATKUP.png"
+                  : lootImage;
+            const showArtImage = !!artImage;
             return (
               <button
                 key={`${label}-${index}`}
@@ -66,8 +85,16 @@ export default function VictoryScreen({
                 <div className="mt-2 text-sm font-semibold text-slate-800">
                   {label}
                 </div>
-                <div className="mt-3 h-24 rounded-xl border border-dashed border-slate-200/70 bg-slate-50/70 text-center text-xs uppercase tracking-[0.2em] text-slate-400">
-                  Art slot
+                <div className="mt-3 h-24 rounded-xl bg-transparent flex items-center justify-center">
+                  {showArtImage ? (
+                    <img
+                      src={artImage}
+                      alt={label}
+                      className="max-h-20 w-auto"
+                    />
+                  ) : (
+                    <span className="sr-only">Upgrade artwork</span>
+                  )}
                 </div>
               </button>
             );

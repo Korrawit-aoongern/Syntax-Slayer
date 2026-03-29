@@ -1,12 +1,15 @@
 "use client";
 
 import type { ConsumableId, PlayerState } from "../../types/game";
+import PlayerSprite from "./PlayerSprite";
 
 type PlayerPanelProps = {
   player: PlayerState;
   critChance: number;
   effectiveAttack: number;
   attackBoostActive: boolean;
+  attackSignal: number;
+  hitSignal: number;
   onUseConsumable: (index: number) => void;
   consumableLabels: Record<ConsumableId, string>;
   disableConsumables: boolean;
@@ -17,6 +20,8 @@ export default function PlayerPanel({
   critChance,
   effectiveAttack,
   attackBoostActive,
+  attackSignal,
+  hitSignal,
   onUseConsumable,
   consumableLabels,
   disableConsumables,
@@ -37,7 +42,7 @@ export default function PlayerPanel({
             <div className="text-2xl font-semibold">{effectiveAttack}</div>
             {attackBoostActive ? (
               <div className="text-xs text-emerald-500">
-                +{player.attackBoost} boost
+                x{player.attackBoost} boost
               </div>
             ) : null}
           </div>
@@ -69,8 +74,10 @@ export default function PlayerPanel({
             ))}
           </div>
         </div>
-        <div className="flex-1 rounded-2xl border border-dashed border-slate-200/70 bg-slate-50/70 p-4 text-center text-sm text-slate-400">
-          Player art slot
+        <div className="flex-1 rounded-2xl border border-dashed border-slate-200/70 bg-slate-50/70 p-4">
+          <div className="h-full w-full rounded-xl bg-white/60 shadow-inner flex items-center justify-center">
+            <PlayerSprite attackSignal={attackSignal} hitSignal={hitSignal} />
+          </div>
         </div>
       </div>
     </div>

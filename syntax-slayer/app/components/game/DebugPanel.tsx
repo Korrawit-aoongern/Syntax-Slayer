@@ -17,6 +17,8 @@ type DebugPanelProps = {
   onSetConsumable: (index: number, value: ConsumableId | null) => void;
   onClearConsumables: () => void;
   onRandomSlot3: () => void;
+  onUnlockAllTerms: () => void;
+  onResetTerms: () => void;
   consumablePool: ConsumableId[];
   consumableLabels: Record<ConsumableId, string>;
 };
@@ -33,6 +35,8 @@ export default function DebugPanel({
   onSetConsumable,
   onClearConsumables,
   onRandomSlot3,
+  onUnlockAllTerms,
+  onResetTerms,
   consumablePool,
   consumableLabels,
 }: DebugPanelProps) {
@@ -157,6 +161,28 @@ export default function DebugPanel({
                   className="rounded-full border border-slate-200 bg-white px-3 py-1 text-xs font-semibold text-slate-600 hover:border-slate-300"
                 >
                   Random Slot 3
+                </button>
+              </div>
+            </div>
+
+            <div className="rounded-2xl border border-slate-200/70 bg-white/80 p-4">
+              <div className="text-xs uppercase tracking-[0.2em] text-slate-400">
+                Encyclopedia
+              </div>
+              <div className="mt-3 flex flex-wrap gap-2">
+                <button
+                  type="button"
+                  onClick={onUnlockAllTerms}
+                  className="rounded-full border border-emerald-200 bg-emerald-50 px-3 py-1 text-xs font-semibold text-emerald-700 hover:border-emerald-300"
+                >
+                  Unlock All Terms
+                </button>
+                <button
+                  type="button"
+                  onClick={onResetTerms}
+                  className="rounded-full border border-rose-200 bg-rose-50 px-3 py-1 text-xs font-semibold text-rose-700 hover:border-rose-300"
+                >
+                  Reset Terms
                 </button>
               </div>
             </div>

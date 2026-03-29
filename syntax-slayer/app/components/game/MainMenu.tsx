@@ -22,7 +22,7 @@ export default function MainMenu({
           </div>
           <h1 className="mt-2 text-3xl font-semibold">Syntax Slayer</h1>
           <p className="mt-2 text-sm text-slate-600">
-            Menu placeholder. Continue to return to battle.
+            Resume your last battle or start a fresh run.
           </p>
         </div>
         <div className="flex flex-wrap gap-3">

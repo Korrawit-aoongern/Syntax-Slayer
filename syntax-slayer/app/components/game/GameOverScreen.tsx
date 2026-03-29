@@ -19,6 +19,13 @@ export default function GameOverScreen({
           <h1 className="mt-2 text-3xl font-semibold text-slate-900">
             You Were Defeated
           </h1>
+          <div className="mt-4 flex justify-center">
+            <img
+              src="/img/Slayer-defeated.png"
+              alt="Slayer defeated"
+              className="max-h-48 w-auto"
+            />
+          </div>
           <p className="mt-2 text-sm text-slate-600">
             Try again with new strategy and stronger upgrades.
           </p>

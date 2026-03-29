@@ -49,7 +49,7 @@ export const createDefaultPlayer = (): PlayerState => ({
   focus: 0,
   consumables: [null, null, null],
   shield: 0,
-  attackBoost: 0,
+  attackBoost: 1,
   attackBoostUntil: 0,
 });
 
@@ -61,6 +61,10 @@ export const withPlayerDefaults = (
   return {
     ...base,
     ...value,
+    attackBoost:
+      typeof value.attackBoost === "number" && value.attackBoost >= 1
+        ? value.attackBoost
+        : base.attackBoost,
     consumables: Array.isArray(value.consumables)
       ? (value.consumables as PlayerState["consumables"])
       : base.consumables,
