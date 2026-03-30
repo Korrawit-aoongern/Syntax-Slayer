@@ -59,6 +59,8 @@ export default function GamePage() {
   const [player, setPlayer] = useState<PlayerState>(() => createDefaultPlayer());
   const [playerAttackTick, setPlayerAttackTick] = useState(0);
   const [playerHitTick, setPlayerHitTick] = useState(0);
+  const [enemyAttackTick, setEnemyAttackTick] = useState(0);
+  const [enemyHitTick, setEnemyHitTick] = useState(0);
   const [enemy, setEnemy] = useState<EnemyState>({
     hp: enemyStats.hp,
     attack: enemyStats.attack,
@@ -294,6 +296,7 @@ export default function GamePage() {
           focus: instantKill ? 0 : focusGain,
         }));
         setPlayerAttackTick((prev) => prev + 1);
+        setEnemyHitTick((prev) => prev + 1);
 
         setEnemy((prevEnemy) => {
           const nextHp = instantKill
@@ -357,6 +360,7 @@ export default function GamePage() {
     if (enemy.hp <= 0) return;
     if (enemy.ap < enemy.apThreshold) return;
 
+    setEnemyAttackTick((prev) => prev + 1);
     setPlayerHitTick((prev) => prev + 1);
 
     setEnemy((prev) =>
@@ -842,7 +846,12 @@ export default function GamePage() {
             consumableLabels={CONSUMABLE_LABELS}
             disableConsumables={busy || revealActive}
           />
-          <EnemyPanel enemy={enemy} />
+          <EnemyPanel
+            enemy={enemy}
+            level={level}
+            attackSignal={enemyAttackTick}
+            hitSignal={enemyHitTick}
+          />
         </div>
       </div>
 
