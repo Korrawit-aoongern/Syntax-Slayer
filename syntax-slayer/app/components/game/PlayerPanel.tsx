@@ -1,6 +1,7 @@
 "use client";
 
 import type { ConsumableId, PlayerState } from "../../types/game";
+import itemsData from "../../data/items.json";
 import PlayerSprite from "./PlayerSprite";
 
 type PlayerPanelProps = {
@@ -26,6 +27,13 @@ export default function PlayerPanel({
   consumableLabels,
   disableConsumables,
 }: PlayerPanelProps) {
+  const itemImages = (itemsData as { id: string; image?: string }[]).reduce<
+    Record<string, string>
+  >((acc, item) => {
+    if (item.image) acc[item.id] = item.image;
+    return acc;
+  }, {});
+
   return (
     <div className="rounded-3xl border border-slate-200/70 bg-white/80 dark:bg-gray-700 p-4 shadow-[0_12px_30px_-24px_rgba(15,23,42,0.6)] md:p-6 flex flex-col">
       <div className="text-xs uppercase tracking-[0.35em] text-slate-400">
@@ -63,13 +71,22 @@ export default function PlayerPanel({
                 type="button"
                 onClick={() => onUseConsumable(index)}
                 disabled={!item || disableConsumables}
-                className={`flex h-10 items-center justify-center rounded-xl border border-dashed text-[10px] uppercase tracking-[0.2em] transition ${
+                title={item ? consumableLabels[item] : "Empty slot"}
+                className={`flex h-12 w-12 items-center justify-center rounded border border-dashed text-[10px] uppercase tracking-[0.2em] transition ${
                   item
                     ? "border-slate-200/80 bg-white text-slate-600 hover:border-amber-300"
                     : "border-slate-200/80 bg-slate-50/70 text-slate-400"
                 } ${!item || disableConsumables ? "cursor-not-allowed opacity-70" : ""}`}
               >
-                {item ? consumableLabels[item] : "Empty"}
+                {item ? (
+                  <img
+                    src={itemImages[item] ?? `/img/${item}.png`}
+                    alt={consumableLabels[item]}
+                    className="h-8 w-8 object-contain"
+                  />
+                ) : (
+                  "Empty"
+                )}
               </button>
             ))}
           </div>

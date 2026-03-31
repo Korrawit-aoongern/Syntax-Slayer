@@ -1,19 +1,12 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import type { SpriteConfig } from "../../types/sprite";
 
-type SpriteAnimatorProps = {
-  spriteUrl: string;
-  sheetWidth: number;
-  sheetHeight: number;
-  frameWidth: number;
-  frameHeight: number;
-  idleFrames: number;
-  attackFrames: number;
-  fps?: number;
-  scale?: number;
+type SpriteAnimatorProps = SpriteConfig & {
   attackSignal: number;
   hitSignal: number;
+  attackVariant?: number;
   ariaLabelIdle: string;
   ariaLabelAttack: string;
 };
@@ -24,12 +17,13 @@ export default function SpriteAnimator({
   sheetHeight,
   frameWidth,
   frameHeight,
-  idleFrames,
-  attackFrames,
+  idle,
+  attacks,
   fps = 5,
   scale = 6,
   attackSignal,
   hitSignal,
+  attackVariant = 0,
   ariaLabelIdle,
   ariaLabelAttack,
 }: SpriteAnimatorProps) {
@@ -67,8 +61,13 @@ export default function SpriteAnimator({
   }, []);
 
   useEffect(() => {
-    const frameCount = mode === "idle" ? idleFrames : attackFrames;
-    const frameMs = 1000 / fps;
+    const currentClip =
+      mode === "idle"
+        ? idle
+        : attacks[Math.max(0, Math.min(attackVariant, attacks.length - 1))] ??
+          idle;
+    const frameCount = Math.max(1, currentClip.frames);
+    const frameMs = 1000 / (currentClip.fps ?? fps);
     const timer = setTimeout(() => {
       setFrame((current) => {
         if (mode === "attack" && current >= frameCount - 1) {
@@ -80,9 +79,14 @@ export default function SpriteAnimator({
     }, frameMs);
 
     return () => clearTimeout(timer);
-  }, [attackFrames, fps, idleFrames, frame, mode]);
+  }, [attackVariant, attacks, fps, frame, idle, mode]);
 
-  const row = mode === "idle" ? 0 : 1;
+  const currentClip =
+    mode === "idle"
+      ? idle
+      : attacks[Math.max(0, Math.min(attackVariant, attacks.length - 1))] ??
+        idle;
+  const row = currentClip.row;
   const scaledFrameWidth = frameWidth * scale;
   const scaledFrameHeight = frameHeight * scale;
   const backgroundSize = `${sheetWidth * scale}px ${sheetHeight * scale}px`;

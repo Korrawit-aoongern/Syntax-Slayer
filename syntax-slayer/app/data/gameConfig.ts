@@ -10,14 +10,14 @@ export const LEVEL_CONFIG: LevelConfig[] = [
 ];
 
 export const ENEMY_STATS: Record<number, Omit<EnemyState, "ap">> = {
-  1: { hp: 8, attack: 2, apThreshold: 5 },
-  2: { hp: 14, attack: 2, apThreshold: 5 },
-  3: { hp: 20, attack: 4, apThreshold: 4 },
-  4: { hp: 28, attack: 4, apThreshold: 4 },
+  1: { hp: 8, attack: 2, apThreshold: 6 },
+  2: { hp: 14, attack: 2, apThreshold: 6 },
+  3: { hp: 20, attack: 4, apThreshold: 6 },
+  4: { hp: 28, attack: 4, apThreshold: 5 },
   5: { hp: 40, attack: 6, apThreshold: 5 },
-  6: { hp: 52, attack: 6, apThreshold: 4 },
-  7: { hp: 64, attack: 8, apThreshold: 4 },
-  8: { hp: 80, attack: 8, apThreshold: 3 },
+  6: { hp: 52, attack: 6, apThreshold: 5 },
+  7: { hp: 64, attack: 8, apThreshold: 5 },
+  8: { hp: 80, attack: 8, apThreshold: 4 },
   9: { hp: 96, attack: 10, apThreshold: 4 },
-  10: { hp: 120, attack: 10, apThreshold: 3 },
+  10: { hp: 120, attack: 10, apThreshold: 4 },
 };

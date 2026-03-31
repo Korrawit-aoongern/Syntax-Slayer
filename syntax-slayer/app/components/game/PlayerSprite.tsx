@@ -1,5 +1,6 @@
 "use client";
 
+import type { SpriteConfig } from "../../types/sprite";
 import SpriteAnimator from "./SpriteAnimator";
 
 type PlayerSpriteProps = {
@@ -8,17 +9,21 @@ type PlayerSpriteProps = {
 };
 
 export default function PlayerSprite({ attackSignal, hitSignal }: PlayerSpriteProps) {
+  const config: SpriteConfig = {
+    spriteUrl: "/img/Slayer.png",
+    sheetWidth: 80,
+    sheetHeight: 32,
+    frameWidth: 16,
+    frameHeight: 16,
+    idle: { row: 0, frames: 4 },
+    attacks: [{ row: 1, frames: 5 }],
+    fps: 5,
+    scale: 6,
+  };
+
   return (
     <SpriteAnimator
-      spriteUrl="/img/Slayer.png"
-      sheetWidth={80}
-      sheetHeight={32}
-      frameWidth={16}
-      frameHeight={16}
-      idleFrames={4}
-      attackFrames={5}
-      fps={5}
-      scale={6}
+      {...config}
       attackSignal={attackSignal}
       hitSignal={hitSignal}
       ariaLabelIdle="Player idle animation"

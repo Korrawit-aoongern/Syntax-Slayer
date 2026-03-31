@@ -828,6 +828,9 @@ export default function GamePage() {
     <div className="relative h-screen box-border flex flex-col p-4 overflow-hidden">
       <div className="flex flex-col flex-none">
         <div className="flex items-center justify-between">
+          <button onClick={handleBackToMenu} className="rounded-full bg-slate-900 px-6 py-2 text-sm font-semibold text-white hover:bg-slate-800">
+            Menu
+          </button>
           <h1 className="text-2xl font-bold">Battle</h1>
           <div className="text-xs uppercase tracking-[0.25em] text-slate-400">
             Level {level}
