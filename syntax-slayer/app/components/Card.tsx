@@ -42,7 +42,7 @@ export default function Card({
       aria-pressed={isRevealed}
       aria-label={isRevealed ? `${face}: ${text}` : "Hidden card"}
       className={cx(
-        "group relative h-32 w-full select-none rounded-2xl border transition",
+        "group relative h-32 w-full select-none overflow-hidden rounded-2xl border transition",
         "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-fuchsia-400/70",
         isRevealed
           ? "shadow-[0_12px_28px_-14px_rgba(255,43,214,0.6)]"
@@ -81,11 +81,6 @@ export default function Card({
         </div>
       </div>
 
-      {isLocked && !isMatched ? (
-        <div className="absolute inset-0 flex items-center justify-center rounded-[inherit] bg-[#0b001f]/70 text-xs font-semibold uppercase tracking-[0.2em] text-[#f8f0ff]">
-          Locked
-        </div>
-      ) : null}
     </button>
   );
 }

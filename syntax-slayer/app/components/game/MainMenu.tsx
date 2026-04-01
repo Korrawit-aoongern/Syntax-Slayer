@@ -56,7 +56,17 @@ export default function MainMenu({
               onClick={onResume}
               className="rounded-full px-6 py-2 text-sm font-semibold sw-button-primary"
             >
-              Resume
+              <span className="inline-flex items-center gap-2">
+                <svg
+                  viewBox="0 0 24 24"
+                  className="h-4 w-4"
+                  fill="currentColor"
+                  aria-hidden="true"
+                >
+                  <path d="M8 5v14l11-7L8 5z" />
+                </svg>
+                Resume
+              </span>
             </button>
           ) : null}
           <button
@@ -64,7 +74,17 @@ export default function MainMenu({
             onClick={onNewGame}
             className="rounded-full px-6 py-2 text-sm font-semibold sw-button-secondary"
           >
-            {hasSave ? "New Game" : "Start Game"}
+            <span className="inline-flex items-center gap-2">
+              <svg
+                viewBox="0 0 24 24"
+                className="h-4 w-4"
+                fill="currentColor"
+                aria-hidden="true"
+              >
+                <path d="M12 5v14M5 12h14" stroke="currentColor" strokeWidth="2" />
+              </svg>
+              {hasSave ? "New Game" : "Start Game"}
+            </span>
           </button>
         </div>
         <button
@@ -72,7 +92,18 @@ export default function MainMenu({
           onClick={onOpenEncyclopedia}
           className="w-fit rounded-full px-6 py-2 text-sm font-semibold sw-button-secondary"
         >
-          Encyclopedia
+          <span className="inline-flex items-center gap-2">
+            <svg
+              viewBox="0 0 24 24"
+              className="h-4 w-4"
+              fill="currentColor"
+              aria-hidden="true"
+            >
+              <path d="M6 4h9a3 3 0 0 1 3 3v13H8a2 2 0 0 0-2 2V4z" />
+              <path d="M6 20a2 2 0 0 1 2-2h10" stroke="currentColor" strokeWidth="2" fill="none" />
+            </svg>
+            Encyclopedia
+          </span>
         </button>
         <button
           type="button"
@@ -82,7 +113,17 @@ export default function MainMenu({
           }}
           className="w-fit rounded-full px-6 py-2 text-sm font-semibold sw-button-secondary"
         >
-          Settings
+          <span className="inline-flex items-center gap-2">
+            <svg
+              viewBox="0 0 24 24"
+              className="h-4 w-4"
+              fill="currentColor"
+              aria-hidden="true"
+            >
+              <path d="M12 8.5a3.5 3.5 0 1 0 0 7 3.5 3.5 0 0 0 0-7Zm9 3.5a7.7 7.7 0 0 0-.1-1l2-1.5-2-3.4-2.4.9a7.8 7.8 0 0 0-1.8-1l-.4-2.6h-4l-.4 2.6a7.8 7.8 0 0 0-1.8 1l-2.4-.9-2 3.4 2 1.5a7.7 7.7 0 0 0 0 2l-2 1.5 2 3.4 2.4-.9a7.8 7.8 0 0 0 1.8 1l.4 2.6h4l.4-2.6a7.8 7.8 0 0 0 1.8-1l2.4.9 2-3.4-2-1.5c.1-.3.1-.7.1-1Z" />
+            </svg>
+            Settings
+          </span>
         </button>
 
         {showSettings ? (

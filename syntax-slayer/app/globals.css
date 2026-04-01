@@ -75,6 +75,48 @@ body {
   border-color: var(--sw-cyan);
 }
 
+@keyframes mismatch-lock {
+  0% {
+    opacity: 1;
+    box-shadow: 0 0 0 rgba(255, 0, 120, 0);
+  }
+  40% {
+    opacity: 0.7;
+    box-shadow: 0 0 18px rgba(255, 0, 120, 0.45);
+  }
+  100% {
+    opacity: 0.4;
+    box-shadow: 0 0 8px rgba(255, 0, 120, 0.35);
+  }
+}
+
+.mismatch-lock {
+  border-color: rgba(255, 0, 120, 0.65);
+  animation: mismatch-lock 2.5s ease-in-out;
+}
+
+@keyframes mismatch-pulse {
+  0% {
+    opacity: 0;
+  }
+  35% {
+    opacity: 0.55;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+.mismatch-lock::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: rgba(255, 0, 120, 0.25);
+  animation: mismatch-pulse 2.5s ease-in-out;
+  pointer-events: none;
+}
+
 .sw-outline {
   border: 1px solid var(--sw-border-soft);
 }

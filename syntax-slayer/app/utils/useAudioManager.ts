@@ -12,8 +12,8 @@ type AudioSettings = {
 
 const STORAGE_KEY = "syntax-slayer-audio-v1";
 const DEFAULT_SETTINGS: AudioSettings = {
-  musicVolume: 0.6,
-  sfxVolume: 0.7,
+  musicVolume: 0.3,
+  sfxVolume: 0.5,
   musicMuted: false,
   sfxMuted: false,
 };

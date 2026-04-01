@@ -63,6 +63,7 @@ export default function GamePage() {
   const [playerHitTick, setPlayerHitTick] = useState(0);
   const [enemyAttackTick, setEnemyAttackTick] = useState(0);
   const [enemyHitTick, setEnemyHitTick] = useState(0);
+  const [lockedCards, setLockedCards] = useState<string[]>([]);
   const [enemy, setEnemy] = useState<EnemyState>({
     hp: enemyStats.hp,
     attack: enemyStats.attack,
@@ -77,17 +78,38 @@ export default function GamePage() {
   const revealTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const freezeTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const attackBoostTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const enemyAttackTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const enemyAttackQueuedRef = useRef(false);
+  const mismatchTimersRef = useRef<Record<string, ReturnType<typeof setTimeout>>>(
+    {},
+  );
   const lootLevelRef = useRef<number | null>(null);
   const selectedUpgradeRef = useRef<number | null>(null);
   const playerRef = useRef<PlayerState>(player);
+  const enemyRef = useRef<EnemyState>(enemy);
+  const resolvingRef = useRef(false);
   const winPlayedRef = useRef(false);
   const losePlayedRef = useRef(false);
   const finalVictoryPlayedRef = useRef(false);
   const comboStreakRef = useRef(0);
+  const freezeUntilRef = useRef(0);
 
-  const flippedUnmatched = cards.filter(
-    (card) => card.isFlipped && !card.isMatched,
+  const lockedSet = useMemo(() => new Set(lockedCards), [lockedCards]);
+  const flippedUnmatched = useMemo(
+    () =>
+      cards.filter(
+        (card) =>
+          card.isFlipped && !card.isMatched && !lockedSet.has(card.id),
+      ),
+    [cards, lockedSet],
   );
+  const flippedKey = useMemo(() => {
+    if (flippedUnmatched.length !== 2) return "";
+    return [...flippedUnmatched]
+      .map((card) => card.id)
+      .sort()
+      .join("|");
+  }, [flippedUnmatched]);
   const unlockedSet = useMemo(() => new Set(unlockedTerms), [unlockedTerms]);
   const runUnlockedSet = useMemo(
     () => new Set(runUnlockedTerms),
@@ -101,6 +123,14 @@ export default function GamePage() {
   useEffect(() => {
     playerRef.current = player;
   }, [player]);
+
+  useEffect(() => {
+    enemyRef.current = enemy;
+  }, [enemy]);
+
+  useEffect(() => {
+    freezeUntilRef.current = freezeUntil;
+  }, [freezeUntil]);
 
   useEffect(() => {
     selectedUpgradeRef.current = selectedUpgrade;
@@ -280,6 +310,12 @@ export default function GamePage() {
         clearTimeout(attackBoostTimerRef.current);
         attackBoostTimerRef.current = null;
       }
+      if (enemyAttackTimerRef.current) {
+        clearTimeout(enemyAttackTimerRef.current);
+        enemyAttackTimerRef.current = null;
+      }
+      resetMismatchLocks();
+      enemyAttackQueuedRef.current = false;
       setPlayerHitTick(0);
       setRevealedCards([]);
       setRevealActive(false);
@@ -289,39 +325,43 @@ export default function GamePage() {
   useEffect(() => {
     if (view !== "game") {
       resolveKeyRef.current = null;
+      resolvingRef.current = false;
       return;
     }
-    if (flippedUnmatched.length !== 2) {
+    if (flippedKey === "") {
       resolveKeyRef.current = null;
+      resolvingRef.current = false;
       return;
     }
 
-    const resolveKey = [...flippedUnmatched]
-      .map((card) => card.id)
-      .sort()
-      .join("|");
-    if (resolveTimerRef.current && resolveKeyRef.current === resolveKey) {
+    if (resolveKeyRef.current === flippedKey || resolvingRef.current) {
       return;
     }
-    resolveKeyRef.current = resolveKey;
+    const [first, second] = flippedUnmatched;
+    if (!first || !second) {
+      resolveKeyRef.current = null;
+      resolvingRef.current = false;
+      return;
+    }
+
+    resolveKeyRef.current = flippedKey;
     if (resolveTimerRef.current) {
       clearTimeout(resolveTimerRef.current);
       resolveTimerRef.current = null;
     }
 
+    resolvingRef.current = true;
     setBusy(true);
-    const [first, second] = flippedUnmatched;
     const isMatch = first.pairId === second.pairId;
 
     resolveTimerRef.current = setTimeout(() => {
       setCards((prev) =>
         prev.map((card) => {
-          if (card.id === first.id || card.id === second.id) {
-            return {
-              ...card,
-              isMatched: isMatch ? true : card.isMatched,
-              isFlipped: isMatch ? true : false,
-            };
+          if (card.id !== first.id && card.id !== second.id) {
+            return card;
+          }
+          if (isMatch) {
+            return { ...card, isMatched: true, isFlipped: true };
           }
           return card;
         }),
@@ -376,13 +416,42 @@ export default function GamePage() {
         comboStreakRef.current = 0;
         audio.playSfx("mismatch");
         setPlayer((prevPlayer) => ({ ...prevPlayer, focus: 0 }));
-        setEnemy((prevEnemy) => ({
-          ...prevEnemy,
-          ap: clamp(prevEnemy.ap + 2, 0, prevEnemy.apThreshold),
-        }));
+        setEnemy((prevEnemy) => {
+          if (Date.now() < freezeUntilRef.current) return prevEnemy;
+          return {
+            ...prevEnemy,
+            ap: clamp(prevEnemy.ap + 2, 0, prevEnemy.apThreshold),
+          };
+        });
+
+        const mismatchIds = [first.id, second.id];
+        setLockedCards((prev) => {
+          const next = new Set(prev);
+          mismatchIds.forEach((id) => next.add(id));
+          return Array.from(next);
+        });
+        const mismatchKey = mismatchIds.slice().sort().join("|");
+        if (mismatchTimersRef.current[mismatchKey]) {
+          clearTimeout(mismatchTimersRef.current[mismatchKey]);
+        }
+        mismatchTimersRef.current[mismatchKey] = setTimeout(() => {
+          setCards((prev) =>
+            prev.map((card) => {
+              if (mismatchIds.includes(card.id) && !card.isMatched) {
+                return { ...card, isFlipped: false };
+              }
+              return card;
+            }),
+          );
+          setLockedCards((prev) =>
+            prev.filter((id) => !mismatchIds.includes(id)),
+          );
+          delete mismatchTimersRef.current[mismatchKey];
+        }, 2500);
       }
 
       setBusy(false);
+      resolvingRef.current = false;
       resolveKeyRef.current = null;
       resolveTimerRef.current = null;
     }, 700);
@@ -392,9 +461,10 @@ export default function GamePage() {
         clearTimeout(resolveTimerRef.current);
         resolveTimerRef.current = null;
         resolveKeyRef.current = null;
+        resolvingRef.current = false;
       }
     };
-  }, [flippedUnmatched, view]);
+  }, [flippedKey, view]);
 
   useEffect(() => {
     if (view !== "game") return;
@@ -403,6 +473,7 @@ export default function GamePage() {
     const timer = setInterval(() => {
       setEnemy((prev) => {
         if (prev.hp <= 0) return prev;
+        if (enemyAttackQueuedRef.current) return prev;
         if (Date.now() < freezeUntil) return prev;
         return {
           ...prev,
@@ -419,29 +490,40 @@ export default function GamePage() {
     if (enemy.hp <= 0) return;
     if (enemy.ap < enemy.apThreshold) return;
 
-    audio.playSfx("damage");
-    if (playerRef.current.shield > 0) {
-      audio.playSfx("block");
-    }
-    setEnemyAttackTick((prev) => prev + 1);
-    setPlayerHitTick((prev) => prev + 1);
-
+    if (enemyAttackQueuedRef.current) return;
+    enemyAttackQueuedRef.current = true;
     setEnemy((prev) =>
-      prev.ap >= prev.apThreshold ? { ...prev, ap: 0 } : prev,
+      prev.ap >= prev.apThreshold ? { ...prev, ap: prev.apThreshold } : prev,
     );
-    setPlayer((prev) => {
-      const reducedDamage = Math.max(
-        0,
-        Math.round(enemy.attack * (1 - prev.shield)),
-      );
-      return {
-        ...prev,
-        hp: clamp(prev.hp - reducedDamage, 0, prev.hp),
-        focus: clamp(prev.focus - 2, 0, 100),
-        shield: 0,
-      };
-    });
-  }, [enemy.ap, enemy.apThreshold, enemy.attack, enemy.hp, view]);
+
+    if (enemyAttackTimerRef.current) {
+      clearTimeout(enemyAttackTimerRef.current);
+    }
+    enemyAttackTimerRef.current = setTimeout(() => {
+      audio.playSfx("damage");
+      if (playerRef.current.shield > 0) {
+        audio.playSfx("block");
+      }
+      setEnemyAttackTick((prev) => prev + 1);
+      setPlayerHitTick((prev) => prev + 1);
+
+      setEnemy((prev) => ({ ...prev, ap: 0 }));
+      setPlayer((prev) => {
+        const reducedDamage = Math.max(
+          0,
+          Math.round(enemyRef.current.attack * (1 - prev.shield)),
+        );
+        return {
+          ...prev,
+          hp: clamp(prev.hp - reducedDamage, 0, prev.hp),
+          focus: clamp(prev.focus - 2, 0, 100),
+          shield: 0,
+        };
+      });
+      enemyAttackQueuedRef.current = false;
+      enemyAttackTimerRef.current = null;
+    }, 350);
+  }, [enemy.ap, enemy.apThreshold, enemy.hp, view]);
 
   useEffect(() => {
     if (view !== "game") return;
@@ -452,6 +534,7 @@ export default function GamePage() {
     setBusy(true);
     const timer = setTimeout(() => {
       setCards(buildDeck(vocab, pairs));
+      resetMismatchLocks();
       setBusy(false);
     }, 500);
 
@@ -484,6 +567,9 @@ export default function GamePage() {
     if (busy) return;
     if (revealActive) return;
     if (flippedUnmatched.length >= 2) return;
+    if (lockedSet.has(id)) return;
+    const targetCard = cards.find((card) => card.id === id);
+    if (!targetCard || targetCard.isFlipped || targetCard.isMatched) return;
 
     audio.unlock();
     audio.playSfx("flip");
@@ -504,6 +590,14 @@ export default function GamePage() {
     ? player.attack * player.attackBoost
     : player.attack;
 
+  const resetMismatchLocks = () => {
+    Object.values(mismatchTimersRef.current).forEach((timer) => {
+      clearTimeout(timer);
+    });
+    mismatchTimersRef.current = {};
+    setLockedCards([]);
+  };
+
   const applyLevel = (nextLevel: number) => {
     const clampedLevel = clamp(nextLevel, 1, 10);
     const nextConfig = getLevelConfig(clampedLevel);
@@ -517,6 +611,7 @@ export default function GamePage() {
       apThreshold: nextEnemyStats.apThreshold,
     });
     setCards(buildDeck(vocab, nextConfig.pairs));
+    resetMismatchLocks();
     setSelectedUpgrade(null);
     setBusy(false);
     setView("game");
@@ -615,6 +710,7 @@ export default function GamePage() {
       apThreshold: nextEnemyStats.apThreshold,
     });
     setCards(buildDeck(vocab, nextConfig.pairs));
+    resetMismatchLocks();
     setPendingLoot(null);
     setLootLabel(null);
     setLootReplaceIndex(null);
@@ -684,6 +780,7 @@ export default function GamePage() {
       apThreshold: nextEnemyStats.apThreshold,
     });
     setCards(buildDeck(vocab, nextConfig.pairs));
+    resetMismatchLocks();
     setSelectedUpgrade(null);
     selectedUpgradeRef.current = null;
     setBusy(false);
@@ -1018,6 +1115,9 @@ export default function GamePage() {
               const hintRing = isUnlockedTerm
                 ? getCategoryRingClass(card.category)
                 : "";
+              const mismatchClass = lockedSet.has(card.id)
+                ? "mismatch-lock"
+                : "";
               return (
                 <Card
                   key={card.id}
@@ -1027,9 +1127,9 @@ export default function GamePage() {
                   category={card.isMatched ? card.category : null}
                   isFlipped={isRevealed}
                   isMatched={card.isMatched}
-                  isLocked={busy || revealActive}
+                  isLocked={busy || revealActive || lockedSet.has(card.id)}
                   onFlip={handleFlip}
-                  className={`h-full w-full ${isUnlockedTerm ? `ring-2 ${hintRing}` : ""}`}
+                  className={`h-full w-full ${isUnlockedTerm ? `ring-2 ${hintRing}` : ""} ${mismatchClass}`}
                 />
               );
             })}
