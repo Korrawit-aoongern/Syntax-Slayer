@@ -35,33 +35,37 @@ export default function PlayerPanel({
   }, {});
 
   return (
-    <div className="rounded-3xl border border-slate-200/70 bg-white/80 dark:bg-gray-700 p-4 shadow-[0_12px_30px_-24px_rgba(15,23,42,0.6)] md:p-6 flex flex-col">
-      <div className="text-xs uppercase tracking-[0.35em] text-slate-400">
+    <div className="rounded-3xl p-4 md:p-6 flex flex-col sw-panel">
+      <div className="text-xs uppercase tracking-[0.35em] sw-muted">
         Player
       </div>
       <div className="mt-4 flex min-h-0 flex-1 items-stretch gap-4">
         <div className="flex flex-col gap-3 text-sm">
           <div>
-            <div className="text-slate-500">HP</div>
-            <div className="text-2xl font-semibold">{player.hp}</div>
+            <div className="sw-muted">HP</div>
+            <div className="text-2xl font-semibold sw-title">{player.hp}</div>
           </div>
           <div>
-            <div className="text-slate-500">ATK</div>
-            <div className="text-2xl font-semibold">{effectiveAttack}</div>
+            <div className="sw-muted">ATK</div>
+            <div className="text-2xl font-semibold sw-title">
+              {effectiveAttack}
+            </div>
             {attackBoostActive ? (
-              <div className="text-xs text-emerald-500">
+              <div className="text-xs sw-accent-emerald">
                 x{player.attackBoost} boost
               </div>
             ) : null}
           </div>
           <div>
-            <div className="text-slate-500">Focus</div>
-            <div className="text-2xl font-semibold">{player.focus}</div>
-            <div className="text-xs text-slate-400">Crit {critChance}%</div>
+            <div className="sw-muted">Focus</div>
+            <div className="text-2xl font-semibold sw-title">
+              {player.focus}
+            </div>
+            <div className="text-xs sw-muted">Crit {critChance}%</div>
           </div>
         </div>
         <div className="flex flex-col gap-2">
-          <div className="text-[10px] uppercase tracking-[0.3em] text-slate-400">
+          <div className="text-[10px] uppercase tracking-[0.3em] sw-muted">
             Items
           </div>
           <div className="flex flex-col gap-2">
@@ -74,8 +78,8 @@ export default function PlayerPanel({
                 title={item ? consumableLabels[item] : "Empty slot"}
                 className={`flex h-12 w-12 items-center justify-center rounded border border-dashed text-[10px] uppercase tracking-[0.2em] transition ${
                   item
-                    ? "border-slate-200/80 bg-white text-slate-600 hover:border-amber-300"
-                    : "border-slate-200/80 bg-slate-50/70 text-slate-400"
+                    ? "border-[var(--sw-cyan)]/60 bg-[rgba(20,8,54,0.7)] text-[var(--sw-text)] hover:border-[var(--sw-accent)]"
+                    : "border-[var(--sw-border)]/60 bg-[rgba(12,5,32,0.6)] text-[var(--sw-muted)]"
                 } ${!item || disableConsumables ? "cursor-not-allowed opacity-70" : ""}`}
               >
                 {item ? (
@@ -91,8 +95,8 @@ export default function PlayerPanel({
             ))}
           </div>
         </div>
-        <div className="flex-1 rounded-2xl border border-dashed border-slate-200/70 bg-slate-50/70 p-4">
-          <div className="h-full w-full rounded-xl bg-white/60 shadow-inner flex items-center justify-center">
+        <div className="flex-1 rounded-2xl border border-dashed border-[var(--sw-border)]/60 bg-[rgba(12,5,32,0.5)] p-4">
+          <div className="h-full w-full rounded-xl bg-[rgba(16,8,40,0.7)] shadow-inner flex items-center justify-center">
             <PlayerSprite attackSignal={attackSignal} hitSignal={hitSignal} />
           </div>
         </div>

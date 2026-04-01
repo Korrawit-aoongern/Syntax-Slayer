@@ -17,7 +17,7 @@ const CATEGORY_RING: Record<Category, string> = {
 };
 
 export const getCategoryBorderClass = (category?: Category | null) =>
-  category ? CATEGORY_BORDER[category] : "border-slate-200/80";
+  category ? CATEGORY_BORDER[category] : "border-[var(--sw-border-soft)]";
 
 export const getCategoryRingClass = (category?: Category | null) =>
   category ? CATEGORY_RING[category] : "ring-emerald-400/70";

@@ -46,14 +46,14 @@ export default function VictoryScreen({
   return (
     <div className="p-6">
       <div className="mx-auto flex max-w-4xl flex-col gap-6">
-        <div className="rounded-3xl border border-amber-200/70 bg-amber-50/70 p-6">
-          <div className="text-xs uppercase tracking-[0.3em] text-amber-600">
+        <div className="rounded-3xl p-6 sw-panel">
+          <div className="text-xs uppercase tracking-[0.3em] sw-accent-amber">
             Victory
           </div>
-          <h1 className="mt-2 text-3xl font-semibold text-slate-900">
+          <h1 className="mt-2 text-3xl font-semibold sw-title">
             Level {level} Cleared
           </h1>
-          <p className="mt-2 text-sm text-slate-600">
+          <p className="mt-2 text-sm sw-muted">
             Choose one of the three upgrade cards below.
           </p>
         </div>
@@ -75,17 +75,17 @@ export default function VictoryScreen({
                 onClick={() => onSelectUpgrade(index)}
                 className={`rounded-2xl border p-5 text-left transition ${
                   isSelected
-                    ? "border-amber-400 bg-white shadow-[0_10px_24px_-16px_rgba(251,191,36,0.7)]"
-                    : "border-slate-200/70 bg-white/80 hover:border-amber-300"
+                    ? "border-[var(--sw-accent)] bg-[rgba(16,8,40,0.8)] shadow-[0_12px_28px_-18px_rgba(255,43,214,0.6)]"
+                    : "border-[var(--sw-border)] bg-[rgba(12,5,32,0.7)] hover:border-[var(--sw-cyan)]"
                 }`}
               >
-                <div className="text-xs uppercase tracking-[0.2em] text-slate-400">
+                <div className="text-xs uppercase tracking-[0.2em] sw-muted">
                   Upgrade Card
                 </div>
-                <div className="mt-2 text-sm font-semibold text-slate-800">
+                <div className="mt-2 text-sm font-semibold sw-title">
                   {label}
                 </div>
-                <div className="mt-3 h-24 rounded-xl bg-transparent flex items-center justify-center">
+                <div className="mt-3 h-24 rounded-xl bg-[rgba(12,5,32,0.5)] flex items-center justify-center border border-[var(--sw-border-soft)]">
                   {showArtImage ? (
                     <img
                       src={artImage}
@@ -102,11 +102,11 @@ export default function VictoryScreen({
         </div>
 
         {lootBlocked ? (
-          <div className="rounded-3xl border border-slate-200/70 bg-white/80 p-6">
-            <div className="text-xs uppercase tracking-[0.3em] text-slate-400">
+          <div className="rounded-3xl p-6 sw-panel">
+            <div className="text-xs uppercase tracking-[0.3em] sw-muted">
               Inventory Full - Discard One
             </div>
-            <div className="mt-2 text-sm text-slate-600">
+            <div className="mt-2 text-sm sw-muted">
               Select a slot to replace with {pendingLootLabel ?? "loot"}.
             </div>
             <div className="mt-4 grid gap-2 md:grid-cols-3">
@@ -117,8 +117,8 @@ export default function VictoryScreen({
                   onClick={() => onSelectDiscard(index)}
                   className={`rounded-2xl border px-3 py-3 text-xs font-semibold uppercase tracking-[0.2em] transition ${
                     lootReplaceIndex === index
-                      ? "border-amber-400 bg-amber-50 text-amber-700"
-                      : "border-slate-200/80 bg-white text-slate-600 hover:border-amber-300"
+                      ? "border-[var(--sw-accent)] bg-[rgba(255,43,214,0.12)] text-[var(--sw-accent)]"
+                      : "border-[var(--sw-border)] bg-[rgba(12,5,32,0.6)] text-[var(--sw-text)] hover:border-[var(--sw-cyan)]"
                   }`}
                 >
                   {item ? consumableLabels[item] : "Empty"}
@@ -129,7 +129,7 @@ export default function VictoryScreen({
         ) : null}
 
         <div className="flex items-center justify-between">
-          <div className="text-xs uppercase tracking-[0.25em] text-slate-400">
+          <div className="text-xs uppercase tracking-[0.25em] sw-muted">
             Next level unlocks a new enemy
           </div>
           <button
@@ -138,8 +138,8 @@ export default function VictoryScreen({
             disabled={nextDisabled}
             className={`rounded-full px-6 py-2 text-sm font-semibold transition ${
               nextDisabled
-                ? "cursor-not-allowed bg-slate-200 text-slate-400"
-                : "bg-slate-900 text-white hover:bg-slate-800"
+                ? "cursor-not-allowed bg-[rgba(22,8,50,0.6)] text-[var(--sw-muted)]"
+                : "sw-button-primary"
             }`}
           >
             {level >= 10 ? "Campaign Complete" : "Next Level"}

@@ -31,6 +31,7 @@ export default function SpriteAnimator({
   const [frame, setFrame] = useState(0);
   const [flashOn, setFlashOn] = useState(false);
   const lastSignalRef = useRef(attackSignal);
+  const lastHitRef = useRef(hitSignal);
   const flashTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   useEffect(() => {
@@ -41,6 +42,8 @@ export default function SpriteAnimator({
   }, [attackSignal]);
 
   useEffect(() => {
+    if (hitSignal === lastHitRef.current) return;
+    lastHitRef.current = hitSignal;
     if (hitSignal <= 0) return;
     if (flashTimerRef.current) {
       clearTimeout(flashTimerRef.current);
@@ -94,7 +97,7 @@ export default function SpriteAnimator({
 
   return (
     <div
-      className="rounded-2xl bg-slate-900/5 p-4"
+      className="rounded-2xl p-4 sw-surface"
       aria-label={mode === "attack" ? ariaLabelAttack : ariaLabelIdle}
     >
       <div

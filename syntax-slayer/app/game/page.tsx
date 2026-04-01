@@ -12,6 +12,7 @@ import MainMenu from "../components/game/MainMenu";
 import PlayerPanel from "../components/game/PlayerPanel";
 import VictoryScreen from "../components/game/VictoryScreen";
 import vocabData from "../data/vocab.json";
+import { type BgmId } from "../data/audioConfig";
 import { CONSUMABLE_LABELS, CONSUMABLE_POOL } from "../data/consumables";
 import { ENCYCLOPEDIA_KEY, ENEMY_STATS, STORAGE_KEY } from "../data/gameConfig";
 import type {
@@ -33,6 +34,7 @@ import {
   withPlayerDefaults,
 } from "../utils/game";
 import { getCategoryRingClass } from "../utils/category";
+import useAudioManager from "../utils/useAudioManager";
 
 const vocab = vocabData as VocabItem[];
 
@@ -68,6 +70,7 @@ export default function GamePage() {
     apThreshold: enemyStats.apThreshold,
   });
   const [hydrated, setHydrated] = useState(false);
+  const audio = useAudioManager();
 
   const resolveKeyRef = useRef<string | null>(null);
   const resolveTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -77,6 +80,10 @@ export default function GamePage() {
   const lootLevelRef = useRef<number | null>(null);
   const selectedUpgradeRef = useRef<number | null>(null);
   const playerRef = useRef<PlayerState>(player);
+  const winPlayedRef = useRef(false);
+  const losePlayedRef = useRef(false);
+  const finalVictoryPlayedRef = useRef(false);
+  const comboStreakRef = useRef(0);
 
   const flippedUnmatched = cards.filter(
     (card) => card.isFlipped && !card.isMatched,
@@ -210,12 +217,53 @@ export default function GamePage() {
   }, [view]);
 
   useEffect(() => {
+    return () => {
+      audio.stopAll();
+    };
+  }, [audio.stopAll]);
+
+  useEffect(() => {
+    if (view === "game") {
+      winPlayedRef.current = false;
+      losePlayedRef.current = false;
+      finalVictoryPlayedRef.current = false;
+    }
+  }, [view, level]);
+
+  useEffect(() => {
+    if (view !== "finalvictory") return;
+    audio.stopAll();
+    if (!finalVictoryPlayedRef.current) {
+      audio.unlock();
+      audio.playSfx("boss_victory");
+      finalVictoryPlayedRef.current = true;
+    }
+  }, [audio, view]);
+
+  useEffect(() => {
+    if (view === "finalvictory" || view === "gameover") {
+      audio.stopAll();
+      return;
+    }
+    const bgm: BgmId =
+      view === "mainmenu" || view === "encyclopedia"
+        ? "main_menu"
+        : level <= 4
+          ? "battle_1"
+          : level <= 8
+            ? "battle_2"
+            : "battle_3";
+    audio.setBgm(bgm);
+  }, [audio, level, view]);
+
+  useEffect(() => {
     if (view !== "victory") return;
-    if (lootLevelRef.current === level) return;
-    lootLevelRef.current = level;
-    const loot = pickRandomConsumable();
-    setPendingLoot(loot);
-    setLootLabel(CONSUMABLE_LABELS[loot]);
+    if (lootLevelRef.current !== level || pendingLoot === null) {
+      lootLevelRef.current = level;
+      const loot = pickRandomConsumable();
+      setPendingLoot(loot);
+      setLootLabel(CONSUMABLE_LABELS[loot]);
+    }
   }, [level, view]);
 
   useEffect(() => {
@@ -280,9 +328,18 @@ export default function GamePage() {
       );
 
       if (isMatch) {
+        audio.playSfx("match");
+        comboStreakRef.current += 1;
+        if (comboStreakRef.current >= 2) {
+          audio.playSfx("combo");
+        }
         const currentPlayer = playerRef.current;
         const critChance = clamp(currentPlayer.focus, 0, 100) / 100;
         const isCrit = Math.random() < critChance;
+        audio.playSfx("attack");
+        if (isCrit) {
+          audio.playSfx("crit");
+        }
         const boostActive = currentPlayer.attackBoostUntil > Date.now();
         const attackPower = boostActive
           ? currentPlayer.attack * currentPlayer.attackBoost
@@ -316,6 +373,8 @@ export default function GamePage() {
           prev.includes(first.pairId) ? prev : [...prev, first.pairId],
         );
       } else {
+        comboStreakRef.current = 0;
+        audio.playSfx("mismatch");
         setPlayer((prevPlayer) => ({ ...prevPlayer, focus: 0 }));
         setEnemy((prevEnemy) => ({
           ...prevEnemy,
@@ -360,6 +419,10 @@ export default function GamePage() {
     if (enemy.hp <= 0) return;
     if (enemy.ap < enemy.apThreshold) return;
 
+    audio.playSfx("damage");
+    if (playerRef.current.shield > 0) {
+      audio.playSfx("block");
+    }
     setEnemyAttackTick((prev) => prev + 1);
     setPlayerHitTick((prev) => prev + 1);
 
@@ -398,12 +461,21 @@ export default function GamePage() {
   useEffect(() => {
     if (view !== "game") return;
     if (enemy.hp > 0) return;
+    if (!winPlayedRef.current && level < 10) {
+      audio.playSfx("win");
+      winPlayedRef.current = true;
+    }
     setView(level >= 10 ? "finalvictory" : "victory");
   }, [enemy.hp, level, view]);
 
   useEffect(() => {
     if (view !== "game") return;
     if (player.hp > 0) return;
+    if (!losePlayedRef.current) {
+      audio.stopAll();
+      audio.playSfx("lose");
+      losePlayedRef.current = true;
+    }
     setView("gameover");
   }, [player.hp, view]);
 
@@ -413,6 +485,8 @@ export default function GamePage() {
     if (revealActive) return;
     if (flippedUnmatched.length >= 2) return;
 
+    audio.unlock();
+    audio.playSfx("flip");
     setCards((prev) =>
       prev.map((card) =>
         card.id === id && !card.isFlipped && !card.isMatched
@@ -520,6 +594,8 @@ export default function GamePage() {
   };
 
   const handleNewGame = () => {
+    audio.unlock();
+    audio.playSfx("click");
     localStorage.removeItem(STORAGE_KEY);
     const nextConfig = getLevelConfig(1);
     const nextEnemyStats = ENEMY_STATS[1];
@@ -545,28 +621,44 @@ export default function GamePage() {
   };
 
   const handleResume = () => {
+    audio.unlock();
+    audio.playSfx("click");
     setView(resumeView);
   };
 
   const handleOpenEncyclopedia = () => {
+    audio.unlock();
+    audio.playSfx("click");
     setView("encyclopedia");
   };
 
+  const handleSettingsClick = () => {
+    audio.unlock();
+    audio.playSfx("click");
+  };
+
   const handleCloseEncyclopedia = () => {
+    audio.unlock();
+    audio.playSfx("click");
     setView("mainmenu");
   };
 
   const handleBackToMenu = () => {
+    audio.unlock();
+    audio.playSfx("click");
     setView("mainmenu");
   };
 
   const handleResetProgression = () => {
+    audio.unlock();
+    audio.playSfx("click");
     localStorage.removeItem(ENCYCLOPEDIA_KEY);
     setUnlockedTerms([]);
   };
 
   const handleNextLevel = () => {
     if (level >= 10) return;
+    audio.unlock();
     const nextLevel = Math.min(level + 1, 10);
     const nextConfig = getLevelConfig(nextLevel);
     const nextEnemyStats = ENEMY_STATS[nextLevel] ?? ENEMY_STATS[1];
@@ -648,6 +740,7 @@ export default function GamePage() {
     if (busy || revealActive) return;
     const item = player.consumables[slotIndex];
     if (!item) return;
+    audio.unlock();
 
     const consumeSlot = (updater?: (prev: PlayerState) => PlayerState) => {
       setPlayer((prev) => {
@@ -661,18 +754,22 @@ export default function GamePage() {
 
     switch (item) {
       case "minor_reveal":
+        audio.playSfx("reveal");
         triggerReveal(2, 3000);
         consumeSlot();
         break;
       case "major_reveal":
+        audio.playSfx("reveal");
         triggerReveal(4, 5000);
         consumeSlot();
         break;
       case "cosmic_reveal":
+        audio.playSfx("reveal");
         triggerReveal(cards.length, 5000);
         consumeSlot();
         break;
       case "freeze":
+        audio.playSfx("freeze");
         if (freezeTimerRef.current) {
           clearTimeout(freezeTimerRef.current);
           freezeTimerRef.current = null;
@@ -685,9 +782,11 @@ export default function GamePage() {
         consumeSlot();
         break;
       case "obsidian_shield":
+        audio.playSfx("block");
         consumeSlot((prev) => ({ ...prev, shield: 0.5 }));
         break;
       case "holyxaliber":
+        audio.playSfx("holyxaliber");
         if (attackBoostTimerRef.current) {
           clearTimeout(attackBoostTimerRef.current);
           attackBoostTimerRef.current = null;
@@ -707,12 +806,15 @@ export default function GamePage() {
         }, 6000);
         break;
       case "bandage":
+        audio.playSfx("heal");
         consumeSlot((prev) => ({ ...prev, hp: prev.hp + 10 }));
         break;
       case "med_kit":
+        audio.playSfx("heal");
         consumeSlot((prev) => ({ ...prev, hp: prev.hp + 20 }));
         break;
       case "holy_heal":
+        audio.playSfx("heal");
         consumeSlot((prev) => ({ ...prev, hp: prev.hp + 50 }));
         break;
       default:
@@ -721,15 +823,24 @@ export default function GamePage() {
   };
 
   const handleReplaceConsumable = (slotIndex: number) => {
+    audio.unlock();
+    audio.playSfx("click");
     setLootReplaceIndex(slotIndex);
   };
 
   const handleSelectUpgrade = (index: number) => {
+    audio.unlock();
+    audio.playSfx("click");
     selectedUpgradeRef.current = index;
     setSelectedUpgrade(index);
     if (index !== 2) {
       setLootReplaceIndex(null);
       return;
+    }
+    if (!pendingLoot) {
+      const loot = pickRandomConsumable();
+      setPendingLoot(loot);
+      setLootLabel(CONSUMABLE_LABELS[loot]);
     }
     setLootReplaceIndex(null);
   };
@@ -751,6 +862,26 @@ export default function GamePage() {
     pendingLoot !== null &&
     inventoryFull &&
     lootReplaceIndex === null;
+
+  const handleToggleMusic = (value: boolean) => {
+    audio.unlock();
+    audio.setMusicMuted(value);
+  };
+
+  const handleToggleSfx = (value: boolean) => {
+    audio.unlock();
+    audio.setSfxMuted(value);
+  };
+
+  const handleMusicVolume = (value: number) => {
+    audio.unlock();
+    audio.setMusicVolume(value);
+  };
+
+  const handleSfxVolume = (value: number) => {
+    audio.unlock();
+    audio.setSfxVolume(value);
+  };
 
   const gridColsClass = cols === 3 ? "grid-cols-3" : cols === 4 ? "grid-cols-4" : "grid-cols-6";
   const gridRowsClass = rows === 2 ? "grid-rows-2" : rows === 4 ? "grid-rows-4" : "grid-rows-6";
@@ -791,6 +922,15 @@ export default function GamePage() {
         onResume={handleResume}
         onNewGame={handleNewGame}
         onOpenEncyclopedia={handleOpenEncyclopedia}
+        onSettingsClick={handleSettingsClick}
+        musicMuted={audio.musicMuted}
+        sfxMuted={audio.sfxMuted}
+        musicVolume={audio.musicVolume}
+        sfxVolume={audio.sfxVolume}
+        onToggleMusic={handleToggleMusic}
+        onToggleSfx={handleToggleSfx}
+        onChangeMusicVolume={handleMusicVolume}
+        onChangeSfxVolume={handleSfxVolume}
       />
     );
   }
@@ -825,14 +965,17 @@ export default function GamePage() {
   }
 
   return (
-    <div className="relative h-screen box-border flex flex-col p-4 overflow-hidden">
+    <div className="relative h-screen box-border flex flex-col p-4 overflow-hidden text-[var(--sw-text)]">
       <div className="flex flex-col flex-none">
-        <div className="flex items-center justify-between">
-          <button onClick={handleBackToMenu} className="rounded-full bg-slate-900 px-6 py-2 text-sm font-semibold text-white hover:bg-slate-800">
+        <div className="flex items-center justify-between gap-3">
+          <button
+            onClick={handleBackToMenu}
+            className="rounded-full px-6 py-2 text-sm font-semibold sw-button-secondary"
+          >
             Menu
           </button>
-          <h1 className="text-2xl font-bold">Battle</h1>
-          <div className="text-xs uppercase tracking-[0.25em] text-slate-400">
+          <h1 className="text-2xl font-bold sw-title">Battle</h1>
+          <div className="text-xs uppercase tracking-[0.25em] sw-muted">
             Level {level}
           </div>
         </div>

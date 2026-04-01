@@ -1,26 +1,92 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #0b001f;
+  --foreground: #f8f0ff;
+  --sw-bg: #0b001f;
+  --sw-bg-2: #160027;
+  --sw-panel: rgba(12, 5, 32, 0.85);
+  --sw-surface: rgba(18, 8, 44, 0.9);
+  --sw-border: rgba(255, 0, 198, 0.35);
+  --sw-border-soft: rgba(34, 211, 238, 0.25);
+  --sw-text: #f8f0ff;
+  --sw-muted: #bba4ff;
+  --sw-accent: #ff2bd6;
+  --sw-cyan: #22d3ee;
+  --sw-gold: #f6d36a;
+  --sw-danger: #ff6b88;
+  --sw-success: #36f5c2;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  --font-sans: var(--font-orbitron);
+  --font-mono: var(--font-space-mono);
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: radial-gradient(circle at top, #2b0a4d 0%, #14002c 35%, #0b001f 75%);
+  color: var(--sw-text);
+  font-family: var(--font-sans), sans-serif;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-attachment: fixed;
+  min-height: 100vh;
+}
+
+.sw-panel {
+  background: var(--sw-panel);
+  border: 1px solid var(--sw-border);
+  box-shadow: 0 18px 50px -30px rgba(255, 0, 198, 0.6);
+}
+
+.sw-surface {
+  background: var(--sw-surface);
+  border: 1px solid var(--sw-border-soft);
+}
+
+.sw-muted {
+  color: var(--sw-muted);
+}
+
+.sw-title {
+  color: var(--sw-text);
+  text-shadow: 0 0 16px rgba(255, 0, 198, 0.4);
+}
+
+.sw-button-primary {
+  background: linear-gradient(90deg, var(--sw-accent), var(--sw-cyan));
+  color: #12001f;
+  box-shadow: 0 12px 30px -18px rgba(255, 0, 198, 0.6);
+}
+
+.sw-button-secondary {
+  background: rgba(20, 8, 54, 0.5);
+  border: 1px solid var(--sw-border);
+  color: var(--sw-text);
+}
+
+.sw-button-primary:hover {
+  filter: brightness(1.05);
+}
+
+.sw-button-secondary:hover {
+  border-color: var(--sw-cyan);
+}
+
+.sw-outline {
+  border: 1px solid var(--sw-border-soft);
+}
+
+.sw-accent-amber {
+  color: var(--sw-gold);
+}
+
+.sw-accent-rose {
+  color: var(--sw-danger);
+}
+
+.sw-accent-emerald {
+  color: var(--sw-success);
 }

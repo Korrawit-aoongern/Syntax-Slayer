@@ -43,10 +43,10 @@ export default function Card({
       aria-label={isRevealed ? `${face}: ${text}` : "Hidden card"}
       className={cx(
         "group relative h-32 w-full select-none rounded-2xl border transition",
-        "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-400/70",
+        "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-fuchsia-400/70",
         isRevealed
-          ? "shadow-[0_10px_24px_-12px_rgba(251,191,36,0.6)]"
-          : "shadow-[0_8px_18px_-12px_rgba(15,23,42,0.35)]",
+          ? "shadow-[0_12px_28px_-14px_rgba(255,43,214,0.6)]"
+          : "shadow-[0_12px_24px_-16px_rgba(34,211,238,0.35)]",
         categoryBorder,
         disabled ? "cursor-not-allowed opacity-80" : "cursor-pointer",
         className,
@@ -56,8 +56,8 @@ export default function Card({
         className={cx(
           "absolute inset-0 rounded-[inherit] p-3 transition-all duration-200",
           isRevealed
-            ? "bg-gradient-to-br from-slate-900 via-slate-800 to-slate-950 text-white"
-            : "bg-gradient-to-br from-slate-50 via-white to-slate-100 text-slate-500",
+            ? "bg-[radial-gradient(circle_at_top,#2c0a5b_0%,#16002e_55%,#0b001f_100%)] text-[#f8f0ff]"
+            : "bg-[radial-gradient(circle_at_top,#1b0b3a_0%,#120026_60%,#0b001f_100%)] text-[#c9b6ff]",
         )}
       >
         <div className="flex h-full flex-col items-center justify-center gap-2 text-center">
@@ -67,8 +67,8 @@ export default function Card({
                 className={cx(
                   "rounded-full px-2 py-0.5 text-[10px] font-semibold uppercase tracking-widest",
                   face === "term"
-                    ? "bg-amber-400/20 text-amber-200"
-                    : "bg-sky-400/20 text-sky-200",
+                    ? "bg-fuchsia-500/20 text-fuchsia-200"
+                    : "bg-cyan-400/20 text-cyan-200",
                 )}
               >
                 {face}
@@ -76,13 +76,13 @@ export default function Card({
               <span className="text-sm font-semibold leading-snug">{text}</span>
             </>
           ) : (
-            <span className="text-3xl font-bold text-slate-300">?</span>
+            <span className="text-3xl font-bold text-cyan-200">?</span>
           )}
         </div>
       </div>
 
       {isLocked && !isMatched ? (
-        <div className="absolute inset-0 flex items-center justify-center rounded-[inherit] bg-slate-900/40 text-xs font-semibold uppercase tracking-[0.2em] text-slate-100">
+        <div className="absolute inset-0 flex items-center justify-center rounded-[inherit] bg-[#0b001f]/70 text-xs font-semibold uppercase tracking-[0.2em] text-[#f8f0ff]">
           Locked
         </div>
       ) : null}

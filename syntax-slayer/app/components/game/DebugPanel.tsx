@@ -45,19 +45,19 @@ export default function DebugPanel({
       <button
         type="button"
         onClick={onToggle}
-        className="fixed bottom-4 right-4 rounded-full border border-slate-200 bg-white dark:bg-gray-700 dark:text-white px-4 py-1.5 text-xs font-semibold text-slate-600 shadow-sm hover:border-slate-300"
+        className="fixed bottom-4 right-4 rounded-full px-4 py-1.5 text-xs font-semibold sw-button-secondary"
       >
         {show ? "Hide Debug" : "Show Debug"}
       </button>
 
       {show ? (
-        <div className="fixed bottom-16 right-4 w-[320px] rounded-3xl border border-slate-200/70 bg-white/95 dark:bg-gray-700 p-4 shadow-[0_18px_40px_-24px_rgba(15,23,42,0.6)]">
-          <div className="text-xs uppercase tracking-[0.3em] text-slate-400">
+        <div className="fixed bottom-16 right-4 w-[320px] rounded-3xl p-4 sw-panel">
+          <div className="text-xs uppercase tracking-[0.3em] sw-muted">
             Debug Tools
           </div>
           <div className="mt-4 grid gap-4">
-            <div className="rounded-2xl border border-slate-200/70 bg-white/80 p-4">
-              <div className="text-xs uppercase tracking-[0.2em] text-slate-400">
+            <div className="rounded-2xl p-4 sw-surface">
+              <div className="text-xs uppercase tracking-[0.2em] sw-muted">
                 Level
               </div>
               <div className="mt-3 flex flex-wrap items-center gap-2">
@@ -67,57 +67,57 @@ export default function DebugPanel({
                   max={10}
                   value={level}
                   onChange={(event) => onLevelChange(Number(event.target.value))}
-                  className="w-20 rounded-lg border border-slate-200 dark:bg-gray-700 px-2 py-1 text-sm"
+                  className="w-20 rounded-lg border border-[var(--sw-border-soft)] bg-[rgba(12,5,32,0.6)] px-2 py-1 text-sm text-[var(--sw-text)]"
                 />
-                <span className="text-xs text-slate-500">
+                <span className="text-xs sw-muted">
                   Auto-resets enemy + deck
                 </span>
               </div>
             </div>
 
-            <div className="rounded-2xl border border-slate-200/70 bg-white/80 p-4">
-              <div className="text-xs uppercase tracking-[0.2em] text-slate-400">
+            <div className="rounded-2xl p-4 sw-surface">
+              <div className="text-xs uppercase tracking-[0.2em] sw-muted">
                 Player Stats
               </div>
               <div className="mt-3 grid grid-cols-3 gap-2 text-sm">
                 <label className="flex flex-col gap-1">
-                  <span className="text-xs text-slate-500">HP</span>
+                  <span className="text-xs sw-muted">HP</span>
                   <input
                     type="number"
                     value={player.hp}
                     onChange={(event) =>
                       onSetPlayerStat("hp", Number(event.target.value))
                     }
-                    className="rounded-lg border border-slate-200 dark:bg-gray-700 px-2 py-1"
+                    className="rounded-lg border border-[var(--sw-border-soft)] bg-[rgba(12,5,32,0.6)] px-2 py-1 text-[var(--sw-text)]"
                   />
                 </label>
                 <label className="flex flex-col gap-1">
-                  <span className="text-xs text-slate-500">ATK</span>
+                  <span className="text-xs sw-muted">ATK</span>
                   <input
                     type="number"
                     value={player.attack}
                     onChange={(event) =>
                       onSetPlayerStat("attack", Number(event.target.value))
                     }
-                    className="rounded-lg border border-slate-200 dark:bg-gray-700 px-2 py-1"
+                    className="rounded-lg border border-[var(--sw-border-soft)] bg-[rgba(12,5,32,0.6)] px-2 py-1 text-[var(--sw-text)]"
                   />
                 </label>
                 <label className="flex flex-col gap-1">
-                  <span className="text-xs text-slate-500">Focus</span>
+                  <span className="text-xs sw-muted">Focus</span>
                   <input
                     type="number"
                     value={player.focus}
                     onChange={(event) =>
                       onSetPlayerStat("focus", Number(event.target.value))
                     }
-                    className="rounded-lg border border-slate-200 dark:bg-gray-700 px-2 py-1"
+                    className="rounded-lg border border-[var(--sw-border-soft)] bg-[rgba(12,5,32,0.6)] px-2 py-1 text-[var(--sw-text)]"
                   />
                 </label>
               </div>
             </div>
 
-            <div className="rounded-2xl border border-slate-200/70 bg-white/80 p-4">
-              <div className="text-xs uppercase tracking-[0.2em] text-slate-400">
+            <div className="rounded-2xl p-4 sw-surface">
+              <div className="text-xs uppercase tracking-[0.2em] sw-muted">
                 Consumables
               </div>
               <div className="mt-3 grid gap-2 text-sm">
@@ -126,7 +126,7 @@ export default function DebugPanel({
                     key={`debug-slot-${index}`}
                     className="flex flex-col gap-1"
                   >
-                    <span className="text-xs text-slate-500">
+                    <span className="text-xs sw-muted">
                       Slot {index + 1}
                     </span>
                     <select
@@ -135,7 +135,7 @@ export default function DebugPanel({
                         const value = event.target.value as ConsumableId | "";
                         onSetConsumable(index, value === "" ? null : value);
                       }}
-                      className="rounded-lg border border-slate-200 dark:bg-gray-700 px-2 py-1 text-sm"
+                      className="rounded-lg border border-[var(--sw-border-soft)] bg-[rgba(12,5,32,0.6)] px-2 py-1 text-sm text-[var(--sw-text)]"
                     >
                       <option value="">Empty</option>
                       {consumablePool.map((consumable) => (
@@ -151,89 +151,89 @@ export default function DebugPanel({
                 <button
                   type="button"
                   onClick={onClearConsumables}
-                  className="rounded-full border border-slate-200 bg-white px-3 py-1 text-xs font-semibold text-slate-600 hover:border-slate-300"
+                  className="rounded-full px-3 py-1 text-xs font-semibold sw-button-secondary"
                 >
                   Clear Slots
                 </button>
                 <button
                   type="button"
                   onClick={onRandomSlot3}
-                  className="rounded-full border border-slate-200 bg-white px-3 py-1 text-xs font-semibold text-slate-600 hover:border-slate-300"
+                  className="rounded-full px-3 py-1 text-xs font-semibold sw-button-secondary"
                 >
                   Random Slot 3
                 </button>
               </div>
             </div>
 
-            <div className="rounded-2xl border border-slate-200/70 bg-white/80 p-4">
-              <div className="text-xs uppercase tracking-[0.2em] text-slate-400">
+            <div className="rounded-2xl p-4 sw-surface">
+              <div className="text-xs uppercase tracking-[0.2em] sw-muted">
                 Encyclopedia
               </div>
               <div className="mt-3 flex flex-wrap gap-2">
                 <button
                   type="button"
                   onClick={onUnlockAllTerms}
-                  className="rounded-full border border-emerald-200 bg-emerald-50 px-3 py-1 text-xs font-semibold text-emerald-700 hover:border-emerald-300"
+                  className="rounded-full border border-[var(--sw-success)]/50 bg-[rgba(54,245,194,0.1)] px-3 py-1 text-xs font-semibold text-[var(--sw-success)]"
                 >
                   Unlock All Terms
                 </button>
                 <button
                   type="button"
                   onClick={onResetTerms}
-                  className="rounded-full border border-rose-200 bg-rose-50 px-3 py-1 text-xs font-semibold text-rose-700 hover:border-rose-300"
+                  className="rounded-full border border-[var(--sw-danger)]/50 bg-[rgba(255,107,136,0.15)] px-3 py-1 text-xs font-semibold text-[var(--sw-danger)]"
                 >
                   Reset Terms
                 </button>
               </div>
             </div>
 
-            <div className="rounded-2xl border border-slate-200/70 bg-white/80 p-4">
-              <div className="text-xs uppercase tracking-[0.2em] text-slate-400">
+            <div className="rounded-2xl p-4 sw-surface">
+              <div className="text-xs uppercase tracking-[0.2em] sw-muted">
                 Enemy Stats
               </div>
               <div className="mt-3 grid grid-cols-2 gap-2 text-sm">
                 <label className="flex flex-col gap-1">
-                  <span className="text-xs text-slate-500">HP</span>
+                  <span className="text-xs sw-muted">HP</span>
                   <input
                     type="number"
                     value={enemy.hp}
                     onChange={(event) =>
                       onSetEnemyStat("hp", Number(event.target.value))
                     }
-                    className="rounded-lg border border-slate-200 dark:bg-gray-700 px-2 py-1"
+                    className="rounded-lg border border-[var(--sw-border-soft)] bg-[rgba(12,5,32,0.6)] px-2 py-1 text-[var(--sw-text)]"
                   />
                 </label>
                 <label className="flex flex-col gap-1">
-                  <span className="text-xs text-slate-500">ATK</span>
+                  <span className="text-xs sw-muted">ATK</span>
                   <input
                     type="number"
                     value={enemy.attack}
                     onChange={(event) =>
                       onSetEnemyStat("attack", Number(event.target.value))
                     }
-                    className="rounded-lg border border-slate-200 dark:bg-gray-700 px-2 py-1"
+                    className="rounded-lg border border-[var(--sw-border-soft)] bg-[rgba(12,5,32,0.6)] px-2 py-1 text-[var(--sw-text)]"
                   />
                 </label>
                 <label className="flex flex-col gap-1">
-                  <span className="text-xs text-slate-500">AP</span>
+                  <span className="text-xs sw-muted">AP</span>
                   <input
                     type="number"
                     value={enemy.ap}
                     onChange={(event) =>
                       onSetEnemyStat("ap", Number(event.target.value))
                     }
-                    className="rounded-lg border border-slate-200 dark:bg-gray-700 px-2 py-1"
+                    className="rounded-lg border border-[var(--sw-border-soft)] bg-[rgba(12,5,32,0.6)] px-2 py-1 text-[var(--sw-text)]"
                   />
                 </label>
                 <label className="flex flex-col gap-1">
-                  <span className="text-xs text-slate-500">AP Thresh</span>
+                  <span className="text-xs sw-muted">AP Thresh</span>
                   <input
                     type="number"
                     value={enemy.apThreshold}
                     onChange={(event) =>
                       onSetEnemyStat("apThreshold", Number(event.target.value))
                     }
-                    className="rounded-lg border border-slate-200 dark:bg-gray-700 px-2 py-1"
+                    className="rounded-lg border border-[var(--sw-border-soft)] bg-[rgba(12,5,32,0.6)] px-2 py-1 text-[var(--sw-text)]"
                   />
                 </label>
               </div>

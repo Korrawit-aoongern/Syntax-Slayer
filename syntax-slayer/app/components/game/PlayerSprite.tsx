@@ -17,7 +17,7 @@ export default function PlayerSprite({ attackSignal, hitSignal }: PlayerSpritePr
     frameHeight: 16,
     idle: { row: 0, frames: 4 },
     attacks: [{ row: 1, frames: 5 }],
-    fps: 5,
+    fps: 10,
     scale: 6,
   };
 
