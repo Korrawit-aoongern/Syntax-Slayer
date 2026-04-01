@@ -885,15 +885,20 @@ export default function GamePage() {
 
   const gridColsClass = cols === 3 ? "grid-cols-3" : cols === 4 ? "grid-cols-4" : "grid-cols-6";
   const gridRowsClass = rows === 2 ? "grid-rows-2" : rows === 4 ? "grid-rows-4" : "grid-rows-6";
-  const gridGapClass = cols === 3 ? "gap-4" : cols === 4 ? "gap-3" : "gap-2";
+  const gridGapClass =
+    cols === 3
+      ? "gap-2 sm:gap-4"
+      : cols === 4
+        ? "gap-1.5 sm:gap-3"
+        : "gap-1 sm:gap-2";
   const gridAspectClass =
     rows === 2
       ? cols === 3
-        ? "aspect-[3/2]"
+        ? "aspect-[4/3] sm:aspect-[3/2]"
         : cols === 4
-          ? "aspect-[2/1]"
+          ? "aspect-[3/1] sm:aspect-[2/1]"
           : "aspect-[3/1]"
-      : "aspect-square";
+      : "aspect-[4/3] sm:aspect-square";
 
   if (view === "victory") {
     return (
@@ -965,22 +970,22 @@ export default function GamePage() {
   }
 
   return (
-    <div className="relative h-screen box-border flex flex-col p-4 overflow-hidden text-[var(--sw-text)]">
+    <div className="relative h-[100svh] box-border flex flex-col p-3 sm:p-4 overflow-hidden text-[var(--sw-text)]">
       <div className="flex flex-col flex-none">
         <div className="flex items-center justify-between gap-3">
           <button
             onClick={handleBackToMenu}
-            className="rounded-full px-6 py-2 text-sm font-semibold sw-button-secondary"
+            className="rounded-full px-4 py-1.5 text-xs sm:px-6 sm:py-2 sm:text-sm font-semibold sw-button-secondary"
           >
             Menu
           </button>
-          <h1 className="text-2xl font-bold sw-title">Battle</h1>
-          <div className="text-xs uppercase tracking-[0.25em] sw-muted">
+          <h1 className="text-xl sm:text-2xl font-bold sw-title">Battle</h1>
+          <div className="text-[10px] sm:text-xs uppercase tracking-[0.25em] sw-muted">
             Level {level}
           </div>
         </div>
 
-        <div className="mt-3 grid flex-1 min-h-0 gap-4 lg:grid-cols-2">
+        <div className="mt-3 grid flex-1 min-h-0 gap-3 lg:gap-4 lg:grid-cols-2">
           <PlayerPanel
             player={player}
             critChance={critChance}
@@ -1004,7 +1009,7 @@ export default function GamePage() {
       <ApBar apPercent={apPercent} level={level} rows={rows} cols={cols} pairs={pairs} />
 
       <div className="flex-1 min-h-0 flex items-center justify-center">
-        <div className={`max-h-full max-w-full w-full ${gridAspectClass}`}>
+        <div className={`max-h-full w-full max-w-[92vw] sm:max-w-full ${gridAspectClass}`}>
           <div
             className={`grid h-full w-full ${gridColsClass} ${gridRowsClass} ${gridGapClass}`}
           >

@@ -39,7 +39,7 @@ export default function PlayerPanel({
       <div className="text-xs uppercase tracking-[0.35em] sw-muted">
         Player
       </div>
-      <div className="mt-4 flex min-h-0 flex-1 items-stretch gap-4">
+      <div className="mt-4 grid min-h-0 flex-1 grid-cols-2 gap-3 sm:grid-cols-[auto_auto_1fr]">
         <div className="flex flex-col gap-3 text-sm">
           <div>
             <div className="sw-muted">HP</div>
@@ -68,7 +68,7 @@ export default function PlayerPanel({
           <div className="text-[10px] uppercase tracking-[0.3em] sw-muted">
             Items
           </div>
-          <div className="flex flex-col gap-2">
+          <div className="flex flex-wrap gap-2 sm:flex-col">
             {player.consumables.map((item, index) => (
               <button
                 key={`slot-${index}`}
@@ -76,7 +76,7 @@ export default function PlayerPanel({
                 onClick={() => onUseConsumable(index)}
                 disabled={!item || disableConsumables}
                 title={item ? consumableLabels[item] : "Empty slot"}
-                className={`flex h-12 w-12 items-center justify-center rounded border border-dashed text-[10px] uppercase tracking-[0.2em] transition ${
+                className={`flex h-10 w-10 sm:h-12 sm:w-12 items-center justify-center rounded border border-dashed text-[10px] uppercase tracking-[0.2em] transition ${
                   item
                     ? "border-[var(--sw-cyan)]/60 bg-[rgba(20,8,54,0.7)] text-[var(--sw-text)] hover:border-[var(--sw-accent)]"
                     : "border-[var(--sw-border)]/60 bg-[rgba(12,5,32,0.6)] text-[var(--sw-muted)]"
@@ -95,9 +95,11 @@ export default function PlayerPanel({
             ))}
           </div>
         </div>
-        <div className="flex-1 rounded-2xl border border-dashed border-[var(--sw-border)]/60 bg-[rgba(12,5,32,0.5)] p-4">
+        <div className="col-span-2 sm:col-span-1 flex-1 rounded-2xl border border-dashed border-[var(--sw-border)]/60 bg-[rgba(12,5,32,0.5)] p-3 sm:p-4">
           <div className="h-full w-full rounded-xl bg-[rgba(16,8,40,0.7)] shadow-inner flex items-center justify-center">
-            <PlayerSprite attackSignal={attackSignal} hitSignal={hitSignal} />
+            <div className="scale-90 sm:scale-100">
+              <PlayerSprite attackSignal={attackSignal} hitSignal={hitSignal} />
+            </div>
           </div>
         </div>
       </div>

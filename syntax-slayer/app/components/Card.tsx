@@ -42,7 +42,7 @@ export default function Card({
       aria-pressed={isRevealed}
       aria-label={isRevealed ? `${face}: ${text}` : "Hidden card"}
       className={cx(
-        "group relative h-32 w-full select-none rounded-2xl border transition",
+        "group relative h-full w-full select-none rounded-2xl border transition",
         "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-fuchsia-400/70",
         isRevealed
           ? "shadow-[0_12px_28px_-14px_rgba(255,43,214,0.6)]"
@@ -54,7 +54,7 @@ export default function Card({
     >
       <div
         className={cx(
-          "absolute inset-0 rounded-[inherit] p-3 transition-all duration-200",
+          "absolute inset-0 rounded-[inherit] p-2 sm:p-3 transition-all duration-200",
           isRevealed
             ? "bg-[radial-gradient(circle_at_top,#2c0a5b_0%,#16002e_55%,#0b001f_100%)] text-[#f8f0ff]"
             : "bg-[radial-gradient(circle_at_top,#1b0b3a_0%,#120026_60%,#0b001f_100%)] text-[#c9b6ff]",
@@ -65,7 +65,7 @@ export default function Card({
             <>
               <span
                 className={cx(
-                  "rounded-full px-2 py-0.5 text-[10px] font-semibold uppercase tracking-widest",
+                  "rounded-full px-2 py-0.5 text-[8px] sm:text-[10px] font-semibold uppercase tracking-widest",
                   face === "term"
                     ? "bg-fuchsia-500/20 text-fuchsia-200"
                     : "bg-cyan-400/20 text-cyan-200",
@@ -73,10 +73,14 @@ export default function Card({
               >
                 {face}
               </span>
-              <span className="text-sm font-semibold leading-snug">{text}</span>
+              <span className="text-xs sm:text-sm font-semibold leading-snug">
+                {text}
+              </span>
             </>
           ) : (
-            <span className="text-3xl font-bold text-cyan-200">?</span>
+            <span className="text-2xl sm:text-3xl font-bold text-cyan-200">
+              ?
+            </span>
           )}
         </div>
       </div>
