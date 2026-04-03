@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<svg version="1.1" width="320" height="320" xmlns="http://www.w3.org/2000/svg" shape-rendering="crispEdges">
+<rect x="20" y="80" width="40" height="20" fill="#C42F37" />
+<rect x="60" y="80" width="220" height="20" fill="#100820" />
+<rect x="40" y="100" width="40" height="20" fill="#C42F37" />
+<rect x="80" y="100" width="60" height="40" fill="#8A9096" />
+<rect x="140" y="100" width="120" height="40" fill="#AEB5BD" />
+<rect x="260" y="100" width="40" height="20" fill="#100820" />
+<rect x="40" y="120" width="20" height="100" fill="#100820" />
+<rect x="60" y="120" width="20" height="80" fill="#8A9096" />
+<rect x="260" y="120" width="20" height="80" fill="#AEB5BD" />
+<rect x="280" y="120" width="20" height="100" fill="#100820" />
+<rect x="80" y="140" width="40" height="80" fill="#8A9096" />
+<rect x="120" y="140" width="40" height="60" fill="#AEB5BD" />
+<rect x="160" y="140" width="20" height="60" fill="#100820" />
+<rect x="180" y="140" width="20" height="80" fill="#AEB5BD" />
+<rect x="200" y="140" width="20" height="60" fill="#100820" />
+<rect x="220" y="140" width="20" height="80" fill="#AEB5BD" />
+<rect x="240" y="140" width="20" height="60" fill="#100820" />
+<rect x="60" y="200" width="20" height="40" fill="#100820" />
+<rect x="120" y="200" width="20" height="20" fill="#8A9096" />
+<rect x="140" y="200" width="40" height="20" fill="#AEB5BD" />
+<rect x="200" y="200" width="20" height="20" fill="#AEB5BD" />
+<rect x="240" y="200" width="20" height="20" fill="#AEB5BD" />
+<rect x="260" y="200" width="20" height="40" fill="#100820" />
+<rect x="80" y="220" width="180" height="20" fill="#100820" />
+</svg>

@@ -186,13 +186,12 @@ export default function GamePage() {
         value === "IS";
       const isTermFilter = (value: unknown): value is TermFilter =>
         value === "random" || value === "custom" || isCategory(value);
-      const storedCustom = Array.isArray(data.customCategories)
+      const storedCustom: Category[] = Array.isArray(data.customCategories)
         ? data.customCategories.filter(isCategory)
         : [];
-      const nextCustom =
-        storedCustom.length > 0
-          ? storedCustom
-          : ["SE", "CPE", "CS", "IT", "IS"];
+      const defaultCustom: Category[] = ["SE", "CPE", "CS", "IT", "IS"];
+      const nextCustom: Category[] =
+        storedCustom.length > 0 ? storedCustom : defaultCustom;
       const loadedLevel =
         typeof data.level === "number" && data.level >= 1 ? data.level : 1;
       const { pairs: loadedPairs } = getLevelConfig(loadedLevel);
