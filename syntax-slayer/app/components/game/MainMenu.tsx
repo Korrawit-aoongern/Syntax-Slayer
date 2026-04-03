@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import type { Category, TermFilter } from "../../types/game";
 
 type MainMenuProps = {
   hasSave: boolean;
@@ -8,6 +9,11 @@ type MainMenuProps = {
   onNewGame: () => void;
   onOpenEncyclopedia: () => void;
   onSettingsClick: () => void;
+  onFilterClick: () => void;
+  termFilter: TermFilter;
+  customCategories: Category[];
+  onSelectFilter: (value: TermFilter) => void;
+  onChangeCustomCategories: (value: Category[]) => void;
   musicMuted: boolean;
   sfxMuted: boolean;
   musicVolume: number;
@@ -24,6 +30,11 @@ export default function MainMenu({
   onNewGame,
   onOpenEncyclopedia,
   onSettingsClick,
+  onFilterClick,
+  termFilter,
+  customCategories,
+  onSelectFilter,
+  onChangeCustomCategories,
   musicMuted,
   sfxMuted,
   musicVolume,
@@ -34,6 +45,40 @@ export default function MainMenu({
   onChangeSfxVolume,
 }: MainMenuProps) {
   const [showSettings, setShowSettings] = useState(false);
+  const [showFilters, setShowFilters] = useState(false);
+
+  const filterOptions: Array<{ id: TermFilter; label: string }> = [
+    { id: "random", label: "Random" },
+    { id: "SE", label: "SE Only" },
+    { id: "CPE", label: "CPE/CE Only" },
+    { id: "CS", label: "CS Only" },
+    { id: "IT", label: "IT Only" },
+    { id: "IS", label: "IS Only" },
+    { id: "custom", label: "Custom" },
+  ];
+
+  const customOptions: Array<{ id: Category; label: string }> = [
+    { id: "SE", label: "SE" },
+    { id: "CPE", label: "CPE/CE" },
+    { id: "CS", label: "CS" },
+    { id: "IT", label: "IT" },
+    { id: "IS", label: "IS" },
+  ];
+
+  const handleSelectFilter = (value: TermFilter) => {
+    onSelectFilter(value);
+    if (value === "custom" && customCategories.length === 0) {
+      onChangeCustomCategories(["SE"]);
+    }
+  };
+
+  const toggleCustomCategory = (category: Category) => {
+    const next = customCategories.includes(category)
+      ? customCategories.filter((value) => value !== category)
+      : [...customCategories, category];
+    if (next.length === 0) return;
+    onChangeCustomCategories(next);
+  };
 
   return (
     <div className="p-6">
@@ -86,6 +131,82 @@ export default function MainMenu({
               {hasSave ? "New Game" : "Start Game"}
             </span>
           </button>
+          <div className="relative">
+            <button
+              type="button"
+              onClick={() => {
+                onFilterClick();
+                setShowFilters((prev) => !prev);
+              }}
+              className="rounded-full px-4 py-2 text-sm font-semibold sw-button-secondary"
+            >
+              <span className="inline-flex items-center gap-2">
+                <svg
+                  viewBox="0 0 24 24"
+                  className="h-4 w-4"
+                  fill="currentColor"
+                  aria-hidden="true"
+                >
+                  <path d="M4 7h16M4 12h16M4 17h16" stroke="currentColor" strokeWidth="2" />
+                </svg>
+                Filters
+              </span>
+            </button>
+
+            {showFilters ? (
+              <div className="absolute left-0 top-full z-20 mt-2 w-72 rounded-3xl p-4 sw-panel">
+                <div className="text-xs uppercase tracking-[0.3em] sw-muted">
+                  Term Filters
+                </div>
+                <div className="mt-3 grid gap-2">
+                  {filterOptions.map((option) => {
+                    const isActive = termFilter === option.id;
+                    return (
+                      <button
+                        key={option.id}
+                        type="button"
+                        onClick={() => handleSelectFilter(option.id)}
+                        className={`rounded-2xl border px-3 py-2 text-xs font-semibold uppercase tracking-[0.2em] transition ${
+                          isActive
+                            ? "border-[var(--sw-accent)] bg-[rgba(255,43,214,0.12)] text-[var(--sw-accent)]"
+                            : "border-[var(--sw-border)] bg-[rgba(12,5,32,0.6)] text-[var(--sw-text)] hover:border-[var(--sw-cyan)]"
+                        }`}
+                      >
+                        {option.label}
+                      </button>
+                    );
+                  })}
+                </div>
+
+                {termFilter === "custom" ? (
+                  <div className="mt-3 rounded-2xl border border-[var(--sw-border-soft)] bg-[rgba(12,5,32,0.6)] p-3">
+                    <div className="text-[10px] uppercase tracking-[0.25em] sw-muted">
+                      Custom Categories (Pick at Least One)
+                    </div>
+                    <div className="mt-2 flex flex-wrap gap-2">
+                      {customOptions.map((option) => {
+                        const isSelected = customCategories.includes(option.id);
+                        return (
+                          <button
+                            key={option.id}
+                            type="button"
+                            onClick={() => toggleCustomCategory(option.id)}
+                            className={`rounded-full px-3 py-2 text-xs font-semibold uppercase tracking-[0.2em] transition ${
+                              isSelected
+                                ? "border border-[var(--sw-cyan)] bg-[rgba(34,211,238,0.12)] text-[var(--sw-cyan)]"
+                                : "border border-[var(--sw-border)] bg-[rgba(12,5,32,0.5)] text-[var(--sw-text)] hover:border-[var(--sw-cyan)]"
+                            }`}
+                          >
+                            {option.label}
+                          </button>
+                        );
+                      })}
+                    </div>
+                  </div>
+                ) : null}
+              </div>
+            ) : null}
+          </div>
         </div>
         <button
           type="button"

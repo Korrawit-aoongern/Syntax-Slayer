@@ -1,5 +1,7 @@
 export type Category = "SE" | "CS" | "CPE" | "IT" | "IS";
 
+export type TermFilter = "random" | "SE" | "CPE" | "CS" | "IT" | "IS" | "custom";
+
 export type VocabItem = {
   id: string;
   term: string;
@@ -66,6 +68,8 @@ export type SessionState = {
   unlockedTerms: string[];
   runUnlockedTerms?: string[];
   selectedUpgrade: number | null;
+  termFilter?: TermFilter;
+  customCategories?: Category[];
 };
 
 export type LevelConfig = {

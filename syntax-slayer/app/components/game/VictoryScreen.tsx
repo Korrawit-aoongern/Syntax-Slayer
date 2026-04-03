@@ -5,6 +5,7 @@ import itemsData from "../../data/items.json";
 
 type VictoryScreenProps = {
   level: number;
+  autoHpGain: number;
   upgradeOptions: string[];
   selectedUpgrade: number | null;
   onSelectUpgrade: (index: number) => void;
@@ -21,6 +22,7 @@ type VictoryScreenProps = {
 
 export default function VictoryScreen({
   level,
+  autoHpGain,
   upgradeOptions,
   selectedUpgrade,
   onSelectUpgrade,
@@ -55,6 +57,9 @@ export default function VictoryScreen({
           </h1>
           <p className="mt-2 text-sm sw-muted">
             Choose one of the three upgrade cards below.
+          </p>
+          <p className="mt-2 text-sm font-semibold text-[var(--sw-success)]">
+            You leveled up! You gain {autoHpGain} HP.
           </p>
         </div>
 

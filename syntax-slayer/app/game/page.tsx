@@ -17,11 +17,13 @@ import { CONSUMABLE_LABELS, CONSUMABLE_POOL } from "../data/consumables";
 import { ENCYCLOPEDIA_KEY, ENEMY_STATS, STORAGE_KEY } from "../data/gameConfig";
 import type {
   ConsumableId,
+  Category,
   EnemyState,
   GameCard,
   GameView,
   PlayerState,
   SessionState,
+  TermFilter,
   VocabItem,
 } from "../types/game";
 import {
@@ -40,9 +42,31 @@ const vocab = vocabData as VocabItem[];
 
 export default function GamePage() {
   const [level, setLevel] = useState(1);
+  const [termFilter, setTermFilter] = useState<TermFilter>("random");
+  const [customCategories, setCustomCategories] = useState<Category[]>([
+    "SE",
+    "CPE",
+    "CS",
+    "IT",
+    "IS",
+  ]);
   const { rows, cols, pairs } = getLevelConfig(level);
   const enemyStats = ENEMY_STATS[level] ?? ENEMY_STATS[1];
-  const initialDeck = useMemo(() => buildDeck(vocab, pairs), [pairs]);
+  const filteredVocab = useMemo(() => {
+    if (termFilter === "random") return vocab;
+    if (termFilter === "custom") {
+      const selected =
+        customCategories.length > 0
+          ? customCategories
+          : (["SE"] as Category[]);
+      return vocab.filter((item) => selected.includes(item.category));
+    }
+    return vocab.filter((item) => item.category === termFilter);
+  }, [customCategories, termFilter]);
+  const initialDeck = useMemo(
+    () => buildDeck(filteredVocab, pairs),
+    [filteredVocab, pairs],
+  );
   const [cards, setCards] = useState<GameCard[]>(initialDeck);
   const [busy, setBusy] = useState(false);
   const [view, setView] = useState<GameView>("mainmenu");
@@ -154,11 +178,28 @@ export default function GamePage() {
         return;
       }
       const data = JSON.parse(raw) as Partial<SessionState>;
+      const isCategory = (value: unknown): value is Category =>
+        value === "SE" ||
+        value === "CPE" ||
+        value === "CS" ||
+        value === "IT" ||
+        value === "IS";
+      const isTermFilter = (value: unknown): value is TermFilter =>
+        value === "random" || value === "custom" || isCategory(value);
+      const storedCustom = Array.isArray(data.customCategories)
+        ? data.customCategories.filter(isCategory)
+        : [];
+      const nextCustom =
+        storedCustom.length > 0
+          ? storedCustom
+          : ["SE", "CPE", "CS", "IT", "IS"];
       const loadedLevel =
         typeof data.level === "number" && data.level >= 1 ? data.level : 1;
       const { pairs: loadedPairs } = getLevelConfig(loadedLevel);
 
       setLevel(loadedLevel);
+      setTermFilter(isTermFilter(data.termFilter) ? data.termFilter : "random");
+      setCustomCategories(nextCustom);
       const restoredView =
         data.view === "victory" || data.view === "mainmenu" ? data.view : "game";
       setResumeView(restoredView);
@@ -172,10 +213,19 @@ export default function GamePage() {
           apThreshold: ENEMY_STATS[loadedLevel]?.apThreshold ?? 5,
         },
       );
+      const filterForDeck = isTermFilter(data.termFilter)
+        ? data.termFilter
+        : "random";
+      const deckSource =
+        filterForDeck === "random"
+          ? vocab
+          : filterForDeck === "custom"
+            ? vocab.filter((item) => nextCustom.includes(item.category))
+            : vocab.filter((item) => item.category === filterForDeck);
       setCards(
         Array.isArray(data.cards) && data.cards.length > 0
           ? data.cards
-          : buildDeck(vocab, loadedPairs),
+          : buildDeck(deckSource, loadedPairs),
       );
       setUnlockedTerms(
         encyclopediaTerms ??
@@ -214,6 +264,8 @@ export default function GamePage() {
       unlockedTerms,
       runUnlockedTerms,
       selectedUpgrade,
+      termFilter,
+      customCategories,
     };
     localStorage.setItem(STORAGE_KEY, JSON.stringify(payload));
   }, [
@@ -228,6 +280,8 @@ export default function GamePage() {
     unlockedTerms,
     runUnlockedTerms,
     selectedUpgrade,
+    termFilter,
+    customCategories,
   ]);
 
   useEffect(() => {
@@ -533,13 +587,13 @@ export default function GamePage() {
 
     setBusy(true);
     const timer = setTimeout(() => {
-      setCards(buildDeck(vocab, pairs));
+      setCards(buildDeck(filteredVocab, pairs));
       resetMismatchLocks();
       setBusy(false);
     }, 500);
 
     return () => clearTimeout(timer);
-  }, [cards, pairs, view, enemy.hp]);
+  }, [cards, pairs, view, enemy.hp, filteredVocab]);
 
   useEffect(() => {
     if (view !== "game") return;
@@ -610,7 +664,7 @@ export default function GamePage() {
       ap: 0,
       apThreshold: nextEnemyStats.apThreshold,
     });
-    setCards(buildDeck(vocab, nextConfig.pairs));
+    setCards(buildDeck(filteredVocab, nextConfig.pairs));
     resetMismatchLocks();
     setSelectedUpgrade(null);
     setBusy(false);
@@ -709,7 +763,7 @@ export default function GamePage() {
       ap: 0,
       apThreshold: nextEnemyStats.apThreshold,
     });
-    setCards(buildDeck(vocab, nextConfig.pairs));
+    setCards(buildDeck(filteredVocab, nextConfig.pairs));
     resetMismatchLocks();
     setPendingLoot(null);
     setLootLabel(null);
@@ -729,6 +783,11 @@ export default function GamePage() {
   };
 
   const handleSettingsClick = () => {
+    audio.unlock();
+    audio.playSfx("click");
+  };
+
+  const handleFilterClick = () => {
     audio.unlock();
     audio.playSfx("click");
   };
@@ -759,18 +818,23 @@ export default function GamePage() {
     const nextConfig = getLevelConfig(nextLevel);
     const nextEnemyStats = ENEMY_STATS[nextLevel] ?? ENEMY_STATS[1];
     const chosenUpgrade = selectedUpgradeRef.current;
+    const autoHpGain = 10;
     const upgradeValues =
       level <= 4
-        ? { hp: 10, atk: 2 }
+        ? { hp: 15, atk: 2 }
         : level <= 8
           ? { hp: 25, atk: 4 }
           : { hp: 50, atk: 6 };
 
-    if (chosenUpgrade === 0) {
-      setPlayer((prev) => ({ ...prev, hp: prev.hp + upgradeValues.hp }));
-    } else if (chosenUpgrade === 1) {
-      setPlayer((prev) => ({ ...prev, attack: prev.attack + upgradeValues.atk }));
-    }
+    setPlayer((prev) => {
+      const hpGain = autoHpGain + (chosenUpgrade === 0 ? upgradeValues.hp : 0);
+      const atkGain = chosenUpgrade === 1 ? upgradeValues.atk : 0;
+      return {
+        ...prev,
+        hp: prev.hp + hpGain,
+        attack: prev.attack + atkGain,
+      };
+    });
 
     setLevel(nextLevel);
     setEnemy({
@@ -779,7 +843,7 @@ export default function GamePage() {
       ap: 0,
       apThreshold: nextEnemyStats.apThreshold,
     });
-    setCards(buildDeck(vocab, nextConfig.pairs));
+    setCards(buildDeck(filteredVocab, nextConfig.pairs));
     resetMismatchLocks();
     setSelectedUpgrade(null);
     selectedUpgradeRef.current = null;
@@ -942,9 +1006,10 @@ export default function GamePage() {
     setLootReplaceIndex(null);
   };
 
+  const autoHpGain = 10;
   const upgradeValues =
     level <= 4
-      ? { hp: 10, atk: 2 }
+      ? { hp: 15, atk: 2 }
       : level <= 8
         ? { hp: 25, atk: 4 }
         : { hp: 50, atk: 6 };
@@ -996,6 +1061,7 @@ export default function GamePage() {
     return (
       <VictoryScreen
         level={level}
+        autoHpGain={autoHpGain}
         upgradeOptions={upgradeOptions}
         selectedUpgrade={selectedUpgrade}
         onSelectUpgrade={handleSelectUpgrade}
@@ -1020,6 +1086,11 @@ export default function GamePage() {
         onNewGame={handleNewGame}
         onOpenEncyclopedia={handleOpenEncyclopedia}
         onSettingsClick={handleSettingsClick}
+        onFilterClick={handleFilterClick}
+        termFilter={termFilter}
+        customCategories={customCategories}
+        onSelectFilter={setTermFilter}
+        onChangeCustomCategories={setCustomCategories}
         musicMuted={audio.musicMuted}
         sfxMuted={audio.sfxMuted}
         musicVolume={audio.musicVolume}
