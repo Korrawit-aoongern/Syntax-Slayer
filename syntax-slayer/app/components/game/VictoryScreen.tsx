@@ -58,9 +58,11 @@ export default function VictoryScreen({
           <p className="mt-2 text-sm sw-muted">
             Choose one of the three upgrade cards below.
           </p>
-          <p className="mt-2 text-sm font-semibold text-[var(--sw-success)]">
-            You leveled up! You gain {autoHpGain} HP.
-          </p>
+          {autoHpGain > 0 ? (
+            <p className="mt-2 text-sm font-semibold text-[var(--sw-success)]">
+              You leveled up! You gain {autoHpGain} HP.
+            </p>
+          ) : null}
         </div>
 
         <div className="grid gap-4 md:grid-cols-3">

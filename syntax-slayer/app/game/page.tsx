@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import Card from "../components/Card";
 import ApBar from "../components/game/ApBar";
 import DebugPanel from "../components/game/DebugPanel";
@@ -21,6 +21,7 @@ import type {
   EnemyState,
   GameCard,
   GameView,
+  GameMode,
   PlayerState,
   SessionState,
   TermFilter,
@@ -40,8 +41,22 @@ import useAudioManager from "../utils/useAudioManager";
 
 const vocab = vocabData as VocabItem[];
 
+const buildEnemyState = (level: number, mode: GameMode): EnemyState => {
+  const stats = ENEMY_STATS[level] ?? ENEMY_STATS[1];
+  const attackMult = mode === "hard" ? 2 : 1;
+  const apThresholdMult = mode === "easy" ? 10 : 1;
+  return {
+    hp: stats.hp,
+    attack: Math.round(stats.attack * attackMult),
+    ap: 0,
+    apThreshold: Math.max(1, Math.round(stats.apThreshold * apThresholdMult)),
+  };
+};
+
 export default function GamePage() {
   const [level, setLevel] = useState(1);
+  const [gameMode, setGameMode] = useState<GameMode>("classic");
+  const [resumeMode, setResumeMode] = useState<GameMode>("classic");
   const [termFilter, setTermFilter] = useState<TermFilter>("random");
   const [customCategories, setCustomCategories] = useState<Category[]>([
     "SE",
@@ -51,7 +66,17 @@ export default function GamePage() {
     "IS",
   ]);
   const { rows, cols, pairs } = getLevelConfig(level);
-  const enemyStats = ENEMY_STATS[level] ?? ENEMY_STATS[1];
+  const modeConfig = useMemo(() => {
+    return {
+      apTickMs: gameMode === "easy" ? 5000 : 3000,
+      apThresholdMult: gameMode === "easy" ? 10 : 1,
+      enemyAttackMult: gameMode === "hard" ? 2 : 1,
+      mismatchDelayMs: gameMode === "hard" ? 1500 : 2500,
+      ghostingEnabled: gameMode === "classic",
+      allowToggle: gameMode === "easy",
+      penaltyOnMismatch: gameMode !== "easy",
+    };
+  }, [gameMode]);
   const filteredVocab = useMemo(() => {
     if (termFilter === "random") return vocab;
     if (termFilter === "custom") {
@@ -88,12 +113,9 @@ export default function GamePage() {
   const [enemyAttackTick, setEnemyAttackTick] = useState(0);
   const [enemyHitTick, setEnemyHitTick] = useState(0);
   const [lockedCards, setLockedCards] = useState<string[]>([]);
-  const [enemy, setEnemy] = useState<EnemyState>({
-    hp: enemyStats.hp,
-    attack: enemyStats.attack,
-    ap: 0,
-    apThreshold: enemyStats.apThreshold,
-  });
+  const [enemy, setEnemy] = useState<EnemyState>(() =>
+    buildEnemyState(1, "classic"),
+  );
   const [hydrated, setHydrated] = useState(false);
   const audio = useAudioManager();
 
@@ -117,6 +139,7 @@ export default function GamePage() {
   const finalVictoryPlayedRef = useRef(false);
   const comboStreakRef = useRef(0);
   const freezeUntilRef = useRef(0);
+  const flipTimesRef = useRef<number[]>([]);
 
   const lockedSet = useMemo(() => new Set(lockedCards), [lockedCards]);
   const flippedUnmatched = useMemo(
@@ -143,6 +166,37 @@ export default function GamePage() {
     () => vocab.filter((item) => runUnlockedSet.has(item.id)),
     [runUnlockedSet],
   );
+
+  const resetMismatchLocks = useCallback(() => {
+    Object.values(mismatchTimersRef.current).forEach((timer) => {
+      clearTimeout(timer);
+    });
+    mismatchTimersRef.current = {};
+    setLockedCards([]);
+  }, []);
+
+  const performEnemyAttack = useCallback(() => {
+    audio.playSfx("damage");
+    if (playerRef.current.shield > 0) {
+      audio.playSfx("block");
+    }
+    setEnemyAttackTick((prev) => prev + 1);
+    setPlayerHitTick((prev) => prev + 1);
+
+    setEnemy((prev) => ({ ...prev, ap: 0 }));
+    setPlayer((prev) => {
+      const reducedDamage = Math.max(
+        0,
+        Math.round(enemyRef.current.attack * (1 - prev.shield)),
+      );
+      return {
+        ...prev,
+        hp: clamp(prev.hp - reducedDamage, 0, prev.hp),
+        focus: clamp(prev.focus - 2, 0, 100),
+        shield: 0,
+      };
+    });
+  }, [audio]);
 
   useEffect(() => {
     playerRef.current = player;
@@ -186,6 +240,8 @@ export default function GamePage() {
         value === "IS";
       const isTermFilter = (value: unknown): value is TermFilter =>
         value === "random" || value === "custom" || isCategory(value);
+      const isGameMode = (value: unknown): value is GameMode =>
+        value === "classic" || value === "easy" || value === "hard";
       const storedCustom: Category[] = Array.isArray(data.customCategories)
         ? data.customCategories.filter(isCategory)
         : [];
@@ -197,6 +253,9 @@ export default function GamePage() {
       const { pairs: loadedPairs } = getLevelConfig(loadedLevel);
 
       setLevel(loadedLevel);
+      const storedMode = isGameMode(data.gameMode) ? data.gameMode : "classic";
+      setGameMode(storedMode);
+      setResumeMode(storedMode);
       setTermFilter(isTermFilter(data.termFilter) ? data.termFilter : "random");
       setCustomCategories(nextCustom);
       const restoredView =
@@ -204,14 +263,7 @@ export default function GamePage() {
       setResumeView(restoredView);
       setView("mainmenu");
       setPlayer(withPlayerDefaults(data.player));
-      setEnemy(
-        data.enemy ?? {
-          hp: ENEMY_STATS[loadedLevel]?.hp ?? 8,
-          attack: ENEMY_STATS[loadedLevel]?.attack ?? 2,
-          ap: 0,
-          apThreshold: ENEMY_STATS[loadedLevel]?.apThreshold ?? 5,
-        },
-      );
+      setEnemy(data.enemy ?? buildEnemyState(loadedLevel, storedMode));
       const filterForDeck = isTermFilter(data.termFilter)
         ? data.termFilter
         : "random";
@@ -265,6 +317,7 @@ export default function GamePage() {
       selectedUpgrade,
       termFilter,
       customCategories,
+      gameMode,
     };
     localStorage.setItem(STORAGE_KEY, JSON.stringify(payload));
   }, [
@@ -281,6 +334,7 @@ export default function GamePage() {
     selectedUpgrade,
     termFilter,
     customCategories,
+    gameMode,
   ]);
 
   useEffect(() => {
@@ -296,8 +350,9 @@ export default function GamePage() {
       view !== "finalvictory"
     ) {
       setResumeView(view);
+      setResumeMode(gameMode);
     }
-  }, [view]);
+  }, [gameMode, view]);
 
   useEffect(() => {
     return () => {
@@ -369,11 +424,12 @@ export default function GamePage() {
       }
       resetMismatchLocks();
       enemyAttackQueuedRef.current = false;
+      flipTimesRef.current = [];
       setPlayerHitTick(0);
       setRevealedCards([]);
       setRevealActive(false);
     }
-  }, [view]);
+  }, [resetMismatchLocks, view]);
 
   useEffect(() => {
     if (view !== "game") {
@@ -455,7 +511,7 @@ export default function GamePage() {
           return {
             ...prevEnemy,
             hp: nextHp,
-            ap: clamp(prevEnemy.ap - 2, 0, prevEnemy.apThreshold),
+            ap: clamp(prevEnemy.ap - 1, 0, prevEnemy.apThreshold),
           };
         });
 
@@ -468,26 +524,44 @@ export default function GamePage() {
       } else {
         comboStreakRef.current = 0;
         audio.playSfx("mismatch");
-        setPlayer((prevPlayer) => ({ ...prevPlayer, focus: 0 }));
-        setEnemy((prevEnemy) => {
-          if (Date.now() < freezeUntilRef.current) return prevEnemy;
-          return {
-            ...prevEnemy,
-            ap: clamp(prevEnemy.ap + 2, 0, prevEnemy.apThreshold),
-          };
-        });
+        if (modeConfig.penaltyOnMismatch) {
+          setPlayer((prevPlayer) => ({ ...prevPlayer, focus: 0 }));
+          setEnemy((prevEnemy) => {
+            if (Date.now() < freezeUntilRef.current) return prevEnemy;
+            return {
+              ...prevEnemy,
+              ap: clamp(prevEnemy.ap + 2, 0, prevEnemy.apThreshold),
+            };
+          });
+        }
 
         const mismatchIds = [first.id, second.id];
-        setLockedCards((prev) => {
-          const next = new Set(prev);
-          mismatchIds.forEach((id) => next.add(id));
-          return Array.from(next);
-        });
         const mismatchKey = mismatchIds.slice().sort().join("|");
         if (mismatchTimersRef.current[mismatchKey]) {
           clearTimeout(mismatchTimersRef.current[mismatchKey]);
         }
-        mismatchTimersRef.current[mismatchKey] = setTimeout(() => {
+
+        if (modeConfig.ghostingEnabled) {
+          setLockedCards((prev) => {
+            const next = new Set(prev);
+            mismatchIds.forEach((id) => next.add(id));
+            return Array.from(next);
+          });
+          mismatchTimersRef.current[mismatchKey] = setTimeout(() => {
+            setCards((prev) =>
+              prev.map((card) => {
+                if (mismatchIds.includes(card.id) && !card.isMatched) {
+                  return { ...card, isFlipped: false };
+                }
+                return card;
+              }),
+            );
+            setLockedCards((prev) =>
+              prev.filter((id) => !mismatchIds.includes(id)),
+            );
+            delete mismatchTimersRef.current[mismatchKey];
+          }, modeConfig.mismatchDelayMs);
+        } else if (gameMode === "hard") {
           setCards((prev) =>
             prev.map((card) => {
               if (mismatchIds.includes(card.id) && !card.isMatched) {
@@ -496,16 +570,15 @@ export default function GamePage() {
               return card;
             }),
           );
-          setLockedCards((prev) =>
-            prev.filter((id) => !mismatchIds.includes(id)),
-          );
-          delete mismatchTimersRef.current[mismatchKey];
-        }, 2500);
+        }
       }
 
       setBusy(false);
       resolvingRef.current = false;
-      resolveKeyRef.current = null;
+      const keepResolveKey = !isMatch && gameMode === "easy";
+      if (!keepResolveKey) {
+        resolveKeyRef.current = null;
+      }
       resolveTimerRef.current = null;
     }, 700);
 
@@ -517,26 +590,43 @@ export default function GamePage() {
         resolvingRef.current = false;
       }
     };
-  }, [flippedKey, view]);
+  }, [audio, flippedKey, gameMode, modeConfig, view]);
 
   useEffect(() => {
     if (view !== "game") return;
     if (enemy.hp <= 0) return;
 
-    const timer = setInterval(() => {
-      setEnemy((prev) => {
-        if (prev.hp <= 0) return prev;
-        if (enemyAttackQueuedRef.current) return prev;
-        if (Date.now() < freezeUntil) return prev;
-        return {
+    let timer: ReturnType<typeof setTimeout> | null = null;
+    const scheduleTick = (delay: number) => {
+      if (timer) clearTimeout(timer);
+      timer = setTimeout(() => {
+        if (enemyRef.current.hp <= 0) return;
+        if (enemyAttackQueuedRef.current) {
+          scheduleTick(modeConfig.apTickMs);
+          return;
+        }
+        if (Date.now() < freezeUntilRef.current) {
+          const remaining = Math.max(
+            0,
+            freezeUntilRef.current - Date.now(),
+          );
+          scheduleTick(remaining + modeConfig.apTickMs);
+          return;
+        }
+        setEnemy((prev) => ({
           ...prev,
           ap: clamp(prev.ap + 1, 0, prev.apThreshold),
-        };
-      });
-    }, 3000);
+        }));
+        scheduleTick(modeConfig.apTickMs);
+      }, delay);
+    };
 
-    return () => clearInterval(timer);
-  }, [view, enemy.hp, freezeUntil]);
+    scheduleTick(modeConfig.apTickMs);
+
+    return () => {
+      if (timer) clearTimeout(timer);
+    };
+  }, [enemy.hp, modeConfig.apTickMs, view]);
 
   useEffect(() => {
     if (view !== "game") return;
@@ -553,30 +643,11 @@ export default function GamePage() {
       clearTimeout(enemyAttackTimerRef.current);
     }
     enemyAttackTimerRef.current = setTimeout(() => {
-      audio.playSfx("damage");
-      if (playerRef.current.shield > 0) {
-        audio.playSfx("block");
-      }
-      setEnemyAttackTick((prev) => prev + 1);
-      setPlayerHitTick((prev) => prev + 1);
-
-      setEnemy((prev) => ({ ...prev, ap: 0 }));
-      setPlayer((prev) => {
-        const reducedDamage = Math.max(
-          0,
-          Math.round(enemyRef.current.attack * (1 - prev.shield)),
-        );
-        return {
-          ...prev,
-          hp: clamp(prev.hp - reducedDamage, 0, prev.hp),
-          focus: clamp(prev.focus - 2, 0, 100),
-          shield: 0,
-        };
-      });
+      performEnemyAttack();
       enemyAttackQueuedRef.current = false;
       enemyAttackTimerRef.current = null;
     }, 350);
-  }, [enemy.ap, enemy.apThreshold, enemy.hp, view]);
+  }, [enemy.ap, enemy.apThreshold, enemy.hp, performEnemyAttack, view]);
 
   useEffect(() => {
     if (view !== "game") return;
@@ -588,6 +659,7 @@ export default function GamePage() {
     const timer = setTimeout(() => {
       setCards(buildDeck(filteredVocab, pairs));
       resetMismatchLocks();
+      flipTimesRef.current = [];
       setBusy(false);
     }, 500);
 
@@ -619,10 +691,23 @@ export default function GamePage() {
     if (view !== "game") return;
     if (busy) return;
     if (revealActive) return;
+    const targetCard = cards.find((card) => card.id === id);
+    if (!targetCard || targetCard.isMatched) return;
+    if (modeConfig.allowToggle && targetCard.isFlipped) {
+      audio.unlock();
+      audio.playSfx("flip");
+      setCards((prev) =>
+        prev.map((card) =>
+          card.id === id && !card.isMatched
+            ? { ...card, isFlipped: false }
+            : card,
+        ),
+      );
+      return;
+    }
     if (flippedUnmatched.length >= 2) return;
     if (lockedSet.has(id)) return;
-    const targetCard = cards.find((card) => card.id === id);
-    if (!targetCard || targetCard.isFlipped || targetCard.isMatched) return;
+    if (targetCard.isFlipped) return;
 
     audio.unlock();
     audio.playSfx("flip");
@@ -633,6 +718,11 @@ export default function GamePage() {
           : card,
       ),
     );
+
+    if (gameMode === "hard") {
+      // Anti-spam penalty removed per request.
+      flipTimesRef.current = [];
+    }
   };
 
   const apPercent =
@@ -643,28 +733,15 @@ export default function GamePage() {
     ? player.attack * player.attackBoost
     : player.attack;
 
-  const resetMismatchLocks = () => {
-    Object.values(mismatchTimersRef.current).forEach((timer) => {
-      clearTimeout(timer);
-    });
-    mismatchTimersRef.current = {};
-    setLockedCards([]);
-  };
-
   const applyLevel = (nextLevel: number) => {
     const clampedLevel = clamp(nextLevel, 1, 10);
     const nextConfig = getLevelConfig(clampedLevel);
-    const nextEnemyStats = ENEMY_STATS[clampedLevel] ?? ENEMY_STATS[1];
 
     setLevel(clampedLevel);
-    setEnemy({
-      hp: nextEnemyStats.hp,
-      attack: nextEnemyStats.attack,
-      ap: 0,
-      apThreshold: nextEnemyStats.apThreshold,
-    });
+    setEnemy(buildEnemyState(clampedLevel, gameMode));
     setCards(buildDeck(filteredVocab, nextConfig.pairs));
     resetMismatchLocks();
+    flipTimesRef.current = [];
     setSelectedUpgrade(null);
     setBusy(false);
     setView("game");
@@ -746,24 +823,20 @@ export default function GamePage() {
     audio.playSfx("click");
     localStorage.removeItem(STORAGE_KEY);
     const nextConfig = getLevelConfig(1);
-    const nextEnemyStats = ENEMY_STATS[1];
 
     setHasSave(true);
     setLevel(1);
     setView("game");
     setResumeView("game");
+    setResumeMode(gameMode);
     setSelectedUpgrade(null);
     setRunUnlockedTerms([]);
     setBusy(false);
     setPlayer(createDefaultPlayer());
-    setEnemy({
-      hp: nextEnemyStats.hp,
-      attack: nextEnemyStats.attack,
-      ap: 0,
-      apThreshold: nextEnemyStats.apThreshold,
-    });
+    setEnemy(buildEnemyState(1, gameMode));
     setCards(buildDeck(filteredVocab, nextConfig.pairs));
     resetMismatchLocks();
+    flipTimesRef.current = [];
     setPendingLoot(null);
     setLootLabel(null);
     setLootReplaceIndex(null);
@@ -772,6 +845,7 @@ export default function GamePage() {
   const handleResume = () => {
     audio.unlock();
     audio.playSfx("click");
+    setGameMode(resumeMode);
     setView(resumeView);
   };
 
@@ -789,6 +863,15 @@ export default function GamePage() {
   const handleFilterClick = () => {
     audio.unlock();
     audio.playSfx("click");
+  };
+
+  const handleModeClick = () => {
+    audio.unlock();
+    audio.playSfx("click");
+  };
+
+  const handleSelectMode = (mode: GameMode) => {
+    setGameMode(mode);
   };
 
   const handleCloseEncyclopedia = () => {
@@ -815,9 +898,8 @@ export default function GamePage() {
     audio.unlock();
     const nextLevel = Math.min(level + 1, 10);
     const nextConfig = getLevelConfig(nextLevel);
-    const nextEnemyStats = ENEMY_STATS[nextLevel] ?? ENEMY_STATS[1];
     const chosenUpgrade = selectedUpgradeRef.current;
-    const autoHpGain = 10;
+    const autoHpGain = gameMode === "hard" ? 0 : 10;
     const upgradeValues =
       level <= 4
         ? { hp: 15, atk: 2 }
@@ -836,14 +918,10 @@ export default function GamePage() {
     });
 
     setLevel(nextLevel);
-    setEnemy({
-      hp: nextEnemyStats.hp,
-      attack: nextEnemyStats.attack,
-      ap: 0,
-      apThreshold: nextEnemyStats.apThreshold,
-    });
+    setEnemy(buildEnemyState(nextLevel, gameMode));
     setCards(buildDeck(filteredVocab, nextConfig.pairs));
     resetMismatchLocks();
+    flipTimesRef.current = [];
     setSelectedUpgrade(null);
     selectedUpgradeRef.current = null;
     setBusy(false);
@@ -1005,7 +1083,7 @@ export default function GamePage() {
     setLootReplaceIndex(null);
   };
 
-  const autoHpGain = 10;
+  const autoHpGain = gameMode === "hard" ? 0 : 10;
   const upgradeValues =
     level <= 4
       ? { hp: 15, atk: 2 }
@@ -1086,6 +1164,9 @@ export default function GamePage() {
         onOpenEncyclopedia={handleOpenEncyclopedia}
         onSettingsClick={handleSettingsClick}
         onFilterClick={handleFilterClick}
+        onModeClick={handleModeClick}
+        gameMode={gameMode}
+        onSelectMode={handleSelectMode}
         termFilter={termFilter}
         customCategories={customCategories}
         onSelectFilter={setTermFilter}
@@ -1185,9 +1266,10 @@ export default function GamePage() {
               const hintRing = isUnlockedTerm
                 ? getCategoryRingClass(card.category)
                 : "";
-              const mismatchClass = lockedSet.has(card.id)
-                ? "mismatch-lock"
-                : "";
+              const mismatchClass =
+                modeConfig.ghostingEnabled && lockedSet.has(card.id)
+                  ? "mismatch-lock"
+                  : "";
               return (
                 <Card
                   key={card.id}

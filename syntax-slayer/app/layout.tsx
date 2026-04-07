@@ -1,16 +1,10 @@
 import type { Metadata } from "next";
-import { Orbitron, Space_Mono } from "next/font/google";
+import { IBM_Plex_Sans_Thai } from "next/font/google";
 import "./globals.css";
 
-const orbitron = Orbitron({
-  variable: "--font-orbitron",
-  subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
-});
-
-const spaceMono = Space_Mono({
-  variable: "--font-space-mono",
-  subsets: ["latin"],
+const ibmPlexThai = IBM_Plex_Sans_Thai({
+  variable: "--font-thai",
+  subsets: ["latin", "thai"],
   weight: ["400", "700"],
 });
 
@@ -25,10 +19,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html
-      lang="en"
-      className={`${orbitron.variable} ${spaceMono.variable} h-full antialiased`}
-    >
+    <html lang="en" className={`${ibmPlexThai.variable} h-full antialiased`}>
       <body className="min-h-full flex flex-col">{children}</body>
     </html>
   );

@@ -33,6 +33,12 @@ export default function Card({
   const isRevealed = isFlipped || isMatched;
   const disabled = isMatched || isLocked;
   const categoryBorder = getCategoryBorderClass(category);
+  const isThaiText = /[\u0E00-\u0E7F]/.test(text);
+  const textClass = isThaiText
+    ? face === "term"
+      ? "thai-term"
+      : "thai-text"
+    : "font-semibold";
 
   return (
     <button
@@ -73,7 +79,12 @@ export default function Card({
               >
                 {face}
               </span>
-              <span className="text-sm font-semibold leading-snug">{text}</span>
+              <span
+                className={cx("text-sm leading-snug", textClass)}
+                lang={isThaiText ? "th" : undefined}
+              >
+                {text}
+              </span>
             </>
           ) : (
             <span className="text-3xl font-bold text-cyan-200">?</span>

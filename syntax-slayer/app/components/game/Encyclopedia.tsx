@@ -33,6 +33,7 @@ export default function Encyclopedia({
   const [statusFilter, setStatusFilter] = useState<"all" | "unlocked" | "locked">(
     "all",
   );
+  const isThaiText = (value: string) => /[\u0E00-\u0E7F]/.test(value);
 
   const filtered = useMemo(() => {
     const lowered = query.trim().toLowerCase();
@@ -161,7 +162,12 @@ export default function Encyclopedia({
                     <div className={`text-[10px] uppercase tracking-[0.2em] ${metaClass}`}>
                       {item.category}
                     </div>
-                    <div className={`mt-1 text-sm font-semibold ${termClass}`}>
+                    <div
+                      className={`mt-1 text-sm ${
+                        isThaiText(item.term) ? "thai-term" : "font-semibold"
+                      } ${termClass}`}
+                      lang={isThaiText(item.term) ? "th" : undefined}
+                    >
                       {item.term}
                     </div>
                   </div>
@@ -242,16 +248,31 @@ export default function Encyclopedia({
                   <div className="text-xs uppercase tracking-[0.3em] sw-muted">
                     {current.category}
                   </div>
-                  <h2 className="mt-2 text-2xl font-semibold sw-title">
+                  <h2
+                    className={`mt-2 text-2xl sw-title ${
+                      isThaiText(current.term) ? "thai-term" : "font-semibold"
+                    }`}
+                    lang={isThaiText(current.term) ? "th" : undefined}
+                  >
                     {current.term}
                   </h2>
                   <div className="mt-2 inline-flex rounded-full border border-[var(--sw-border-soft)] px-3 py-1 text-[10px] uppercase tracking-[0.2em] sw-muted">
                     {current.difficulty}
                   </div>
-                  <div className="mt-4 text-base font-semibold sw-title">
+                  <div
+                    className={`mt-4 text-base sw-title ${
+                      isThaiText(current.meaning) ? "thai-text" : "font-semibold"
+                    }`}
+                    lang={isThaiText(current.meaning) ? "th" : undefined}
+                  >
                     {current.meaning}
                   </div>
-                  <p className="mt-2 text-sm sw-muted">
+                  <p
+                    className={`mt-2 text-sm sw-muted ${
+                      isThaiText(current.description) ? "thai-text" : ""
+                    }`}
+                    lang={isThaiText(current.description) ? "th" : undefined}
+                  >
                     {current.description}
                   </p>
                 </>

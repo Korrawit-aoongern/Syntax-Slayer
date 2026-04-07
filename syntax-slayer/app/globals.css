@@ -21,18 +21,28 @@
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-orbitron);
-  --font-mono: var(--font-space-mono);
+  --font-sans: "Consolas", "Courier New", monospace;
+  --font-mono: "Consolas", "Courier New", monospace;
 }
 
 body {
   background: radial-gradient(circle at top, #2b0a4d 0%, #14002c 35%, #0b001f 75%);
   color: var(--sw-text);
-  font-family: var(--font-sans), sans-serif;
+  font-family: var(--font-sans), monospace;
   background-repeat: no-repeat;
   background-size: cover;
   background-attachment: fixed;
   min-height: 100vh;
+}
+
+.thai-text {
+  font-family: var(--font-thai), var(--font-sans), monospace;
+  font-weight: 400;
+}
+
+.thai-term {
+  font-family: var(--font-thai), var(--font-sans), monospace;
+  font-weight: 700;
 }
 
 .sw-panel {
