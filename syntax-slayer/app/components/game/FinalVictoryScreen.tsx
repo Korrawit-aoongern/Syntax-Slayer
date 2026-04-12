@@ -4,11 +4,18 @@ import type { VocabItem } from "../../types/game";
 
 type FinalVictoryScreenProps = {
   unlockedItems: VocabItem[];
+  stats?: {
+    correct: number;
+    wrong: number;
+    maxStreak: number;
+    accuracy: number;
+  };
   onBackToMenu: () => void;
 };
 
 export default function FinalVictoryScreen({
   unlockedItems,
+  stats,
   onBackToMenu,
 }: FinalVictoryScreenProps) {
   return (
@@ -25,6 +32,48 @@ export default function FinalVictoryScreen({
             These are the terms you unlocked during your run.
           </p>
         </div>
+
+        {stats ? (
+          <div className="rounded-3xl p-6 sw-panel">
+            <div className="text-xs uppercase tracking-[0.3em] sw-muted">
+              Run Summary
+            </div>
+            <div className="mt-4 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+              <div className="rounded-2xl p-4 sw-surface">
+                <div className="text-xs uppercase tracking-[0.2em] sw-muted">
+                  Correct
+                </div>
+                <div className="mt-2 text-2xl font-semibold sw-title">
+                  {stats.correct}
+                </div>
+              </div>
+              <div className="rounded-2xl p-4 sw-surface">
+                <div className="text-xs uppercase tracking-[0.2em] sw-muted">
+                  Wrong
+                </div>
+                <div className="mt-2 text-2xl font-semibold sw-title">
+                  {stats.wrong}
+                </div>
+              </div>
+              <div className="rounded-2xl p-4 sw-surface">
+                <div className="text-xs uppercase tracking-[0.2em] sw-muted">
+                  Best Streak
+                </div>
+                <div className="mt-2 text-2xl font-semibold sw-title">
+                  {stats.maxStreak}
+                </div>
+              </div>
+              <div className="rounded-2xl p-4 sw-surface">
+                <div className="text-xs uppercase tracking-[0.2em] sw-muted">
+                  Accuracy
+                </div>
+                <div className="mt-2 text-2xl font-semibold sw-title">
+                  {stats.accuracy}%
+                </div>
+              </div>
+            </div>
+          </div>
+        ) : null}
 
         <div className="rounded-3xl p-6 sw-panel">
           <div className="text-xs uppercase tracking-[0.3em] sw-muted">

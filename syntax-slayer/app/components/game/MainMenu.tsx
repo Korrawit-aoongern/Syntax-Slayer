@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import type { Category, GameMode, TermFilter } from "../../types/game";
+import type { Category, GameMode, PlayMode, TermFilter } from "../../types/game";
 
 type MainMenuProps = {
   hasSave: boolean;
@@ -11,6 +11,8 @@ type MainMenuProps = {
   onSettingsClick: () => void;
   onFilterClick: () => void;
   onModeClick: () => void;
+  playMode: PlayMode;
+  onSelectPlayMode: (value: PlayMode) => void;
   gameMode: GameMode;
   onSelectMode: (value: GameMode) => void;
   termFilter: TermFilter;
@@ -35,6 +37,8 @@ export default function MainMenu({
   onSettingsClick,
   onFilterClick,
   onModeClick,
+  playMode,
+  onSelectPlayMode,
   gameMode,
   onSelectMode,
   termFilter,
@@ -53,6 +57,7 @@ export default function MainMenu({
   const [showSettings, setShowSettings] = useState(false);
   const [showFilters, setShowFilters] = useState(false);
   const [showModes, setShowModes] = useState(false);
+  const endlessActive = playMode === "endless";
   const modeMenuRef = useRef<HTMLDivElement | null>(null);
   const filterMenuRef = useRef<HTMLDivElement | null>(null);
 
@@ -214,7 +219,8 @@ export default function MainMenu({
                     </div>
                     <div className="mt-3 grid gap-2">
                       {modeOptions.map((option) => {
-                        const isActive = gameMode === option.id;
+                        const isActive =
+                          playMode === "standard" && gameMode === option.id;
                         return (
                           <div key={option.id} className="group relative">
                             <button
@@ -237,6 +243,26 @@ export default function MainMenu({
                           </div>
                         );
                       })}
+                      <div className="group relative">
+                        <button
+                          type="button"
+                          onClick={() => {
+                            onSelectPlayMode("endless");
+                            setShowModes(false);
+                          }}
+                          className={`w-full rounded-2xl border px-3 py-2 text-xs font-semibold uppercase tracking-[0.2em] transition ${
+                            endlessActive
+                              ? "border-[var(--sw-accent)] bg-[rgba(255,43,214,0.12)] text-[var(--sw-accent)]"
+                              : "border-[var(--sw-border)] bg-[rgba(12,5,32,0.6)] text-[var(--sw-text)] hover:border-[var(--sw-cyan)]"
+                          }`}
+                        >
+                          Endless
+                        </button>
+                        <div className="pointer-events-none absolute left-full top-1/2 z-30 hidden w-64 -translate-y-1/2 rounded-2xl border border-[var(--sw-border)] bg-[rgba(12,5,32,0.9)] p-3 text-xs text-[var(--sw-text)] shadow-lg group-hover:block">
+                          Neverending zen mode where you fight with Syntax Reaper. quit anytime, No HP no ATK, Only count number of Correct Match, Wrong match count, Highest Streak and Accuracy.
+                          Limit some Item drop and change in rules, see for yourself.
+                        </div>
+                      </div>
                     </div>
                   </div>
                 ) : null}

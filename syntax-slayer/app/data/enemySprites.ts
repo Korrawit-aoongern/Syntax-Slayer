@@ -160,8 +160,8 @@ export const ENEMY_SPRITE_CONFIG: Record<number, EnemySpriteConfig> = {
     dash: {
       distance: 512,
       approachMs: 0,
-      holdMs: 1500,
-      durationMs: 700,
+      holdMs: 1000,
+      durationMs: 500,
       soundDelayMs: 500,
     },
   },

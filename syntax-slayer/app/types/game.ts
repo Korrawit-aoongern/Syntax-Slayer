@@ -3,6 +3,14 @@ export type Category = "SE" | "CS" | "CPE" | "IT" | "IS";
 export type TermFilter = "random" | "SE" | "CPE" | "CS" | "IT" | "IS" | "custom";
 
 export type GameMode = "classic" | "easy" | "hard";
+export type PlayMode = "standard" | "endless";
+
+export type EndlessStats = {
+  correct: number;
+  wrong: number;
+  streak: number;
+  maxStreak: number;
+};
 
 export type VocabItem = {
   id: string;
@@ -73,6 +81,8 @@ export type SessionState = {
   termFilter?: TermFilter;
   customCategories?: Category[];
   gameMode?: GameMode;
+  playMode?: PlayMode;
+  endlessStats?: EndlessStats;
 };
 
 export type LevelConfig = {

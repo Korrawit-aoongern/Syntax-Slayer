@@ -10,6 +10,7 @@ type EnemyPanelProps = {
   level: number;
   attackSignal: number;
   hitSignal: number;
+  isEndless: boolean;
 };
 
 export default function EnemyPanel({
@@ -17,6 +18,7 @@ export default function EnemyPanel({
   level,
   attackSignal,
   hitSignal,
+  isEndless,
 }: EnemyPanelProps) {
   const [isDashing, setIsDashing] = useState(false);
   const [delayedAttackSignal, setDelayedAttackSignal] = useState(attackSignal);
@@ -88,22 +90,35 @@ export default function EnemyPanel({
           </div>
         </div>
         <div className="flex flex-col items-end gap-3 text-sm">
-          <div>
-            <div className="sw-muted">HP</div>
-            <div className="text-2xl font-semibold sw-title">{enemy.hp}</div>
-          </div>
-          <div>
-            <div className="sw-muted">ATK</div>
-            <div className="text-2xl font-semibold sw-title">
-              {enemy.attack}
+          {isEndless ? (
+            <div>
+              <div className="sw-muted">AP</div>
+              <div className="text-2xl font-semibold sw-title">
+                {enemy.ap}/{enemy.apThreshold}
+              </div>
             </div>
-          </div>
-          <div>
-            <div className="sw-muted">AP</div>
-            <div className="text-2xl font-semibold sw-title">
-              {enemy.ap}/{enemy.apThreshold}
-            </div>
-          </div>
+          ) : (
+            <>
+              <div>
+                <div className="sw-muted">HP</div>
+                <div className="text-2xl font-semibold sw-title">
+                  {enemy.hp}
+                </div>
+              </div>
+              <div>
+                <div className="sw-muted">ATK</div>
+                <div className="text-2xl font-semibold sw-title">
+                  {enemy.attack}
+                </div>
+              </div>
+              <div>
+                <div className="sw-muted">AP</div>
+                <div className="text-2xl font-semibold sw-title">
+                  {enemy.ap}/{enemy.apThreshold}
+                </div>
+              </div>
+            </>
+          )}
         </div>
       </div>
     </div>

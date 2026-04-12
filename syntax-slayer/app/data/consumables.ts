@@ -23,3 +23,10 @@ export const CONSUMABLE_LABELS: Record<ConsumableId, string> = {
   med_kit: "Med Kit",
   holy_heal: "Holy Heal",
 };
+
+export const ENDLESS_CONSUMABLE_POOL: ConsumableId[] = [
+  "minor_reveal",
+  "major_reveal",
+  "cosmic_reveal",
+  "freeze",
+];

@@ -13,7 +13,11 @@ import PlayerPanel from "../components/game/PlayerPanel";
 import VictoryScreen from "../components/game/VictoryScreen";
 import vocabData from "../data/vocab.json";
 import { type BgmId } from "../data/audioConfig";
-import { CONSUMABLE_LABELS, CONSUMABLE_POOL } from "../data/consumables";
+import {
+  CONSUMABLE_LABELS,
+  CONSUMABLE_POOL,
+  ENDLESS_CONSUMABLE_POOL,
+} from "../data/consumables";
 import { ENEMY_SPRITE_CONFIG } from "../data/enemySprites";
 import { ENCYCLOPEDIA_KEY, ENEMY_STATS, STORAGE_KEY } from "../data/gameConfig";
 import type {
@@ -23,6 +27,8 @@ import type {
   GameCard,
   GameView,
   GameMode,
+  PlayMode,
+  EndlessStats,
   PlayerState,
   SessionState,
   TermFilter,
@@ -58,6 +64,9 @@ export default function GamePage() {
   const [level, setLevel] = useState(1);
   const [gameMode, setGameMode] = useState<GameMode>("classic");
   const [resumeMode, setResumeMode] = useState<GameMode>("classic");
+  const [playMode, setPlayMode] = useState<PlayMode>("standard");
+  const [resumePlayMode, setResumePlayMode] =
+    useState<PlayMode>("standard");
   const [termFilter, setTermFilter] = useState<TermFilter>("random");
   const [customCategories, setCustomCategories] = useState<Category[]>([
     "SE",
@@ -66,18 +75,19 @@ export default function GamePage() {
     "IT",
     "IS",
   ]);
+  const isEndless = playMode === "endless";
   const { rows, cols, pairs } = getLevelConfig(level);
   const modeConfig = useMemo(() => {
     return {
-      apTickMs: gameMode === "easy" ? 5000 : 3000,
+      apTickMs: isEndless ? 5000 : gameMode === "easy" ? 5000 : 3000,
       apThresholdMult: gameMode === "easy" ? 10 : 1,
       enemyAttackMult: gameMode === "hard" ? 2 : 1,
       mismatchDelayMs: gameMode === "hard" ? 1500 : 2500,
-      ghostingEnabled: gameMode === "classic",
-      allowToggle: gameMode === "easy",
-      penaltyOnMismatch: gameMode !== "easy",
+      ghostingEnabled: isEndless ? true : gameMode === "classic",
+      allowToggle: isEndless ? false : gameMode === "easy",
+      penaltyOnMismatch: isEndless ? false : gameMode !== "easy",
     };
-  }, [gameMode]);
+  }, [gameMode, isEndless]);
   const filteredVocab = useMemo(() => {
     if (termFilter === "random") return vocab;
     if (termFilter === "custom") {
@@ -108,6 +118,12 @@ export default function GamePage() {
   const [lootLabel, setLootLabel] = useState<string | null>(null);
   const [lootReplaceIndex, setLootReplaceIndex] = useState<number | null>(null);
   const [freezeUntil, setFreezeUntil] = useState(0);
+  const [endlessStats, setEndlessStats] = useState<EndlessStats>({
+    correct: 0,
+    wrong: 0,
+    streak: 0,
+    maxStreak: 0,
+  });
   const [player, setPlayer] = useState<PlayerState>(() => createDefaultPlayer());
   const [playerAttackTick, setPlayerAttackTick] = useState(0);
   const [playerHitTick, setPlayerHitTick] = useState(0);
@@ -132,6 +148,7 @@ export default function GamePage() {
   const mismatchTimersRef = useRef<Record<string, ReturnType<typeof setTimeout>>>(
     {},
   );
+  const endlessDropRef = useRef(0);
   const lootLevelRef = useRef<number | null>(null);
   const selectedUpgradeRef = useRef<number | null>(null);
   const playerRef = useRef<PlayerState>(player);
@@ -217,6 +234,7 @@ export default function GamePage() {
     }
 
     setEnemy((prev) => ({ ...prev, ap: 0 }));
+    if (playMode === "endless") return;
     setPlayer((prev) => {
       const reducedDamage = Math.max(
         0,
@@ -229,7 +247,7 @@ export default function GamePage() {
         shield: 0,
       };
     });
-  }, [audio, level]);
+  }, [audio, level, playMode]);
 
   useEffect(() => {
     playerRef.current = player;
@@ -275,28 +293,46 @@ export default function GamePage() {
         value === "random" || value === "custom" || isCategory(value);
       const isGameMode = (value: unknown): value is GameMode =>
         value === "classic" || value === "easy" || value === "hard";
+      const isPlayMode = (value: unknown): value is PlayMode =>
+        value === "standard" || value === "endless";
       const storedCustom: Category[] = Array.isArray(data.customCategories)
         ? data.customCategories.filter(isCategory)
         : [];
       const defaultCustom: Category[] = ["SE", "CPE", "CS", "IT", "IS"];
       const nextCustom: Category[] =
         storedCustom.length > 0 ? storedCustom : defaultCustom;
+      const storedPlayMode = isPlayMode(data.playMode)
+        ? data.playMode
+        : "standard";
       const loadedLevel =
         typeof data.level === "number" && data.level >= 1 ? data.level : 1;
-      const { pairs: loadedPairs } = getLevelConfig(loadedLevel);
+      const effectiveLevel = storedPlayMode === "endless" ? 10 : loadedLevel;
+      const { pairs: loadedPairs } = getLevelConfig(effectiveLevel);
 
-      setLevel(loadedLevel);
+      setLevel(effectiveLevel);
       const storedMode = isGameMode(data.gameMode) ? data.gameMode : "classic";
       setGameMode(storedMode);
       setResumeMode(storedMode);
+      setPlayMode(storedPlayMode);
+      setResumePlayMode(storedPlayMode);
       setTermFilter(isTermFilter(data.termFilter) ? data.termFilter : "random");
       setCustomCategories(nextCustom);
       const restoredView =
         data.view === "victory" || data.view === "mainmenu" ? data.view : "game";
       setResumeView(restoredView);
       setView("mainmenu");
-      setPlayer(withPlayerDefaults(data.player));
-      setEnemy(data.enemy ?? buildEnemyState(loadedLevel, storedMode));
+      const loadedPlayer = withPlayerDefaults(data.player);
+      const sanitizedPlayer =
+        storedPlayMode === "endless"
+          ? {
+              ...loadedPlayer,
+              consumables: loadedPlayer.consumables.map((item) =>
+                item && ENDLESS_CONSUMABLE_POOL.includes(item) ? item : null,
+              ),
+            }
+          : loadedPlayer;
+      setPlayer(sanitizedPlayer);
+      setEnemy(data.enemy ?? buildEnemyState(effectiveLevel, storedMode));
       const filterForDeck = isTermFilter(data.termFilter)
         ? data.termFilter
         : "random";
@@ -321,6 +357,22 @@ export default function GamePage() {
       setSelectedUpgrade(
         typeof data.selectedUpgrade === "number" ? data.selectedUpgrade : null,
       );
+      const defaultEndless: EndlessStats = {
+        correct: 0,
+        wrong: 0,
+        streak: 0,
+        maxStreak: 0,
+      };
+      const restoredEndless =
+        data.endlessStats &&
+          typeof data.endlessStats.correct === "number" &&
+          typeof data.endlessStats.wrong === "number" &&
+          typeof data.endlessStats.streak === "number" &&
+          typeof data.endlessStats.maxStreak === "number"
+          ? data.endlessStats
+          : defaultEndless;
+      setEndlessStats(restoredEndless);
+      endlessDropRef.current = Math.floor(restoredEndless.correct / 5) * 5;
 
       setHasSave(true);
       setHydrated(true);
@@ -351,6 +403,8 @@ export default function GamePage() {
       termFilter,
       customCategories,
       gameMode,
+      playMode,
+      endlessStats,
     };
     localStorage.setItem(STORAGE_KEY, JSON.stringify(payload));
   }, [
@@ -368,6 +422,8 @@ export default function GamePage() {
     termFilter,
     customCategories,
     gameMode,
+    playMode,
+    endlessStats,
   ]);
 
   useEffect(() => {
@@ -384,8 +440,9 @@ export default function GamePage() {
     ) {
       setResumeView(view);
       setResumeMode(gameMode);
+      setResumePlayMode(playMode);
     }
-  }, [gameMode, view]);
+  }, [gameMode, playMode, view]);
 
   useEffect(() => {
     return () => {
@@ -523,38 +580,77 @@ export default function GamePage() {
         if (comboStreakRef.current >= 2) {
           audio.playSfx("combo");
         }
-        const currentPlayer = playerRef.current;
-        const critChance = clamp(currentPlayer.focus, 0, 100) / 100;
-        const isCrit = Math.random() < critChance;
         audio.playSfx("attack");
-        if (isCrit) {
-          audio.playSfx("crit");
-        }
-        const boostActive = currentPlayer.attackBoostUntil > Date.now();
-        const attackPower = boostActive
-          ? currentPlayer.attack * currentPlayer.attackBoost
-          : currentPlayer.attack;
-        const damage = attackPower * (isCrit ? 2 : 1);
-        const focusGain = currentPlayer.focus + 5;
-        const instantKill = focusGain >= 100;
-
-        setPlayer((prevPlayer) => ({
-          ...prevPlayer,
-          focus: instantKill ? 0 : focusGain,
-        }));
         setPlayerAttackTick((prev) => prev + 1);
         setEnemyHitTick((prev) => prev + 1);
 
-        setEnemy((prevEnemy) => {
-          const nextHp = instantKill
-            ? 0
-            : clamp(prevEnemy.hp - damage, 0, prevEnemy.hp);
-          return {
+        if (isEndless) {
+          setEnemy((prevEnemy) => ({
             ...prevEnemy,
-            hp: nextHp,
             ap: clamp(prevEnemy.ap - 1, 0, prevEnemy.apThreshold),
-          };
-        });
+          }));
+          setEndlessStats((prevStats) => {
+            const nextCorrect = prevStats.correct + 1;
+            const nextStreak = prevStats.streak + 1;
+            const nextMax = Math.max(prevStats.maxStreak, nextStreak);
+            if (nextCorrect % 5 === 0 && nextCorrect !== endlessDropRef.current) {
+              const pool = ENDLESS_CONSUMABLE_POOL;
+              const drop =
+                pool[Math.floor(Math.random() * pool.length)] ?? null;
+              if (drop) {
+                setPlayer((prevPlayer) => {
+                  const nextConsumables = [...prevPlayer.consumables];
+                  const emptyIndex = nextConsumables.findIndex(
+                    (slot) => slot === null,
+                  );
+                  if (emptyIndex === -1) {
+                    nextConsumables[0] = drop;
+                  } else {
+                    nextConsumables[emptyIndex] = drop;
+                  }
+                  return { ...prevPlayer, consumables: nextConsumables };
+                });
+              }
+              endlessDropRef.current = nextCorrect;
+            }
+            return {
+              correct: nextCorrect,
+              wrong: prevStats.wrong,
+              streak: nextStreak,
+              maxStreak: nextMax,
+            };
+          });
+        } else {
+          const currentPlayer = playerRef.current;
+          const critChance = clamp(currentPlayer.focus, 0, 100) / 100;
+          const isCrit = Math.random() < critChance;
+          if (isCrit) {
+            audio.playSfx("crit");
+          }
+          const boostActive = currentPlayer.attackBoostUntil > Date.now();
+          const attackPower = boostActive
+            ? currentPlayer.attack * currentPlayer.attackBoost
+            : currentPlayer.attack;
+          const damage = attackPower * (isCrit ? 2 : 1);
+          const focusGain = currentPlayer.focus + 5;
+          const instantKill = focusGain >= 100;
+
+          setPlayer((prevPlayer) => ({
+            ...prevPlayer,
+            focus: instantKill ? 0 : focusGain,
+          }));
+
+          setEnemy((prevEnemy) => {
+            const nextHp = instantKill
+              ? 0
+              : clamp(prevEnemy.hp - damage, 0, prevEnemy.hp);
+            return {
+              ...prevEnemy,
+              hp: nextHp,
+              ap: clamp(prevEnemy.ap - 1, 0, prevEnemy.apThreshold),
+            };
+          });
+        }
 
         setUnlockedTerms((prev) =>
           prev.includes(first.pairId) ? prev : [...prev, first.pairId],
@@ -565,7 +661,21 @@ export default function GamePage() {
       } else {
         comboStreakRef.current = 0;
         audio.playSfx("mismatch");
-        if (modeConfig.penaltyOnMismatch) {
+        if (isEndless) {
+          setEndlessStats((prevStats) => ({
+            correct: prevStats.correct,
+            wrong: prevStats.wrong + 1,
+            streak: 0,
+            maxStreak: prevStats.maxStreak,
+          }));
+          setEnemy((prevEnemy) => {
+            if (Date.now() < freezeUntilRef.current) return prevEnemy;
+            return {
+              ...prevEnemy,
+              ap: clamp(prevEnemy.ap + 1, 0, prevEnemy.apThreshold),
+            };
+          });
+        } else if (modeConfig.penaltyOnMismatch) {
           setPlayer((prevPlayer) => ({ ...prevPlayer, focus: 0 }));
           setEnemy((prevEnemy) => {
             if (Date.now() < freezeUntilRef.current) return prevEnemy;
@@ -631,7 +741,7 @@ export default function GamePage() {
         resolvingRef.current = false;
       }
     };
-  }, [audio, flippedKey, gameMode, modeConfig, view]);
+  }, [audio, flippedKey, gameMode, isEndless, modeConfig, view]);
 
   useEffect(() => {
     if (view !== "game") return;
@@ -708,6 +818,7 @@ export default function GamePage() {
   }, [cards, pairs, view, enemy.hp, filteredVocab]);
 
   useEffect(() => {
+    if (isEndless) return;
     if (view !== "game") return;
     if (enemy.hp > 0) return;
     if (!winPlayedRef.current && level < 10) {
@@ -715,9 +826,10 @@ export default function GamePage() {
       winPlayedRef.current = true;
     }
     setView(level >= 10 ? "finalvictory" : "victory");
-  }, [enemy.hp, level, view]);
+  }, [enemy.hp, isEndless, level, view]);
 
   useEffect(() => {
+    if (isEndless) return;
     if (view !== "game") return;
     if (player.hp > 0) return;
     if (!losePlayedRef.current) {
@@ -726,7 +838,7 @@ export default function GamePage() {
       losePlayedRef.current = true;
     }
     setView("gameover");
-  }, [player.hp, view]);
+  }, [isEndless, player.hp, view]);
 
   const handleFlip = (id: string) => {
     if (view !== "game") return;
@@ -768,6 +880,9 @@ export default function GamePage() {
 
   const apPercent =
     enemy.apThreshold === 0 ? 0 : (enemy.ap / enemy.apThreshold) * 100;
+  const endlessTotal = endlessStats.correct + endlessStats.wrong;
+  const endlessAccuracy =
+    endlessTotal > 0 ? Math.round((endlessStats.correct / endlessTotal) * 100) : 0;
   const critChance = clamp(player.focus, 0, 100);
   const attackBoostActive = player.attackBoostUntil > Date.now();
   const effectiveAttack = attackBoostActive
@@ -843,7 +958,13 @@ export default function GamePage() {
   const handleRandomSlot3 = () => {
     setPlayer((prev) => {
       const nextConsumables = [...prev.consumables];
-      nextConsumables[2] = pickRandomConsumable();
+      if (isEndless) {
+        const pool = ENDLESS_CONSUMABLE_POOL;
+        nextConsumables[2] =
+          pool[Math.floor(Math.random() * pool.length)] ?? null;
+      } else {
+        nextConsumables[2] = pickRandomConsumable();
+      }
       return { ...prev, consumables: nextConsumables };
     });
   };
@@ -863,13 +984,19 @@ export default function GamePage() {
     audio.unlock();
     audio.playSfx("click");
     localStorage.removeItem(STORAGE_KEY);
+    if (playMode === "endless") {
+      startEndlessRun();
+      return;
+    }
     const nextConfig = getLevelConfig(1);
 
     setHasSave(true);
     setLevel(1);
+    setPlayMode("standard");
     setView("game");
     setResumeView("game");
     setResumeMode(gameMode);
+    setResumePlayMode("standard");
     setSelectedUpgrade(null);
     setRunUnlockedTerms([]);
     setBusy(false);
@@ -881,12 +1008,44 @@ export default function GamePage() {
     setPendingLoot(null);
     setLootLabel(null);
     setLootReplaceIndex(null);
+    setEndlessStats({ correct: 0, wrong: 0, streak: 0, maxStreak: 0 });
+    endlessDropRef.current = 0;
+  };
+
+  const startEndlessRun = () => {
+    audio.unlock();
+    localStorage.removeItem(STORAGE_KEY);
+    const nextConfig = getLevelConfig(10);
+    const endlessPlayer = createDefaultPlayer();
+
+    setHasSave(true);
+    setLevel(10);
+    setPlayMode("endless");
+    setGameMode("classic");
+    setResumeMode("classic");
+    setResumePlayMode("endless");
+    setView("game");
+    setResumeView("game");
+    setSelectedUpgrade(null);
+    setRunUnlockedTerms([]);
+    setBusy(false);
+    setPlayer({ ...endlessPlayer, consumables: [null, null, null] });
+    setEnemy(buildEnemyState(10, "classic"));
+    setCards(buildDeck(filteredVocab, nextConfig.pairs));
+    resetMismatchLocks();
+    flipTimesRef.current = [];
+    setPendingLoot(null);
+    setLootLabel(null);
+    setLootReplaceIndex(null);
+    setEndlessStats({ correct: 0, wrong: 0, streak: 0, maxStreak: 0 });
+    endlessDropRef.current = 0;
   };
 
   const handleResume = () => {
     audio.unlock();
     audio.playSfx("click");
     setGameMode(resumeMode);
+    setPlayMode(resumePlayMode);
     setView(resumeView);
   };
 
@@ -913,6 +1072,14 @@ export default function GamePage() {
 
   const handleSelectMode = (mode: GameMode) => {
     setGameMode(mode);
+    setPlayMode("standard");
+  };
+
+  const handleSelectPlayMode = (mode: PlayMode) => {
+    setPlayMode(mode);
+    if (mode === "endless") {
+      setGameMode("classic");
+    }
   };
 
   const handleCloseEncyclopedia = () => {
@@ -927,6 +1094,15 @@ export default function GamePage() {
     setView("mainmenu");
   };
 
+  const handleFinishEndless = () => {
+    audio.unlock();
+    audio.playSfx("click");
+    localStorage.removeItem(STORAGE_KEY);
+    setHasSave(false);
+    setView("finalvictory");
+    endlessDropRef.current = 0;
+  };
+
   const handleResetProgression = () => {
     audio.unlock();
     audio.playSfx("click");
@@ -935,6 +1111,7 @@ export default function GamePage() {
   };
 
   const handleNextLevel = () => {
+    if (isEndless) return;
     if (level >= 10) return;
     audio.unlock();
     const nextLevel = Math.min(level + 1, 10);
@@ -1019,6 +1196,7 @@ export default function GamePage() {
     if (busy || revealActive) return;
     const item = player.consumables[slotIndex];
     if (!item) return;
+    if (isEndless && !ENDLESS_CONSUMABLE_POOL.includes(item)) return;
     audio.unlock();
 
     const consumeSlot = (updater?: (prev: PlayerState) => PlayerState) => {
@@ -1206,6 +1384,8 @@ export default function GamePage() {
         onSettingsClick={handleSettingsClick}
         onFilterClick={handleFilterClick}
         onModeClick={handleModeClick}
+        playMode={playMode}
+        onSelectPlayMode={handleSelectPlayMode}
         gameMode={gameMode}
         onSelectMode={handleSelectMode}
         termFilter={termFilter}
@@ -1248,6 +1428,16 @@ export default function GamePage() {
     return (
       <FinalVictoryScreen
         unlockedItems={runUnlockedItems}
+        stats={
+          isEndless
+            ? {
+                correct: endlessStats.correct,
+                wrong: endlessStats.wrong,
+                maxStreak: endlessStats.maxStreak,
+                accuracy: endlessAccuracy,
+              }
+            : undefined
+        }
         onBackToMenu={handleBackToMenu}
       />
     );
@@ -1257,15 +1447,25 @@ export default function GamePage() {
     <div className="relative h-screen box-border flex flex-col p-4 overflow-hidden text-[var(--sw-text)]">
       <div className="flex flex-col flex-none">
         <div className="flex items-center justify-between gap-3">
-          <button
-            onClick={handleBackToMenu}
-            className="rounded-full px-6 py-2 text-sm font-semibold sw-button-secondary"
-          >
-            Menu
-          </button>
+          <div className="flex items-center gap-2">
+            <button
+              onClick={handleBackToMenu}
+              className="rounded-full px-6 py-2 text-sm font-semibold sw-button-secondary"
+            >
+              Menu
+            </button>
+            {isEndless ? (
+              <button
+                onClick={handleFinishEndless}
+                className="rounded-full px-6 py-2 text-sm font-semibold sw-button-secondary"
+              >
+                Finish
+              </button>
+            ) : null}
+          </div>
           <h1 className="text-2xl font-bold sw-title">Battle</h1>
           <div className="text-xs uppercase tracking-[0.25em] sw-muted">
-            Level {level}
+            {isEndless ? "Endless" : `Level ${level}`}
           </div>
         </div>
 
@@ -1280,12 +1480,20 @@ export default function GamePage() {
             onUseConsumable={handleUseConsumable}
             consumableLabels={CONSUMABLE_LABELS}
             disableConsumables={busy || revealActive}
+            isEndless={isEndless}
+            endlessStats={{
+              correct: endlessStats.correct,
+              wrong: endlessStats.wrong,
+              maxStreak: endlessStats.maxStreak,
+              accuracy: endlessAccuracy,
+            }}
           />
           <EnemyPanel
             enemy={enemy}
             level={level}
             attackSignal={enemyAttackTick}
             hitSignal={enemyHitTick}
+            isEndless={isEndless}
           />
         </div>
       </div>

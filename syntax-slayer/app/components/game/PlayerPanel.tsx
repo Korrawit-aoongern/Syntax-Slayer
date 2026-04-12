@@ -15,6 +15,13 @@ type PlayerPanelProps = {
   onUseConsumable: (index: number) => void;
   consumableLabels: Record<ConsumableId, string>;
   disableConsumables: boolean;
+  isEndless: boolean;
+  endlessStats: {
+    correct: number;
+    wrong: number;
+    maxStreak: number;
+    accuracy: number;
+  };
 };
 
 export default function PlayerPanel({
@@ -27,6 +34,8 @@ export default function PlayerPanel({
   onUseConsumable,
   consumableLabels,
   disableConsumables,
+  isEndless,
+  endlessStats,
 }: PlayerPanelProps) {
   const [isDashing, setIsDashing] = useState(false);
   const [delayedAttackSignal, setDelayedAttackSignal] = useState(attackSignal);
@@ -84,28 +93,61 @@ export default function PlayerPanel({
       </div>
       <div className="mt-4 flex min-h-0 flex-1 items-stretch gap-4">
         <div className="flex flex-col gap-3 text-sm">
-          <div>
-            <div className="sw-muted">HP</div>
-            <div className="text-2xl font-semibold sw-title">{player.hp}</div>
-          </div>
-          <div>
-            <div className="sw-muted">ATK</div>
-            <div className="text-2xl font-semibold sw-title">
-              {effectiveAttack}
-            </div>
-            {attackBoostActive ? (
-              <div className="text-xs sw-accent-emerald">
-                x{player.attackBoost} boost
+          {isEndless ? (
+            <>
+              <div>
+                <div className="sw-muted">Correct</div>
+                <div className="text-2xl font-semibold sw-title">
+                  {endlessStats.correct}
+                </div>
               </div>
-            ) : null}
-          </div>
-          <div>
-            <div className="sw-muted">Focus</div>
-            <div className="text-2xl font-semibold sw-title">
-              {player.focus}
-            </div>
-            <div className="text-xs sw-muted">Crit {critChance}%</div>
-          </div>
+              <div>
+                <div className="sw-muted">Wrong</div>
+                <div className="text-2xl font-semibold sw-title">
+                  {endlessStats.wrong}
+                </div>
+              </div>
+              <div>
+                <div className="sw-muted">Best Streak</div>
+                <div className="text-2xl font-semibold sw-title">
+                  {endlessStats.maxStreak}
+                </div>
+              </div>
+              <div>
+                <div className="sw-muted">Accuracy</div>
+                <div className="text-2xl font-semibold sw-title">
+                  {endlessStats.accuracy}%
+                </div>
+              </div>
+            </>
+          ) : (
+            <>
+              <div>
+                <div className="sw-muted">HP</div>
+                <div className="text-2xl font-semibold sw-title">
+                  {player.hp}
+                </div>
+              </div>
+              <div>
+                <div className="sw-muted">ATK</div>
+                <div className="text-2xl font-semibold sw-title">
+                  {effectiveAttack}
+                </div>
+                {attackBoostActive ? (
+                  <div className="text-xs sw-accent-emerald">
+                    x{player.attackBoost} boost
+                  </div>
+                ) : null}
+              </div>
+              <div>
+                <div className="sw-muted">Focus</div>
+                <div className="text-2xl font-semibold sw-title">
+                  {player.focus}
+                </div>
+                <div className="text-xs sw-muted">Crit {critChance}%</div>
+              </div>
+            </>
+          )}
         </div>
         <div className="flex flex-col gap-2">
           <div className="text-[10px] uppercase tracking-[0.3em] sw-muted">
