@@ -96,10 +96,7 @@ export default function SpriteAnimator({
   const backgroundPosition = `${-frame * scaledFrameWidth}px ${-row * scaledFrameHeight}px`;
 
   return (
-    <div
-      className="rounded-2xl p-4 sw-surface"
-      aria-label={mode === "attack" ? ariaLabelAttack : ariaLabelIdle}
-    >
+    <div aria-label={mode === "attack" ? ariaLabelAttack : ariaLabelIdle}>
       <div
         className="relative mx-auto"
         style={{ width: scaledFrameWidth, height: scaledFrameHeight }}

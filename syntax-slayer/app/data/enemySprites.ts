@@ -2,6 +2,14 @@ import type { SpriteConfig } from "../types/sprite";
 
 export type EnemySpriteConfig = SpriteConfig & {
   name: string;
+  dash?: {
+    distance?: number;
+    approachMs?: number;
+    holdMs?: number;
+    durationMs?: number;
+    soundDelayMs?: number;
+    flashDelayMs?: number;
+  };
 };
 
 export const ENEMY_SPRITE_CONFIG: Record<number, EnemySpriteConfig> = {
@@ -16,6 +24,13 @@ export const ENEMY_SPRITE_CONFIG: Record<number, EnemySpriteConfig> = {
     attacks: [{ row: 1, frames: 7 }],
     fps: 10,
     scale: 6,
+    dash: {
+      distance: 512,
+      approachMs: 300,
+      holdMs: 800,
+      durationMs: 500,
+      soundDelayMs: 500,
+    },
   },
   2: {
     name: "Data Rat",
@@ -26,8 +41,15 @@ export const ENEMY_SPRITE_CONFIG: Record<number, EnemySpriteConfig> = {
     frameHeight: 16,
     idle: { row: 0, frames: 4 },
     attacks: [{ row: 1, frames: 6 }],
-    fps: 8,
+    fps: 10,
     scale: 6,
+    dash: {
+      distance: 512,
+      approachMs: 300,
+      holdMs: 800,
+      durationMs: 500,
+      soundDelayMs: 500,
+    },
   },
   3: {
     name: "Cursor",
@@ -40,6 +62,13 @@ export const ENEMY_SPRITE_CONFIG: Record<number, EnemySpriteConfig> = {
     attacks: [{ row: 1, frames: 11 }],
     fps: 11,
     scale: 6,
+    dash: {
+      distance: 512,
+      approachMs: 10,
+      holdMs: 800,
+      durationMs: 500,
+      soundDelayMs: 500,
+    },
   },
   4: {
     name: "Null Wisp",
@@ -52,6 +81,13 @@ export const ENEMY_SPRITE_CONFIG: Record<number, EnemySpriteConfig> = {
     attacks: [{ row: 1, frames: 20 }],
     fps: 20,
     scale: 6,
+    dash: {
+      distance: 512,
+      approachMs: 300,
+      holdMs: 800,
+      durationMs: 500,
+      soundDelayMs: 500,
+    },
   },
   5: {
     name: "Firewall",
@@ -62,8 +98,15 @@ export const ENEMY_SPRITE_CONFIG: Record<number, EnemySpriteConfig> = {
     frameHeight: 16,
     idle: { row: 0, frames: 4 },
     attacks: [{ row: 1, frames: 12 }],
-    fps: 12,
+    fps: 15,
     scale: 6,
+    dash: {
+      distance: 512,
+      approachMs: 300,
+      holdMs: 800,
+      durationMs: 500,
+      soundDelayMs: 500,
+    },
   },
   6: {
     name: "Glitched Knight",
@@ -76,6 +119,13 @@ export const ENEMY_SPRITE_CONFIG: Record<number, EnemySpriteConfig> = {
     attacks: [{ row: 1, frames: 7 }],
     fps: 10,
     scale: 6,
+    dash: {
+      distance: 512,
+      approachMs: 100,
+      holdMs: 500,
+      durationMs: 200,
+      soundDelayMs: 200,
+    },
   },
   7: {
     name: "Packet Swarm",
@@ -88,6 +138,13 @@ export const ENEMY_SPRITE_CONFIG: Record<number, EnemySpriteConfig> = {
     attacks: [{ row: 1, frames: 12 }],
     fps: 12,
     scale: 6,
+    dash: {
+      distance: 512,
+      approachMs: 10,
+      holdMs: 1000,
+      durationMs: 500,
+      soundDelayMs: 500,
+    },
   },
   8: {
     name: "Corrupted Golem",
@@ -100,6 +157,13 @@ export const ENEMY_SPRITE_CONFIG: Record<number, EnemySpriteConfig> = {
     attacks: [{ row: 1, frames: 15 }],
     fps: 13,
     scale: 6,
+    dash: {
+      distance: 512,
+      approachMs: 0,
+      holdMs: 1500,
+      durationMs: 700,
+      soundDelayMs: 500,
+    },
   },
   9: {
     name: "Kernel Sentinel",
@@ -115,6 +179,13 @@ export const ENEMY_SPRITE_CONFIG: Record<number, EnemySpriteConfig> = {
     ],
     fps: 11,
     scale: 6,
+    dash: {
+      distance: 500,
+      approachMs: 20,
+      holdMs: 800,
+      durationMs: 500,
+      soundDelayMs: 500,
+    },
   },
   10: {
     name: "Syntax Reaper",
@@ -131,5 +202,12 @@ export const ENEMY_SPRITE_CONFIG: Record<number, EnemySpriteConfig> = {
     ],
     fps: 14,
     scale: 5,
+    dash: {
+      distance: 512,
+      approachMs: 20,
+      holdMs: 800,
+      durationMs: 500,
+      soundDelayMs: 500,
+    },
   },
 };

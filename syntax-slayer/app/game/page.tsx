@@ -14,6 +14,7 @@ import VictoryScreen from "../components/game/VictoryScreen";
 import vocabData from "../data/vocab.json";
 import { type BgmId } from "../data/audioConfig";
 import { CONSUMABLE_LABELS, CONSUMABLE_POOL } from "../data/consumables";
+import { ENEMY_SPRITE_CONFIG } from "../data/enemySprites";
 import { ENCYCLOPEDIA_KEY, ENEMY_STATS, STORAGE_KEY } from "../data/gameConfig";
 import type {
   ConsumableId,
@@ -125,6 +126,8 @@ export default function GamePage() {
   const freezeTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const attackBoostTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const enemyAttackTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const enemyHitSfxTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const playerHitFxTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const enemyAttackQueuedRef = useRef(false);
   const mismatchTimersRef = useRef<Record<string, ReturnType<typeof setTimeout>>>(
     {},
@@ -176,12 +179,42 @@ export default function GamePage() {
   }, []);
 
   const performEnemyAttack = useCallback(() => {
-    audio.playSfx("damage");
+    const dashConfig = ENEMY_SPRITE_CONFIG[level]?.dash;
+    const hitSfxDelay =
+      dashConfig?.soundDelayMs ?? dashConfig?.approachMs ?? 0;
+    const hitFlashDelay =
+      dashConfig?.flashDelayMs ??
+      dashConfig?.soundDelayMs ??
+      dashConfig?.approachMs ??
+      0;
+    if (enemyHitSfxTimerRef.current) {
+      clearTimeout(enemyHitSfxTimerRef.current);
+      enemyHitSfxTimerRef.current = null;
+    }
+    if (playerHitFxTimerRef.current) {
+      clearTimeout(playerHitFxTimerRef.current);
+      playerHitFxTimerRef.current = null;
+    }
+    if (hitSfxDelay > 0) {
+      enemyHitSfxTimerRef.current = setTimeout(() => {
+        audio.playSfx("damage");
+        enemyHitSfxTimerRef.current = null;
+      }, hitSfxDelay);
+    } else {
+      audio.playSfx("damage");
+    }
     if (playerRef.current.shield > 0) {
       audio.playSfx("block");
     }
     setEnemyAttackTick((prev) => prev + 1);
-    setPlayerHitTick((prev) => prev + 1);
+    if (hitFlashDelay > 0) {
+      playerHitFxTimerRef.current = setTimeout(() => {
+        setPlayerHitTick((prev) => prev + 1);
+        playerHitFxTimerRef.current = null;
+      }, hitFlashDelay);
+    } else {
+      setPlayerHitTick((prev) => prev + 1);
+    }
 
     setEnemy((prev) => ({ ...prev, ap: 0 }));
     setPlayer((prev) => {
@@ -196,7 +229,7 @@ export default function GamePage() {
         shield: 0,
       };
     });
-  }, [audio]);
+  }, [audio, level]);
 
   useEffect(() => {
     playerRef.current = player;
@@ -421,6 +454,14 @@ export default function GamePage() {
       if (enemyAttackTimerRef.current) {
         clearTimeout(enemyAttackTimerRef.current);
         enemyAttackTimerRef.current = null;
+      }
+      if (enemyHitSfxTimerRef.current) {
+        clearTimeout(enemyHitSfxTimerRef.current);
+        enemyHitSfxTimerRef.current = null;
+      }
+      if (playerHitFxTimerRef.current) {
+        clearTimeout(playerHitFxTimerRef.current);
+        playerHitFxTimerRef.current = null;
       }
       resetMismatchLocks();
       enemyAttackQueuedRef.current = false;

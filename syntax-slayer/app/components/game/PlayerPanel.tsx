@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect, useRef, useState } from "react";
 import type { ConsumableId, PlayerState } from "../../types/game";
 import itemsData from "../../data/items.json";
 import PlayerSprite from "./PlayerSprite";
@@ -27,6 +28,48 @@ export default function PlayerPanel({
   consumableLabels,
   disableConsumables,
 }: PlayerPanelProps) {
+  const [isDashing, setIsDashing] = useState(false);
+  const [delayedAttackSignal, setDelayedAttackSignal] = useState(attackSignal);
+  const lastAttackRef = useRef(attackSignal);
+  const dashTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const attackTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const dashDistance = 512;
+  const dashDuration = 200;
+  const dashApproachMs = 160;
+  const dashHoldMs = 360;
+
+  useEffect(() => {
+    if (attackSignal === lastAttackRef.current) return;
+    lastAttackRef.current = attackSignal;
+    const approachMs = dashApproachMs;
+    const holdMs = dashHoldMs;
+    setIsDashing(true);
+    if (dashTimerRef.current) {
+      clearTimeout(dashTimerRef.current);
+    }
+    if (attackTimerRef.current) {
+      clearTimeout(attackTimerRef.current);
+    }
+    attackTimerRef.current = setTimeout(() => {
+      setDelayedAttackSignal(attackSignal);
+      attackTimerRef.current = null;
+    }, approachMs);
+    dashTimerRef.current = setTimeout(() => {
+      setIsDashing(false);
+      dashTimerRef.current = null;
+    }, approachMs + holdMs);
+    return () => {
+      if (dashTimerRef.current) {
+        clearTimeout(dashTimerRef.current);
+        dashTimerRef.current = null;
+      }
+      if (attackTimerRef.current) {
+        clearTimeout(attackTimerRef.current);
+        attackTimerRef.current = null;
+      }
+    };
+  }, [attackSignal, dashApproachMs, dashHoldMs]);
+
   const itemImages = (itemsData as { id: string; image?: string }[]).reduce<
     Record<string, string>
   >((acc, item) => {
@@ -95,9 +138,22 @@ export default function PlayerPanel({
             ))}
           </div>
         </div>
-        <div className="flex-1 rounded-2xl border border-dashed border-[var(--sw-border)]/60 bg-[rgba(12,5,32,0.5)] p-4">
-          <div className="h-full w-full rounded-xl bg-[rgba(16,8,40,0.7)] shadow-inner flex items-center justify-center">
-            <PlayerSprite attackSignal={attackSignal} hitSignal={hitSignal} />
+        <div className="flex-1 rounded-2xl border border-dashed border-[var(--sw-border)]/60 bg-[rgba(12,5,32,0.5)] p-4 overflow-visible">
+          <div className="relative h-full w-full rounded-xl bg-[rgba(16,8,40,0.7)] shadow-inner overflow-visible">
+            <div
+              className={`absolute inset-0 flex items-center justify-center transition-transform ease-out will-change-transform ${
+                isDashing ? "z-20" : "z-0"
+              }`}
+              style={{
+                transform: `translateX(${isDashing ? dashDistance : 0}px)`,
+                transitionDuration: `${dashDuration}ms`,
+              }}
+            >
+              <PlayerSprite
+                attackSignal={delayedAttackSignal}
+                hitSignal={hitSignal}
+              />
+            </div>
           </div>
         </div>
       </div>
